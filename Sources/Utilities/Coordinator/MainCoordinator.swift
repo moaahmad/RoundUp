@@ -18,7 +18,8 @@ final class MainCoordinator: Coordinator {
 
     func start() {
         tabBarController.viewControllers = [
-            createHomeNavigationController()
+            createHomeNavigationController(),
+            createSavingsNavigationController()
         ]
     }
 }
@@ -42,5 +43,27 @@ private extension MainCoordinator {
         homeCoordinator.parentCoordinator = self
         homeCoordinator.start()
         childCoordinators.append(homeCoordinator)
+    }
+}
+
+// MARK: - Setup Savings Controller
+
+private extension MainCoordinator {
+    func createSavingsNavigationController() -> UINavigationController {
+        let homeNavigationController = UINavigationController()
+        homeNavigationController.tabBarItem = UITabBarItem(
+            title: "Savings",
+            image: UIImage(systemName: "banknote.fill"),
+            tag: 1
+        )
+        configureSavingsCoordinator(with: homeNavigationController)
+        return homeNavigationController
+    }
+
+    func configureSavingsCoordinator(with navigationController: UINavigationController) {
+        let savingsCoordinator = SavingsCoordinator(navigationController: navigationController)
+        savingsCoordinator.parentCoordinator = self
+        savingsCoordinator.start()
+        childCoordinators.append(savingsCoordinator)
     }
 }

@@ -36,6 +36,11 @@
 		4EC7FEF02C8BB63A00A37E78 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4EC7FEEF2C8BB63A00A37E78 /* Localizable.xcstrings */; };
 		4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */; };
 		4EC7FEF42C8BB6CD00A37E78 /* AccountInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */; };
+		4EC7FEF72C8BBACD00A37E78 /* SavingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF62C8BBACD00A37E78 /* SavingsViewController.swift */; };
+		4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF82C8BBAD600A37E78 /* SavingsViewModel.swift */; };
+		4EC7FEFB2C8BBAEC00A37E78 /* SavingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */; };
+		4EC7FEFE2C8BBB7F00A37E78 /* SavingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */; };
+		4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +93,11 @@
 		4EC7FEEF2C8BB63A00A37E78 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoView.swift; sourceTree = "<group>"; };
+		4EC7FEF62C8BBACD00A37E78 /* SavingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsViewController.swift; sourceTree = "<group>"; };
+		4EC7FEF82C8BBAD600A37E78 /* SavingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsViewModel.swift; sourceTree = "<group>"; };
+		4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsService.swift; sourceTree = "<group>"; };
+		4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsCoordinator.swift; sourceTree = "<group>"; };
+		4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FEC52C8BB0B600A37E78 /* HomeCoordinator.swift */,
+				4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -217,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FECA2C8BB2B300A37E78 /* Home */,
+				4EC7FEF52C8BBAB400A37E78 /* Savings */,
 				4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */,
 				4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */,
 			);
@@ -258,9 +270,10 @@
 		4EC7FEDC2C8BB4CA00A37E78 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */,
 				4EC7FEDD2C8BB4E700A37E78 /* Strings+Extensions.swift */,
-				4EC7FEDF2C8BB4FC00A37E78 /* URLRequest+Extensions.swift */,
 				4EC7FEE12C8BB51700A37E78 /* UITableView+Extensions.swift */,
+				4EC7FEDF2C8BB4FC00A37E78 /* URLRequest+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -272,6 +285,16 @@
 				4EC7FEE62C8BB56200A37E78 /* URLSessionHTTPClient.swift */,
 			);
 			path = Client;
+			sourceTree = "<group>";
+		};
+		4EC7FEF52C8BBAB400A37E78 /* Savings */ = {
+			isa = PBXGroup;
+			children = (
+				4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */,
+				4EC7FEF82C8BBAD600A37E78 /* SavingsViewModel.swift */,
+				4EC7FEF62C8BBACD00A37E78 /* SavingsViewController.swift */,
+			);
+			path = Savings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,14 +434,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */,
 				4EC7FEE22C8BB51700A37E78 /* UITableView+Extensions.swift in Sources */,
 				4EC7FEEE2C8BB5C000A37E78 /* URLRequestPool.swift in Sources */,
 				4EC7FEC22C8BB05300A37E78 /* Coordinator.swift in Sources */,
 				4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */,
 				4EC7FECC2C8BB39200A37E78 /* HomeViewModel.swift in Sources */,
+				4EC7FEF72C8BBACD00A37E78 /* SavingsViewController.swift in Sources */,
 				4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */,
+				4EC7FEFB2C8BBAEC00A37E78 /* SavingsService.swift in Sources */,
 				4EC7FEE72C8BB56200A37E78 /* URLSessionHTTPClient.swift in Sources */,
+				4EC7FEFE2C8BBB7F00A37E78 /* SavingsCoordinator.swift in Sources */,
 				4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */,
+				4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */,
 				4EC7FEF42C8BB6CD00A37E78 /* AccountInfoView.swift in Sources */,
 				4EC7FED52C8BB42600A37E78 /* AccountHolder.swift in Sources */,
 				4EC7FEDE2C8BB4E700A37E78 /* Strings+Extensions.swift in Sources */,
