@@ -8,9 +8,8 @@
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
-    var coordinator: MainCoordinator?
+    var coordinator: AppLaunchCoordinator?
 
     func scene(
         _ scene: UIScene,
@@ -21,17 +20,15 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 
         initializeMainCoordinator()
+        window?.rootViewController = coordinator?.tabBarController
+        window?.makeKeyAndVisible()
     }
-
 
     private func initializeMainCoordinator() {
         let tabBarController = STTabBarController()
         tabBarController.configureItems()
-        coordinator = MainCoordinator(tabBarController: tabBarController)
+        coordinator = AppLaunchCoordinator(tabBarController: tabBarController)
         coordinator?.start()
-
-        window?.rootViewController = coordinator?.tabBarController
-        window?.makeKeyAndVisible()
     }
 }
 
@@ -39,7 +36,7 @@ final class STTabBarController: UITabBarController {
     func configureItems() {
         tabBar.itemPositioning = .centered
         tabBar.items?.forEach {
-            $0.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+            $0.imageInsets = UIEdgeInsets(top: .xs, left: .none, bottom: -.xs, right: .none)
         }
     }
 }

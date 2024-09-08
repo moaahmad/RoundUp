@@ -11,9 +11,11 @@ import Foundation
 protocol HomeViewModeling {
     var isLoading: CurrentValueSubject<Bool, Never> { get }
     var userInfo: CurrentValueSubject<UserInfo, Never> { get }
-    var feedItems: CurrentValueSubject<[FeedItem], Never> { get }
+    var filteredFeedItems: PassthroughSubject<[FeedItem], Never> { get }
 
     func fetchData()
+    func didTapRoundUp()
+    func didChangeSegmentedControl(index: Int)
 }
 
 final class HomeViewModel: HomeViewModeling {
@@ -23,18 +25,25 @@ final class HomeViewModel: HomeViewModeling {
 
     var isLoading = CurrentValueSubject<Bool, Never>(true)
     var userInfo = CurrentValueSubject<UserInfo, Never>(.init())
-    var feedItems = CurrentValueSubject<[FeedItem], Never>([])
-
+    var filteredFeedItems = PassthroughSubject<[FeedItem], Never>()
+    var roundedUpTotal: CurrencyAndAmount?
+    private var feedItems = CurrentValueSubject<[FeedItem], Never>([])
     private var _userInfo = UserInfo()
     private var cancellables = Set<AnyCancellable>()
+    private weak var coordinator: Coordinator?
 
     // MARK: - Initializer
 
-    init(service: HomeServicing = HomeService()) {
+    init(
+        coordinator: Coordinator?,
+        service: HomeServicing = HomeService()
+    ) {
+        self.coordinator = coordinator
         self.service = service
     }
 
     func fetchData() {
+        isLoading.send(true)
         let group = DispatchGroup()
         var account: Account?
 
@@ -86,6 +95,48 @@ final class HomeViewModel: HomeViewModeling {
             fetchRemainingFeedData(account: account)
         }
     }
+
+    func didTapRoundUp() {
+        guard let coordinator = coordinator as? HomeCoordinator else { return }
+        let roundedUpTotal = feedItems.value
+            .filter { $0.direction == .paymentOut }
+            .compactMap(\.amount?.minorUnits)
+            .map(Self.calculateRoundedUpValue)
+            .reduce(0, +)
+
+        coordinator.presentRoundedUpViewController(
+            roundedUpTotal: convertToCurrencyAndAmount(
+                roundedUpTotal
+            )
+        )
+    }
+
+    func didChangeSegmentedControl(index: Int) {
+        switch index {
+        case 0:
+            filteredFeedItems.send(feedItems.value)
+        case 1:
+            feedItems
+                .map { $0.filter { $0.direction == .paymentIn } }
+                .removeDuplicates()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.filteredFeedItems.send($0)
+                }
+                .store(in: &cancellables)
+        case 2:
+            feedItems
+                .map { $0.filter { $0.direction == .paymentOut } }
+                .removeDuplicates()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] in
+                    self?.filteredFeedItems.send($0)
+                }
+                .store(in: &cancellables)
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - Fetch Data
@@ -126,12 +177,14 @@ private extension HomeViewModel {
             changesSince: account.createdAt
         )
         .map(\.feedItems)
+        .removeDuplicates()
         .catch { error -> AnyPublisher<[FeedItem], Never> in
             print(error.localizedDescription)
             return Empty().eraseToAnyPublisher()
         }
         .sink { [weak self] in
-            self?.feedItems.send($0)
+            self?.feedItems.value = $0
+            self?.filteredFeedItems.send($0)
             group.leave()
         }
         .store(in: &cancellables)
@@ -141,5 +194,25 @@ private extension HomeViewModel {
             isLoading.send(false)
             userInfo.send(_userInfo)
         }
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension HomeViewModel {
+    func convertToCurrencyAndAmount(_ total: Double) -> CurrencyAndAmount {
+        let minorUnits = Int64(total * 100)
+        return CurrencyAndAmount(currency: .gbp, minorUnits: minorUnits)
+    }
+
+    static func calculateRoundedUpValue(_ minorUnit: Int64) -> Double {
+        // Convert the minor unit to a major unit
+        let majorUnit = Double(minorUnit) / 100.0
+
+        // Find the next value up from that major unit
+        let roundedUpValue = ceil(majorUnit)
+
+        // Calculate the difference and return it
+        return roundedUpValue - majorUnit
     }
 }

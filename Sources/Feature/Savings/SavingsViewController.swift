@@ -44,9 +44,38 @@ final class SavingsViewController: BaseViewController {
 
     // MARK: - User Interactions
 
-    @objc
-    func onPlusButtonTapped() {
+    @objc private func onPlusButtonTapped() {
         viewModel.didTapPlusButton()
+    }
+}
+
+// MARK: - TableView DataSource
+
+private extension SavingsViewController {
+    func makeDataSource() -> UITableViewDiffableDataSource<Section, SavingsGoal> {
+        UITableViewDiffableDataSource(
+            tableView: tableView,
+            cellProvider: { tableView, indexPath, savingsGoal in
+                // Dequeue the custom cell
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: SavingsGoalCell.reuseID,
+                    for: indexPath
+                ) as? SavingsGoalCell else {
+                    fatalError("Unable to dequeue SavingsGoalCell")
+                }
+
+                // Configure the custom cell with data
+                cell.update(with: savingsGoal)
+                return cell
+            }
+        )
+    }
+
+    func update(with savingsGoals: [SavingsGoal], animate: Bool = false) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, SavingsGoal>()
+        snapshot.appendSections([Section.main])
+        snapshot.appendItems(savingsGoals, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animate)
     }
 }
 
@@ -54,7 +83,6 @@ final class SavingsViewController: BaseViewController {
 
 private extension SavingsViewController {
     func setupView() {
-        view.backgroundColor = .systemBackground
         setupNavigationBar()
         setupTableView()
     }
@@ -72,9 +100,9 @@ private extension SavingsViewController {
 
     func setupTableView() {
         tableView.dataSource = dataSource
+        tableView.register(SavingsGoalCell.self, forCellReuseIdentifier: SavingsGoalCell.reuseID)
         tableView.removeExcessCells()
         tableView.allowsSelection = false
-        tableView.separatorStyle = .none
         tableView.backgroundColor = .systemBackground
 
         view.addSubview(tableView)
@@ -91,6 +119,22 @@ private extension SavingsViewController {
 
 private extension SavingsViewController {
     func bindViewModel() {
+        viewModel.isLoading
+            .removeDuplicates()
+            .sink { [weak self] isLoading in
+                guard let self else { return }
+                if isLoading {
+                    tableView.isHidden = true
+                    showLoadingView()
+                } else {
+                    UIView.animate(withDuration: 0.3) { [weak self] in
+                        self?.dismissLoadingView()
+                        self?.tableView.isHidden = false
+                    }
+                }
+            }
+            .store(in: &cancellables)
+        
         viewModel.savingsGoals
             .receive(on: DispatchQueue.main)
             .filter { !$0.isEmpty }
@@ -99,30 +143,5 @@ private extension SavingsViewController {
                 self?.update(with: $0)
             }
             .store(in: &cancellables)
-    }
-}
-
-// MARK: - TableView DataSource
-
-private extension SavingsViewController {
-    func makeDataSource() -> UITableViewDiffableDataSource<Section, SavingsGoal> {
-        UITableViewDiffableDataSource(
-            tableView: tableView,
-            cellProvider: { tableView, indexPath, savingsGoal in
-                let cell = UITableViewCell()
-                var content = cell.defaultContentConfiguration()
-                content.text = savingsGoal.name
-                content.secondaryText = "Saved: \(savingsGoal.totalSaved.formattedAmount!), Target: \(savingsGoal.target?.formattedAmount! ?? "0")"
-                cell.contentConfiguration = content
-                return cell
-            }
-        )
-    }
-
-    func update(with savingsGoals: [SavingsGoal], animate: Bool = true) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, SavingsGoal>()
-        snapshot.appendSections([Section.main])
-        snapshot.appendItems(savingsGoals, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animate)
     }
 }

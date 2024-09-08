@@ -18,10 +18,7 @@ protocol HomeServicing {
         accountUid: String,
         categoryUid: String,
         changesSince: String
-    ) -> Future<
-        FeedItemsResponse,
-        Error
-    >
+    ) -> Future<FeedItemsResponse, Error>
 }
 
 struct HomeService: HomeServicing {

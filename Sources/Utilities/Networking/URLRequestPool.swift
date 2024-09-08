@@ -23,6 +23,12 @@ protocol HomeURLRequestPooling {
 protocol SavingsURLRequestPooling {
     func allSavingsGoalsRequest(accountUid: String) -> URLRequest
     func createSavingsGoal(accountUid: String, savingsGoalRequestData: Data) -> URLRequest
+    func topUpSavingsGoal(
+        accountUid: String,
+        savingsGoalUid: String,
+        transferUid: String,
+        topUpRequestData: Data
+    ) -> URLRequest
 }
 
 protocol URLRequestPooling: HomeURLRequestPooling & SavingsURLRequestPooling {}
@@ -82,12 +88,27 @@ struct URLRequestPool: URLRequestPooling {
         accountUid: String,
         savingsGoalRequestData: Data
     ) -> URLRequest {
-        var request = URLRequest(
+        .init(
             method: .put,
-            url: URLPool.createSavingsGoalsURL(accountUid: accountUid)
+            url: URLPool.createSavingsGoalsURL(accountUid: accountUid),
+            bodyData: savingsGoalRequestData
         )
-        request.httpBody = savingsGoalRequestData
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        return request
+    }
+
+    func topUpSavingsGoal(
+        accountUid: String,
+        savingsGoalUid: String,
+        transferUid: String,
+        topUpRequestData: Data
+    ) -> URLRequest {
+        .init(
+            method: .put,
+            url: URLPool.topUpSavingsGoalURL(
+                accountUid: accountUid,
+                savingsGoalUid: savingsGoalUid,
+                transferUid: transferUid
+            ),
+            bodyData: topUpRequestData
+        )
     }
 }

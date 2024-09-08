@@ -17,6 +17,7 @@ struct URLPool {
         case transactions(accountUid: String, categoryUid: String, changesSince: String)
         case allSavingsGoal(accountUid: String)
         case createSavingsGoal(accountUid: String)
+        case topUpSavingsGoal(accountUid: String, savingsGoalUid: String, transferUid: String)
 
         var path: String {
             switch self {
@@ -35,6 +36,8 @@ struct URLPool {
                 "/api/v2/feed/account/\(accountUid)/category/\(categoryUid)?changesSince=\(changesSince)"
             case let .allSavingsGoal(accountUid), let .createSavingsGoal(accountUid):
                 "/api/v2/account/\(accountUid)/savings-goals"
+            case let .topUpSavingsGoal(accountUid, savingsGoalUid, transferUid):
+                "/api/v2/account/\(accountUid)/savings-goals/\(savingsGoalUid)/add-money/\(transferUid)"
             }
         }
     }
@@ -115,6 +118,22 @@ struct URLPool {
             scheme: scheme,
             host: host,
             path: Endpoint.createSavingsGoal(accountUid: accountUid).path
+        )
+    }
+
+    static func topUpSavingsGoalURL(
+        accountUid: String,
+        savingsGoalUid: String,
+        transferUid: String
+    ) -> URL {
+        configureURL(
+            scheme: scheme,
+            host: host,
+            path: Endpoint.topUpSavingsGoal(
+                accountUid: accountUid,
+                savingsGoalUid: savingsGoalUid,
+                transferUid: transferUid
+            ).path
         )
     }
 }

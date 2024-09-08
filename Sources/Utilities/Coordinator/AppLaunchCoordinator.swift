@@ -1,5 +1,5 @@
 //
-//  MainCoordinator.swift
+//  AppLaunchCoordinator.swift
 //  StarlingRoundUp
 //
 //  Created by Mo Ahmad on 06/09/2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainCoordinator: Coordinator {
+final class AppLaunchCoordinator: Coordinator {
     var rootController: UIViewController?
     var childCoordinators = [Coordinator]()
     var tabBarController: UITabBarController
@@ -26,7 +26,7 @@ final class MainCoordinator: Coordinator {
 
 // MARK: - Setup Home Controller
 
-private extension MainCoordinator {
+private extension AppLaunchCoordinator {
     func createHomeNavigationController() -> UINavigationController {
         let homeNavigationController = UINavigationController()
         homeNavigationController.tabBarItem = UITabBarItem(
@@ -48,16 +48,17 @@ private extension MainCoordinator {
 
 // MARK: - Setup Savings Controller
 
-private extension MainCoordinator {
+private extension AppLaunchCoordinator {
     func createSavingsNavigationController() -> UINavigationController {
-        let homeNavigationController = UINavigationController()
-        homeNavigationController.tabBarItem = UITabBarItem(
+        let savingsNavigationController = UINavigationController()
+        savingsNavigationController.navigationBar.prefersLargeTitles = true
+        savingsNavigationController.tabBarItem = UITabBarItem(
             title: "Savings",
             image: UIImage(systemName: "banknote.fill"),
             tag: 1
         )
-        configureSavingsCoordinator(with: homeNavigationController)
-        return homeNavigationController
+        configureSavingsCoordinator(with: savingsNavigationController)
+        return savingsNavigationController
     }
 
     func configureSavingsCoordinator(with navigationController: UINavigationController) {

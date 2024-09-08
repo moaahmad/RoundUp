@@ -10,19 +10,16 @@ import SnapKit
 import UIKit
 
 final class HomeViewController: BaseViewController {
-    enum Section {
-        case main
-    }
-
     // MARK: - Properties
 
     private let viewModel: HomeViewModeling
 
     private var cancellables = Set<AnyCancellable>()
 
-    private lazy var tableView = UITableView(frame: .zero, style: .grouped)
+    private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
     private lazy var accountInfoView = AccountInfoView()
+    private lazy var transactionsHeaderView = TransactionsHeaderView()
 
     // MARK: - Initializers
 
@@ -35,41 +32,88 @@ final class HomeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        title = "Home"
         bindViewModel()
         configureTableView()
+
+        transactionsHeaderView.roundUpButton.addTarget(
+            self,
+            action: #selector(onRoundUpTapped),
+            for: .touchUpInside
+        )
+        transactionsHeaderView.segmentedControl.addTarget(
+            self,
+            action: #selector(onSegmentedControlValueChanged),
+            for: .valueChanged
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchData()
     }
+
+    // MARK: - User Interactions
+
+    @objc private func onRoundUpTapped() {
+        viewModel.didTapRoundUp()
+    }
+
+    @objc func onSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        viewModel.didChangeSegmentedControl(index: sender.selectedSegmentIndex)
+    }
 }
 
-// MARK: - TableView DataSource
+// MARK: - UITableViewDelegate Conformance
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UILabel()
-        header.text = "Transactions"
-        header.textColor = .label
-        header.font = .systemFont(ofSize: 16, weight: .semibold)
+        transactionsHeaderView
+    }
+}
 
-        let stackView = UIStackView(arrangedSubviews: [header])
-        stackView.axis = .horizontal
-        stackView.spacing = 12
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
-        stackView.layoutMargins = UIEdgeInsets(top: 32, left: 20, bottom: 12, right: 20)
-        stackView.isLayoutMarginsRelativeArrangement = true
+// MARK: - Setup Views
 
-        return stackView
+private extension HomeViewController {
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = dataSource
+        tableView.removeExcessCells()
+        tableView.allowsSelection = false
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .systemBackground
+
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+
+        setupAccountInfoView()
+    }
+
+    func setupAccountInfoView() {
+        tableView.tableHeaderView = accountInfoView
+
+        accountInfoView.snp.makeConstraints { make in
+            make.top.equalTo(tableView.snp.top).padding(.md)
+            make.leading.equalTo(tableView.snp.leading).padding(.base)
+            make.trailing.equalTo(tableView.snp.trailing).padding(-.base)
+            make.height.equalTo(UIScreen.main.bounds.height * 0.2)
+            make.width.equalTo(tableView.snp.width).padding(-.xxl)
+        }
     }
 }
 
 // MARK: - TableView DataSource
 
 private extension HomeViewController {
+    enum Section {
+        case main
+    }
+
     func makeDataSource() -> UITableViewDiffableDataSource<Section, FeedItem> {
         UITableViewDiffableDataSource(
             tableView: tableView,
@@ -77,7 +121,8 @@ private extension HomeViewController {
                 let cell = UITableViewCell()
                 var content = cell.defaultContentConfiguration()
                 content.text = feedItem.reference
-                content.secondaryText = feedItem.amount.formattedAmount
+                content.secondaryText = "\(feedItem.amount!.formattedAmount!), Direction: \(feedItem.direction!.rawValue)"
+                cell.backgroundColor = .systemBackground
                 cell.contentConfiguration = content
                 return cell
             }
@@ -114,7 +159,7 @@ private extension HomeViewController {
 
         Publishers.CombineLatest(
             viewModel.userInfo,
-            viewModel.feedItems
+            viewModel.filteredFeedItems
         )
         .filter { !$0.0.accountNumber.isEmpty && !$0.1.isEmpty }
         .receive(on: DispatchQueue.main)
@@ -133,39 +178,3 @@ private extension HomeViewController {
         .store(in: &cancellables)
     }
 }
-
-// MARK: - Setup Views
-
-private extension HomeViewController {
-    func configureTableView() {
-        tableView.delegate = self
-        tableView.dataSource = dataSource
-        tableView.removeExcessCells()
-        tableView.allowsSelection = false
-        tableView.backgroundColor = .systemBackground
-
-        view.addSubview(tableView)
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
-
-        configureAccountInfoView()
-    }
-
-    func configureAccountInfoView() {
-        tableView.tableHeaderView = accountInfoView
-
-        accountInfoView.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.top).offset(12)
-            make.leading.equalTo(tableView.snp.leading).offset(16)
-            make.trailing.equalTo(tableView.snp.trailing).offset(-16)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.2)
-            make.width.equalTo(tableView.snp.width).offset(-32)
-        }
-    }
-}
-
-

@@ -11,11 +11,15 @@ import Foundation
 protocol SavingsServicing {
     func fetchAllSavingGoals(for accountUid: String) -> Future<SavingsGoalsResponse, Error>
     func createSavingsGoal(
-        for accountUid: String,
-        with savingsGoalRequest: SavingsGoalRequest
+        accountUid: String,
+        savingsGoalRequest: SavingsGoalRequest
     ) -> Future<CreateOrUpdateSavingsGoalResponse, Error>
-    func addMoneyToSavingsGoal()
-    func withdrawMoneyFromSavingsGoal()
+    func addMoneyToSavingsGoal(
+        accountUid: String,
+        savingsGoalUid: String,
+        transferUid: String,
+        topUpRequest: TopUpRequest
+    ) -> Future<SavingsGoalTransferResponse, Error>
     func deleteSavingsGoal()
 }
 
@@ -52,8 +56,8 @@ struct SavingsService: SavingsServicing {
     }
 
     func createSavingsGoal(
-        for accountUid: String,
-        with savingsGoalRequest: SavingsGoalRequest
+        accountUid: String,
+        savingsGoalRequest: SavingsGoalRequest
     ) -> Future<CreateOrUpdateSavingsGoalResponse, Error> {
         Future<CreateOrUpdateSavingsGoalResponse, Error> { promise in
             do {
@@ -82,12 +86,39 @@ struct SavingsService: SavingsServicing {
         }
     }
 
-    func addMoneyToSavingsGoal() {
-        //
-    }
-
-    func withdrawMoneyFromSavingsGoal() {
-        //
+    func addMoneyToSavingsGoal(
+        accountUid: String,
+        savingsGoalUid: String,
+        transferUid: String,
+        topUpRequest: TopUpRequest
+    ) -> Future<SavingsGoalTransferResponse, Error> {
+        Future<SavingsGoalTransferResponse, Error> { promise in
+            do {
+                let encodedRequest = try encoder.encode(topUpRequest)
+                client.performRequest(
+                    urlRequestPool.topUpSavingsGoal(
+                        accountUid: accountUid,
+                        savingsGoalUid: savingsGoalUid,
+                        transferUid: transferUid,
+                        topUpRequestData: encodedRequest
+                    )
+                ) { result in
+                    switch result {
+                    case let .success((data, response)):
+                        client.handleFetchSuccessResponse(
+                            data: data,
+                            response: response,
+                            decoder: decoder,
+                            promise: promise
+                        )
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
+                }
+            } catch {
+                promise(.failure(error))
+            }
+        }
     }
 
     func deleteSavingsGoal() {

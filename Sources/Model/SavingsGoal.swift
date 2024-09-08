@@ -21,11 +21,14 @@ struct SavingsGoal: Decodable {
     ///  Percentage of target currently deposited in the savings goal
     var savedPercentage: Int?
     var target: CurrencyAndAmount?
+
+    var isSelected: Bool?
 }
 
 extension SavingsGoal: Hashable {
     static func == (lhs: SavingsGoal, rhs: SavingsGoal) -> Bool {
-        lhs.savingsGoalUid == rhs.savingsGoalUid
+        lhs.savingsGoalUid == rhs.savingsGoalUid &&
+        lhs.isSelected == rhs.isSelected
     }
 }
 
@@ -45,5 +48,14 @@ struct SavingsGoalRequest: Encodable {
 
 struct CreateOrUpdateSavingsGoalResponse: Decodable {
     let savingsGoalUid: String
+    let success: Bool
+}
+
+struct TopUpRequest: Encodable {
+    let amount: CurrencyAndAmount
+}
+
+struct SavingsGoalTransferResponse: Decodable {
+    let transferUid: String
     let success: Bool
 }

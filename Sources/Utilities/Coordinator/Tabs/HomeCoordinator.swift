@@ -16,7 +16,19 @@ final class HomeCoordinator: Coordinator {
     }
 
     func start() {
-        let vc = HomeViewController(viewModel: HomeViewModel())
-        navigationController?.pushViewController(vc, animated: true)
+        let viewController = HomeViewController(viewModel: HomeViewModel(coordinator: self))
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    func presentRoundedUpViewController(roundedUpTotal: CurrencyAndAmount) {
+        let vc = RoundUpViewController(
+            viewModel: RoundUpViewModel(
+                roundedUpTotal: roundedUpTotal
+            )
+        )
+        vc.modalPresentationStyle = .pageSheet
+        vc.sheetPresentationController?.detents = [.large(), .medium()]
+        vc.sheetPresentationController?.prefersGrabberVisible = true
+        navigationController?.present(vc, animated: true)
     }
 }

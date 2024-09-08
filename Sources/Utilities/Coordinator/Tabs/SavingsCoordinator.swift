@@ -16,7 +16,19 @@ final class SavingsCoordinator: Coordinator {
     }
 
     func start() {
-        let vc = SavingsViewController(viewModel: SavingsViewModel())
+        let vc = SavingsViewController(viewModel: SavingsViewModel(coordinator: self))
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func presentCreateSavingsGoalVC(service: SavingsServicing) {
+        let vc = CreateSavingsGoalViewController(
+            viewModel: CreateSavingsGoalViewModel(
+                service: service
+            )
+        )
+        vc.modalPresentationStyle = .pageSheet
+        vc.sheetPresentationController?.detents = [.large(), .medium()]
+        vc.sheetPresentationController?.prefersGrabberVisible = true
+        navigationController?.present(vc, animated: true)
     }
 }

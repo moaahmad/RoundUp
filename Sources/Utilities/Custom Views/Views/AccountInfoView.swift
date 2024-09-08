@@ -37,7 +37,7 @@ final class AccountInfoView: UIView {
 
     private lazy var balanceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24, weight: .black)
+        label.font = UIFont.systemFont(ofSize: 27, weight: .black)
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -61,9 +61,9 @@ final class AccountInfoView: UIView {
 
     private func styleView() {
         backgroundColor = .secondarySystemBackground
-        layer.cornerRadius = 20
+        layer.cornerRadius = .lg
         layer.shadowOpacity = 0.15
-        layer.shadowRadius = 6
+        layer.shadowRadius = .xs
     }
 
     private func setupView() {
@@ -106,4 +106,21 @@ final class AccountInfoView: UIView {
         sortCodeLabel.text = "Sort Code: \(sortCode)"
         balanceLabel.text = balance
     }
+}
+
+// MARK: - Previews
+
+#Preview {
+    let view = AccountInfoView()
+    view.configure(
+        name: "Denis Irwin",
+        accountNumber: "1234567890",
+        sortCode: "001122",
+        balance: "£2340.23"
+    )
+    view.snp.makeConstraints { make in
+        make.height.equalTo(UIScreen.main.bounds.height * 0.2)
+        make.width.equalTo(UIScreen.main.bounds.width - .xxl)
+    }
+    return view
 }
