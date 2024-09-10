@@ -76,7 +76,7 @@ final class TransactionsHeaderView: UIView {
         }
 
         segmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).padding(.base)
+            make.top.equalTo(stackView.snp.bottom).padding(.md)
             make.leading.equalToSuperview().padding(.base)
             make.trailing.equalToSuperview().padding(-.base)
             make.bottom.equalToSuperview().padding(-.md)

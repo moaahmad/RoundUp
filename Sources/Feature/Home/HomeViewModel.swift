@@ -27,6 +27,7 @@ final class HomeViewModel: HomeViewModeling {
     var userInfo = CurrentValueSubject<UserInfo, Never>(.init())
     var filteredFeedItems = PassthroughSubject<[FeedItem], Never>()
     var roundedUpTotal: CurrencyAndAmount?
+
     private var feedItems = CurrentValueSubject<[FeedItem], Never>([])
     private var _userInfo = UserInfo()
     private var cancellables = Set<AnyCancellable>()
@@ -112,30 +113,20 @@ final class HomeViewModel: HomeViewModeling {
     }
 
     func didChangeSegmentedControl(index: Int) {
+        updateFilteredItems(at: index)
+    }
+
+    private func updateFilteredItems(at index: Int) {
+        var items = feedItems.value
         switch index {
-        case 0:
-            filteredFeedItems.send(feedItems.value)
         case 1:
-            feedItems
-                .map { $0.filter { $0.direction == .paymentIn } }
-                .removeDuplicates()
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.filteredFeedItems.send($0)
-                }
-                .store(in: &cancellables)
+            items = items.filter { $0.direction == .paymentIn }
         case 2:
-            feedItems
-                .map { $0.filter { $0.direction == .paymentOut } }
-                .removeDuplicates()
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] in
-                    self?.filteredFeedItems.send($0)
-                }
-                .store(in: &cancellables)
+            items = items.filter { $0.direction == .paymentOut }
         default:
             break
         }
+        return filteredFeedItems.send(items)
     }
 }
 

@@ -43,7 +43,8 @@ enum SavingsGoalState: String, Decodable {
 
 struct SavingsGoalRequest: Encodable {
     let name: String
-    let currency: String
+    let currency: Currency
+    let target: CurrencyAndAmount
 }
 
 struct CreateOrUpdateSavingsGoalResponse: Decodable {

@@ -36,17 +36,17 @@ struct Balance: Decodable {
     let effectiveBalance: CurrencyAndAmount
 }
 
-struct CurrencyAndAmount: Decodable & Encodable {
+struct CurrencyAndAmount: Codable {
     /// ISO-4217 3 character currency code
     let currency: Currency
-    /// Amount in the minor units of the given currency (e.g., pence in GBP, cents in EUR)
+    /// Amount in the minor units of the given currency (e.g., pence in GBP or cents in EUR)
     let minorUnits: Int64
 }
 
 extension CurrencyAndAmount: Hashable {}
 
 extension CurrencyAndAmount {
-    var formattedAmount: String? {
+    var formattedString: String? {
         // Convert the minor amount to the major amount (e.g., pence to pounds)
         let majorUnits = Double(minorUnits) / 100.0
         let formatter = NumberFormatter()

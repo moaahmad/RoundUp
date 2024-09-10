@@ -27,7 +27,7 @@ final class SavingsCoordinator: Coordinator {
             )
         )
         vc.modalPresentationStyle = .pageSheet
-        vc.sheetPresentationController?.detents = [.large(), .medium()]
+        vc.sheetPresentationController?.detents = [.medium()]
         vc.sheetPresentationController?.prefersGrabberVisible = true
         navigationController?.present(vc, animated: true)
     }

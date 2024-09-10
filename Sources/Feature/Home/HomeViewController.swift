@@ -41,6 +41,7 @@ final class HomeViewController: BaseViewController {
             action: #selector(onRoundUpTapped),
             for: .touchUpInside
         )
+        
         transactionsHeaderView.segmentedControl.addTarget(
             self,
             action: #selector(onSegmentedControlValueChanged),
@@ -50,6 +51,7 @@ final class HomeViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        resetSegmentedControl()
         viewModel.fetchData()
     }
 
@@ -64,11 +66,43 @@ final class HomeViewController: BaseViewController {
     }
 }
 
-// MARK: - UITableViewDelegate Conformance
+// MARK: - UITableView Delegate
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         transactionsHeaderView
+    }
+}
+
+// MARK: - UITableView DataSource
+
+private extension HomeViewController {
+    enum Section {
+        case main
+    }
+
+    func makeDataSource() -> UITableViewDiffableDataSource<Section, FeedItem> {
+        UITableViewDiffableDataSource(
+            tableView: tableView,
+            cellProvider: { tableView, indexPath, feedItem in
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: TransactionRowCell.reuseID,
+                    for: indexPath
+                ) as? TransactionRowCell else {
+                    fatalError("Unable to dequeue TransactionRowCell")
+                }
+
+                cell.update(with: feedItem)
+                return cell
+            }
+        )
+    }
+
+    func update(with feedItems: [FeedItem], animate: Bool = false) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
+        snapshot.appendSections([Section.main])
+        snapshot.appendItems(feedItems, toSection: .main)
+        dataSource.apply(snapshot, animatingDifferences: animate)
     }
 }
 
@@ -78,6 +112,10 @@ private extension HomeViewController {
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
+        tableView.register(
+            TransactionRowCell.self,
+            forCellReuseIdentifier: TransactionRowCell.reuseID
+        )
         tableView.removeExcessCells()
         tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
@@ -107,36 +145,6 @@ private extension HomeViewController {
     }
 }
 
-// MARK: - TableView DataSource
-
-private extension HomeViewController {
-    enum Section {
-        case main
-    }
-
-    func makeDataSource() -> UITableViewDiffableDataSource<Section, FeedItem> {
-        UITableViewDiffableDataSource(
-            tableView: tableView,
-            cellProvider: { tableView, indexPath, feedItem in
-                let cell = UITableViewCell()
-                var content = cell.defaultContentConfiguration()
-                content.text = feedItem.reference
-                content.secondaryText = "\(feedItem.amount!.formattedAmount!), Direction: \(feedItem.direction!.rawValue)"
-                cell.backgroundColor = .systemBackground
-                cell.contentConfiguration = content
-                return cell
-            }
-        )
-    }
-
-    func update(with feedItems: [FeedItem], animate: Bool = false) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
-        snapshot.appendSections([Section.main])
-        snapshot.appendItems(feedItems, toSection: .main)
-        dataSource.apply(snapshot, animatingDifferences: animate)
-    }
-}
-
 // MARK: - Bindings
 
 private extension HomeViewController {
@@ -163,9 +171,9 @@ private extension HomeViewController {
         )
         .filter { !$0.0.accountNumber.isEmpty && !$0.1.isEmpty }
         .receive(on: DispatchQueue.main)
-        .sink { [weak self] userInfo, feedItems in
+        .sink { [weak self] userInfo, items in
             print("userInfo:", userInfo)
-            print("feedItems:", feedItems.count)
+            print("feedItems:", items.count)
 
             self?.accountInfoView.configure(
                 name: userInfo.name,
@@ -173,8 +181,16 @@ private extension HomeViewController {
                 sortCode: userInfo.sortCode,
                 balance: userInfo.balance
             )
-            self?.update(with: feedItems)
+            self?.update(with: items)
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension HomeViewController {
+    func resetSegmentedControl() {
+        transactionsHeaderView.segmentedControl.selectedSegmentIndex = 0
     }
 }

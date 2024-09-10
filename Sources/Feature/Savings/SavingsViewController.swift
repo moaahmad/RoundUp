@@ -10,10 +10,6 @@ import SnapKit
 import UIKit
 
 final class SavingsViewController: BaseViewController {
-    enum Section {
-        case main
-    }
-
     // MARK: - Properties
 
     private let viewModel: SavingsViewModeling
@@ -52,11 +48,14 @@ final class SavingsViewController: BaseViewController {
 // MARK: - TableView DataSource
 
 private extension SavingsViewController {
+    enum Section {
+        case main
+    }
+
     func makeDataSource() -> UITableViewDiffableDataSource<Section, SavingsGoal> {
         UITableViewDiffableDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, savingsGoal in
-                // Dequeue the custom cell
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: SavingsGoalCell.reuseID,
                     for: indexPath
@@ -64,7 +63,6 @@ private extension SavingsViewController {
                     fatalError("Unable to dequeue SavingsGoalCell")
                 }
 
-                // Configure the custom cell with data
                 cell.update(with: savingsGoal)
                 return cell
             }
@@ -100,7 +98,10 @@ private extension SavingsViewController {
 
     func setupTableView() {
         tableView.dataSource = dataSource
-        tableView.register(SavingsGoalCell.self, forCellReuseIdentifier: SavingsGoalCell.reuseID)
+        tableView.register(
+            SavingsGoalCell.self,
+            forCellReuseIdentifier: SavingsGoalCell.reuseID
+        )
         tableView.removeExcessCells()
         tableView.allowsSelection = false
         tableView.backgroundColor = .systemBackground

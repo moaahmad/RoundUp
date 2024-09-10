@@ -29,7 +29,7 @@ final class RoundUpViewController: BaseViewController {
         )
     }()
 
-    private lazy var headerView = RoundUpTotalView(total: viewModel.roundedUpTotal.formattedAmount!)
+    private lazy var headerView = RoundUpTotalView(total: viewModel.roundedUpTotal.formattedString!)
     private lazy var saveButton = STActionButton(title: "Save")
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
@@ -83,15 +83,18 @@ private extension RoundUpViewController {
         UITableViewDiffableDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, savingsGoal in
-                let cell = UITableViewCell()
-                var content = cell.defaultContentConfiguration()
-                content.text = savingsGoal.name
-                content.secondaryText = "Saved: \(savingsGoal.totalSaved.formattedAmount!), Target: \(savingsGoal.target?.formattedAmount! ?? "0")"
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: SavingsGoalCell.reuseID,
+                    for: indexPath
+                ) as? SavingsGoalCell else {
+                    fatalError("Unable to dequeue SavingsGoalCell")
+                }
+
+                cell.update(with: savingsGoal, hidePercentSaved: true)
+
                 if let isSelected = savingsGoal.isSelected {
                     cell.accessoryType = isSelected ? .checkmark : .none
                 }
-                cell.backgroundColor = .systemBackground
-                cell.contentConfiguration = content
                 return cell
             }
         )
@@ -130,6 +133,10 @@ private extension RoundUpViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
+        tableView.register(
+            SavingsGoalCell.self,
+            forCellReuseIdentifier: SavingsGoalCell.reuseID
+        )
         tableView.removeExcessCells()
         tableView.backgroundColor = .systemBackground
 
@@ -157,7 +164,11 @@ private extension RoundUpViewController {
     func setupSaveButton() {
         saveButton.isEnabled = false
         saveButton.backgroundColor = .systemGray
-        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        saveButton.addTarget(
+            self,
+            action: #selector(saveButtonTapped),
+            for: .touchUpInside
+        )
         view.addSubview(saveButton)
 
         saveButton.snp.makeConstraints { make in
@@ -170,7 +181,7 @@ private extension RoundUpViewController {
     }
 }
 
-// MARK: Bindings
+// MARK: - Bindings
 
 private extension RoundUpViewController {
     func bindViewModel() {

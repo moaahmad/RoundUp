@@ -33,7 +33,7 @@ struct UserInfo {
     }
 
     mutating func updateBalance(_ currencyAndAmount: CurrencyAndAmount) {
-        guard let formattedBalance = currencyAndAmount.formattedAmount else {
+        guard let formattedBalance = currencyAndAmount.formattedString else {
             debugPrint("Error formatting account balance")
             return
         }

@@ -17,16 +17,6 @@ final class SavingsGoalCell: UITableViewCell {
     private lazy var savedValueView = STValueView(label: "", value: "")
     private lazy var targetValueView = STValueView(label: "", value: "")
 
-//    private lazy var savingsImage: UIImageView = {
-//        let image = UIImageView(image: .init(systemName: "target"))
-//        image.tintColor = .accent
-//        image.contentMode = .scaleAspectFit
-//        image.snp.makeConstraints { make in
-//            make.height.width.equalTo(40)
-//        }
-//        return image
-//    }()
-
     private lazy var percentSavedLabel: UILabel = {
         let label = UILabel()
         label.textColor = .accent
@@ -72,17 +62,21 @@ final class SavingsGoalCell: UITableViewCell {
 
     // MARK: - UI Setup
 
-    func update(with savingsGoal: SavingsGoal) {
+    func update(with savingsGoal: SavingsGoal, hidePercentSaved: Bool = false) {
         titleLabel.text = savingsGoal.name
-        
-        let totalSaved = savingsGoal.totalSaved.formattedAmount ?? "Nothing saved yet"
+
+        let totalSaved = savingsGoal.totalSaved.formattedString ?? "Nothing saved yet"
         savedValueView.update(label: "Saved so far:", value: totalSaved)
-        
-        let target = savingsGoal.target?.formattedAmount ?? "No target set"
+
+        let target = savingsGoal.target?.formattedString ?? "No target set"
         targetValueView.update(label: "Target:", value: target)
-        
-        let savedPercentage = savingsGoal.savedPercentage ?? 0
-        percentSavedLabel.text = "\(savedPercentage)%"
+
+        if hidePercentSaved {
+            percentSavedLabel.isHidden = true
+        } else {
+            let savedPercentage = savingsGoal.savedPercentage ?? 0
+            percentSavedLabel.text = "\(savedPercentage)%"
+        }
     }
 
     private func configureLayout() {
