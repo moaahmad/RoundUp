@@ -11,6 +11,8 @@
 		4E5B09C52C8F112C00FBA473 /* TransactionRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09C42C8F112C00FBA473 /* TransactionRowCell.swift */; };
 		4E5B09C82C904EE900FBA473 /* CreateSavingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09C72C904EE900FBA473 /* CreateSavingsViewModel.swift */; };
 		4E5B09CB2C90511D00FBA473 /* STTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09CA2C90511D00FBA473 /* STTextField.swift */; };
+		4E5B09D42C90A77900FBA473 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09D32C90A77900FBA473 /* AppEnvironment.swift */; };
+		4E5B09D72C90A95000FBA473 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09D62C90A95000FBA473 /* APIConstants.swift */; };
 		4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */; };
 		4EC7FE8F2C8BAF8700A37E78 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */; };
 		4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE902C8BAF8700A37E78 /* HomeViewController.swift */; };
@@ -82,6 +84,9 @@
 		4E5B09C42C8F112C00FBA473 /* TransactionRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowCell.swift; sourceTree = "<group>"; };
 		4E5B09C72C904EE900FBA473 /* CreateSavingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavingsViewModel.swift; sourceTree = "<group>"; };
 		4E5B09CA2C90511D00FBA473 /* STTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STTextField.swift; sourceTree = "<group>"; };
+		4E5B09D32C90A77900FBA473 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		4E5B09D52C90A7B900FBA473 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		4E5B09D62C90A95000FBA473 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4EC7FE892C8BAF8700A37E78 /* StarlingRoundUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarlingRoundUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,6 +199,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		4E5B09D22C90A75F00FBA473 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				4E5B09D32C90A77900FBA473 /* AppEnvironment.swift */,
+				4E5B09D52C90A7B900FBA473 /* Debug.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
 		4EC7FE802C8BAF8700A37E78 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +260,7 @@
 		4EC7FEBC2C8BAFBE00A37E78 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4E5B09D22C90A75F00FBA473 /* Configurations */,
 				4EC7FE952C8BAF8800A37E78 /* Assets.xcassets */,
 				4EC7FE972C8BAF8800A37E78 /* LaunchScreen.storyboard */,
 				4EC7FE9A2C8BAF8900A37E78 /* Info.plist */,
@@ -332,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FEE32C8BB53000A37E78 /* Client */,
+				4E5B09D62C90A95000FBA473 /* APIConstants.swift */,
 				4EC7FEE82C8BB57800A37E78 /* APIError.swift */,
 				4EC7FEEB2C8BB5A700A37E78 /* URLPool.swift */,
 				4EC7FEED2C8BB5C000A37E78 /* URLRequestPool.swift */,
@@ -575,6 +591,7 @@
 			files = (
 				4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */,
 				4EC7FEE22C8BB51700A37E78 /* UITableView+Extensions.swift in Sources */,
+				4E5B09D72C90A95000FBA473 /* APIConstants.swift in Sources */,
 				4EC7FF202C8DEC8100A37E78 /* SavingsGoalCell.swift in Sources */,
 				4EC7FF042C8C9D6800A37E78 /* UIConstants.swift in Sources */,
 				4EC7FF0C2C8CD75C00A37E78 /* RoundUpViewController.swift in Sources */,
@@ -608,6 +625,7 @@
 				4EC7FED12C8BB3EE00A37E78 /* Account.swift in Sources */,
 				4EC7FE8F2C8BAF8700A37E78 /* SceneDelegate.swift in Sources */,
 				4EC7FEE52C8BB54800A37E78 /* HTTPClient.swift in Sources */,
+				4E5B09D42C90A77900FBA473 /* AppEnvironment.swift in Sources */,
 				4EC7FEEC2C8BB5A700A37E78 /* URLPool.swift in Sources */,
 				4EC7FECE2C8BB3A300A37E78 /* HomeService.swift in Sources */,
 				4EC7FED32C8BB40C00A37E78 /* UserInfo.swift in Sources */,
@@ -785,6 +803,7 @@
 		};
 		4EC7FEB42C8BAF8900A37E78 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E5B09D52C90A7B900FBA473 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -813,6 +832,7 @@
 		};
 		4EC7FEB52C8BAF8900A37E78 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E5B09D52C90A7B900FBA473 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
