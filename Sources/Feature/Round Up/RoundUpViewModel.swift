@@ -13,8 +13,8 @@ protocol RoundUpViewModeling {
     var selectedSavingsGoal: CurrentValueSubject<SavingsGoal?, Never> { get }
     var isSavingRoundUp: CurrentValueSubject<Bool, Never> { get }
     var savingsGoals: CurrentValueSubject<[SavingsGoal], Never> { get }
-    var roundedUpTotal: CurrencyAndAmount { get }
-    
+    var roundedUpTitle: String { get }
+
     func fetchData()
     func saveRoundedUpTotal(completion: @escaping () -> Void)
     func selectSavingsGoal(at index: Int)
@@ -23,7 +23,8 @@ protocol RoundUpViewModeling {
 final class RoundUpViewModel: RoundUpViewModeling {
     // MARK: - Properties
 
-    let roundedUpTotal: CurrencyAndAmount
+    let roundedUpTitle: String
+    private let roundedUpTotal: CurrencyAndAmount
     private let service: SavingsServicing
 
     let accountUid = "b74e212a-738b-426c-bbec-d17b6e406716" // TODO: REMOVE THIS!
@@ -41,6 +42,7 @@ final class RoundUpViewModel: RoundUpViewModeling {
         service: SavingsServicing = SavingsService()
     ) {
         self.roundedUpTotal = roundedUpTotal
+        self.roundedUpTitle = roundedUpTotal.formattedString ?? "£0.00"
         self.service = service
 
         savingsGoals

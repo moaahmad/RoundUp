@@ -1,11 +1,11 @@
 //
-//  CGFloat+Extensions.swift
+//  UIConstants.swift
 //  StarlingRoundUp
 //
 //  Created by Mo Ahmad on 07/09/2024.
 //
 
-import Foundation
+import UIKit
 
 extension CGFloat {
     /// 0
@@ -32,3 +32,15 @@ extension CGFloat {
     static let xxxl: CGFloat = 40
 }
 
+extension CGFloat {
+    static let buttonHeight: CGFloat = 50.0
+    static let navigationBarHeight: CGFloat = 50.0
+    static let textFieldHeight: CGFloat = 45
+}
+
+struct Device {
+    static let width: CGFloat = UIScreen.main.bounds.width
+    static let height: CGFloat = UIScreen.main.bounds.height
+
+    private init() {}
+}

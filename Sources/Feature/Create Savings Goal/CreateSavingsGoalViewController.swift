@@ -29,14 +29,14 @@ final class CreateSavingsGoalViewController: BaseViewController {
 
     private lazy var nameTextField: STTextField = {
         let textField = STTextField(placeholder: "Enter goal name")
-        textField.snp.makeConstraints { make in make.height.equalTo(50) }
+        textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         return textField
     }()
 
     private lazy var currencyTextField: STTextField = {
         let textField = STTextField(placeholder: "Select currency")
-        textField.snp.makeConstraints { make in make.height.equalTo(50) }
+        textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         return textField
     }()
@@ -46,7 +46,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
             placeholder: "Enter target amount",
             keyboardType: .decimalPad
         )
-        textField.snp.makeConstraints { make in make.height.equalTo(50) }
+        textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         return textField
     }()
@@ -66,7 +66,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
             frame: CGRect(
                 x: .none, y: .none,
                 width: view.frame.size.width,
-                height: 50
+                height: .navigationBarHeight
             )
         )
     }()
@@ -196,19 +196,18 @@ private extension CreateSavingsGoalViewController {
 
         navigationBar.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(50)
         }
 
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(navigationBar.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(createGoalButton.snp.top).offset(-16)
+            make.bottom.equalTo(createGoalButton.snp.top).inset(amount: .base)
         }
 
         createGoalButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(50)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(amount: .base)
+            make.leading.trailing.equalToSuperview().inset(amount: .base)
+            make.height.equalTo(CGFloat.buttonHeight)
         }
     }
 
@@ -216,8 +215,8 @@ private extension CreateSavingsGoalViewController {
         scrollView.addSubview(scrollStackViewContainer)
 
         scrollStackViewContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(16)
-            make.width.equalTo(scrollView.snp.width).offset(-32)
+            make.edges.equalToSuperview().inset(amount: .base)
+            make.width.equalTo(scrollView.snp.width).inset(amount: .base)
         }
     }
 }

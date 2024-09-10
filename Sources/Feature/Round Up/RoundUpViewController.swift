@@ -24,12 +24,12 @@ final class RoundUpViewController: BaseViewController {
             frame: CGRect(
                 x: .none, y: .none,
                 width: view.frame.size.width,
-                height: 50
+                height: .navigationBarHeight
             )
         )
     }()
 
-    private lazy var headerView = RoundUpTotalView(total: viewModel.roundedUpTotal.formattedString!)
+    private lazy var headerView = RoundUpTotalView(total: viewModel.roundedUpTitle)
     private lazy var saveButton = STActionButton(title: "Save")
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
@@ -155,9 +155,7 @@ private extension RoundUpViewController {
 
         headerView.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.top)
-            make.leading.equalTo(tableView.snp.leading).padding(.base)
-            make.trailing.equalTo(tableView.snp.trailing).padding(-.base)
-            make.width.equalTo(tableView.snp.width).padding(-.xxl)
+            make.width.centerX.equalToSuperview().inset(amount: .base)
         }
     }
 
@@ -172,11 +170,10 @@ private extension RoundUpViewController {
         view.addSubview(saveButton)
 
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.bottom).padding(.md)
+            make.top.equalTo(tableView.snp.bottom).offset(amount: .md)
+            make.leading.trailing.equalToSuperview().inset(amount: .base)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.leading.equalToSuperview().padding(.base)
-            make.trailing.equalToSuperview().padding(-.base)
-            make.height.equalTo(50)
+            make.height.equalTo(CGFloat.buttonHeight)
         }
     }
 }
@@ -185,17 +182,21 @@ private extension RoundUpViewController {
 
 private extension RoundUpViewController {
     func bindViewModel() {
-//        viewModel.isLoading
-//            .removeDuplicates()
-//            .sink { [weak self] isLoading in
-//                guard let self else { return }
-//                if isLoading {
-//
-//                } else {
-//
-//                }
-//            }
-//            .store(in: &cancellables)
+        viewModel.isLoading
+            .removeDuplicates()
+            .sink { [weak self] isLoading in
+                guard let self else { return }
+                if isLoading {
+                    tableView.isHidden = true
+                    showLoadingView()
+                } else {
+                    UIView.animate(withDuration: 0.3) { [weak self] in
+                        self?.dismissLoadingView()
+                        self?.tableView.isHidden = false
+                    }
+                }
+            }
+            .store(in: &cancellables)
 
         viewModel.selectedSavingsGoal
             .compactMap(\.?.isSelected)
@@ -220,7 +221,6 @@ private extension RoundUpViewController {
             .receive(on: DispatchQueue.main)
             .filter { !$0.isEmpty }
             .sink { [weak self] in
-                print("Savings Goals:", $0)
                 self?.applySnapshot(with: $0, animate: false)
             }
             .store(in: &cancellables)

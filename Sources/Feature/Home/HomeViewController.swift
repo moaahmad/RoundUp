@@ -136,11 +136,9 @@ private extension HomeViewController {
         tableView.tableHeaderView = accountInfoView
 
         accountInfoView.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.top).padding(.md)
-            make.leading.equalTo(tableView.snp.leading).padding(.base)
-            make.trailing.equalTo(tableView.snp.trailing).padding(-.base)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.2)
-            make.width.equalTo(tableView.snp.width).padding(-.xxl)
+            make.top.equalTo(tableView.snp.top).offset(amount: .md)
+            make.height.equalTo((Device.height * 0.2))
+            make.width.centerX.equalToSuperview().inset(amount: .base)
         }
     }
 }

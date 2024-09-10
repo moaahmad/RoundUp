@@ -44,7 +44,7 @@
 		4EC7FEFB2C8BBAEC00A37E78 /* SavingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */; };
 		4EC7FEFE2C8BBB7F00A37E78 /* SavingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */; };
 		4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */; };
-		4EC7FF042C8C9D6800A37E78 /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF032C8C9D6800A37E78 /* CGFloat+Extensions.swift */; };
+		4EC7FF042C8C9D6800A37E78 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF032C8C9D6800A37E78 /* UIConstants.swift */; };
 		4EC7FF062C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF052C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift */; };
 		4EC7FF082C8C9DFD00A37E78 /* CreateSavingsGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF072C8C9DFD00A37E78 /* CreateSavingsGoalViewController.swift */; };
 		4EC7FF0A2C8CC47100A37E78 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF092C8CC47100A37E78 /* HomeViewModelTests.swift */; };
@@ -118,7 +118,7 @@
 		4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsService.swift; sourceTree = "<group>"; };
 		4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsCoordinator.swift; sourceTree = "<group>"; };
 		4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
-		4EC7FF032C8C9D6800A37E78 /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
+		4EC7FF032C8C9D6800A37E78 /* UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		4EC7FF052C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConstraintMakerEditable+Extensions.swift"; sourceTree = "<group>"; };
 		4EC7FF072C8C9DFD00A37E78 /* CreateSavingsGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavingsGoalViewController.swift; sourceTree = "<group>"; };
 		4EC7FF092C8CC47100A37E78 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
@@ -175,6 +175,23 @@
 				4E5B09CA2C90511D00FBA473 /* STTextField.swift */,
 			);
 			path = TextField;
+			sourceTree = "<group>";
+		};
+		4E5B09D02C90968000FBA473 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				4EC7FF172C8D99CA00A37E78 /* Components */,
+				4E5B09D12C9096AA00FBA473 /* Helpers */,
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		4E5B09D12C9096AA00FBA473 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4EC7FF032C8C9D6800A37E78 /* UIConstants.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		4EC7FE802C8BAF8700A37E78 = {
@@ -250,7 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FEBF2C8BB03100A37E78 /* Coordinator */,
-				4EC7FF172C8D99CA00A37E78 /* Custom Views */,
+				4E5B09D02C90968000FBA473 /* Design */,
 				4EC7FEDC2C8BB4CA00A37E78 /* Extensions */,
 				4EC7FEDB2C8BB4BB00A37E78 /* Networking */,
 				4EC7FF122C8CFA7B00A37E78 /* Router */,
@@ -325,7 +342,6 @@
 		4EC7FEDC2C8BB4CA00A37E78 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				4EC7FF032C8C9D6800A37E78 /* CGFloat+Extensions.swift */,
 				4EC7FF052C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift */,
 				4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */,
 				4EC7FEDD2C8BB4E700A37E78 /* Strings+Extensions.swift */,
@@ -372,7 +388,7 @@
 			path = Router;
 			sourceTree = "<group>";
 		};
-		4EC7FF172C8D99CA00A37E78 /* Custom Views */ = {
+		4EC7FF172C8D99CA00A37E78 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				4E5B09C92C9050FD00FBA473 /* TextField */,
@@ -381,7 +397,7 @@
 				4EC7FF1E2C8DEC6000A37E78 /* Cells */,
 				4EC7FF182C8D9A2B00A37E78 /* Views */,
 			);
-			path = "Custom Views";
+			path = Components;
 			sourceTree = "<group>";
 		};
 		4EC7FF182C8D9A2B00A37E78 /* Views */ = {
@@ -560,7 +576,7 @@
 				4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */,
 				4EC7FEE22C8BB51700A37E78 /* UITableView+Extensions.swift in Sources */,
 				4EC7FF202C8DEC8100A37E78 /* SavingsGoalCell.swift in Sources */,
-				4EC7FF042C8C9D6800A37E78 /* CGFloat+Extensions.swift in Sources */,
+				4EC7FF042C8C9D6800A37E78 /* UIConstants.swift in Sources */,
 				4EC7FF0C2C8CD75C00A37E78 /* RoundUpViewController.swift in Sources */,
 				4EC7FEEE2C8BB5C000A37E78 /* URLRequestPool.swift in Sources */,
 				4EC7FEC22C8BB05300A37E78 /* Coordinator.swift in Sources */,

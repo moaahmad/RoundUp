@@ -71,23 +71,25 @@ final class TransactionsHeaderView: UIView {
 
         stackView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalToSuperview().padding(.base)
-            make.trailing.equalToSuperview().padding(-.base)
+            make.leading.equalToSuperview().offset(amount: .base)
+            make.trailing.equalToSuperview().inset(amount: .base)
         }
 
         segmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).padding(.md)
-            make.leading.equalToSuperview().padding(.base)
-            make.trailing.equalToSuperview().padding(-.base)
-            make.bottom.equalToSuperview().padding(-.md)
+            make.top.equalTo(stackView.snp.bottom).offset(amount: .md)
+            make.leading.equalToSuperview().offset(amount: .base)
+            make.trailing.equalToSuperview().inset(amount: .base)
+            make.bottom.equalToSuperview().inset(amount: .md)
         }
     }
 }
 
+// MARK: - Previews
+
 #Preview {
     let view = TransactionsHeaderView()
     view.snp.makeConstraints { make in
-        make.width.equalTo(UIScreen.main.bounds.width)
+        make.width.equalTo(Device.width)
     }
     return view
 }

@@ -75,26 +75,26 @@ final class AccountInfoView: UIView {
 
     private func setupConstraints() {
         nameLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.leading.equalToSuperview().offset(amount: .lg)
+            make.trailing.equalToSuperview().inset(amount: .lg)
         }
 
         accountNumberLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp_bottomMargin).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalTo(nameLabel.snp_bottomMargin).offset(amount: .lg)
+            make.leading.equalToSuperview().offset(amount: .lg)
+            make.trailing.equalToSuperview().inset(amount: .lg)
         }
 
         sortCodeLabel.snp.makeConstraints { make in
-            make.top.equalTo(accountNumberLabel.snp_bottomMargin).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalTo(accountNumberLabel.snp_bottomMargin).offset(amount: .lg)
+            make.leading.equalToSuperview().offset(amount: .lg)
+            make.trailing.equalToSuperview().inset(amount: .lg)
         }
 
         balanceLabel.snp.makeConstraints { make in
-            make.top.equalTo(sortCodeLabel.snp_bottomMargin).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalTo(sortCodeLabel.snp_bottomMargin).offset(amount: .lg)
+            make.leading.equalToSuperview().offset(amount: .lg)
+            make.trailing.equalToSuperview().inset(amount: .lg)
         }
     }
 
