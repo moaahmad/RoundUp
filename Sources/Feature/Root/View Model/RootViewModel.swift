@@ -1,0 +1,69 @@
+//
+//  RootViewModel.swift
+//  StarlingRoundUp
+//
+//  Created by Mo Ahmad on 10/09/2024.
+//
+
+import Combine
+import Foundation
+
+protocol RootViewModeling {
+    var rootDestination: CurrentValueSubject<RootDestination, Never> { get }
+
+    func fetchData()
+    func navigateTo(_ rootDestination: RootDestination)
+}
+
+final class RootViewModel: RootViewModeling {
+    // MARK: - Properties
+
+    private let service: RootServicing
+    private let appState: AppStateProviding
+
+    var rootDestination = CurrentValueSubject<RootDestination, Never>(.loading)
+    weak var coordinator: Coordinator?
+    private var cancellables = Set<AnyCancellable>()
+
+    // MARK: - Initializer
+
+    init(
+        service: RootServicing,
+        coordinator: Coordinator?,
+        appState: AppStateProviding = AppState.shared
+    ) {
+        self.service = service
+        self.coordinator = coordinator
+        self.appState = appState
+    }
+
+    // MARK: - RootViewModeling Functions
+
+    func fetchData() {
+        service.fetchAccounts()
+            .map(\.accounts)
+            .compactMap { $0.first(where: { $0.accountType == .primary }) }
+            .catch { error -> AnyPublisher<Account, Never> in
+                print(error.localizedDescription)
+                return Empty().eraseToAnyPublisher()
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.appState.updateAccount(with: $0)
+                self?.rootDestination.send(.home)
+            }
+            .store(in: &cancellables)
+    }
+
+    func navigateTo(_ rootDestination: RootDestination) {
+        switch rootDestination {
+        case .loading:
+            return
+        case .home:
+            guard let coordinator = coordinator as? RootCoordinator else {
+                return
+            }
+            coordinator.navigateToAppTab()
+        }
+    }
+}

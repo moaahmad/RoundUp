@@ -9,7 +9,8 @@ import UIKit
 
 protocol Coordinator: AnyObject {
     var rootController: UIViewController? { get }
-//    var client: NetworkClient? { get set }
+    var client: HTTPClient { get }
+
     func start()
 }
 

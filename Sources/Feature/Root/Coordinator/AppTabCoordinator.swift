@@ -1,18 +1,25 @@
 //
-//  AppLaunchCoordinator.swift
+//  AppTabCoordinator.swift
 //  StarlingRoundUp
 //
-//  Created by Mo Ahmad on 06/09/2024.
+//  Created by Mo Ahmad on 10/09/2024.
 //
 
 import UIKit
 
-final class AppLaunchCoordinator: Coordinator {
+final class AppTabCoordinator: Coordinator {
+    let client: HTTPClient
+    let tabBarController: UITabBarController
+
     var rootController: UIViewController?
     var childCoordinators = [Coordinator]()
-    var tabBarController: UITabBarController
+    weak var parentCoordinator: Coordinator?
 
-    init(tabBarController: UITabBarController) {
+    init(
+        client: HTTPClient,
+        tabBarController: UITabBarController
+    ) {
+        self.client = client
         self.tabBarController = tabBarController
     }
 
@@ -26,7 +33,7 @@ final class AppLaunchCoordinator: Coordinator {
 
 // MARK: - Setup Home Controller
 
-private extension AppLaunchCoordinator {
+private extension AppTabCoordinator {
     func createHomeNavigationController() -> UINavigationController {
         let homeNavigationController = UINavigationController()
         homeNavigationController.tabBarItem = UITabBarItem(
@@ -39,7 +46,10 @@ private extension AppLaunchCoordinator {
     }
 
     func configureHomeCoordinator(with navigationController: UINavigationController) {
-        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
+        let homeCoordinator = HomeCoordinator(
+            client: client,
+            navigationController: navigationController
+        )
         homeCoordinator.parentCoordinator = self
         homeCoordinator.start()
         childCoordinators.append(homeCoordinator)
@@ -48,7 +58,7 @@ private extension AppLaunchCoordinator {
 
 // MARK: - Setup Savings Controller
 
-private extension AppLaunchCoordinator {
+private extension AppTabCoordinator {
     func createSavingsNavigationController() -> UINavigationController {
         let savingsNavigationController = UINavigationController()
         savingsNavigationController.navigationBar.prefersLargeTitles = true
@@ -62,7 +72,10 @@ private extension AppLaunchCoordinator {
     }
 
     func configureSavingsCoordinator(with navigationController: UINavigationController) {
-        let savingsCoordinator = SavingsCoordinator(navigationController: navigationController)
+        let savingsCoordinator = SavingsCoordinator(
+            client: client,
+            navigationController: navigationController
+        )
         savingsCoordinator.parentCoordinator = self
         savingsCoordinator.start()
         childCoordinators.append(savingsCoordinator)

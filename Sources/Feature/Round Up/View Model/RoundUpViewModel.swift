@@ -26,34 +26,30 @@ final class RoundUpViewModel: RoundUpViewModeling {
     let roundedUpTitle: String
     private let roundedUpTotal: CurrencyAndAmount
     private let service: SavingsServicing
+    private let appState: AppStateProviding
 
-    let accountUid = "b74e212a-738b-426c-bbec-d17b6e406716" // TODO: REMOVE THIS!
     var isLoading = CurrentValueSubject<Bool, Never>(true)
     var isSavingRoundUp = CurrentValueSubject<Bool, Never>(false)
     var selectedSavingsGoal = CurrentValueSubject<SavingsGoal?, Never>(nil)
     var savingsGoals = CurrentValueSubject<[SavingsGoal], Never>([])
 
+    private var account: Account?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializers
 
     init(
         roundedUpTotal: CurrencyAndAmount,
-        service: SavingsServicing = SavingsService()
+        service: SavingsServicing,
+        appState: AppStateProviding = AppState.shared
     ) {
         self.roundedUpTotal = roundedUpTotal
         self.roundedUpTitle = roundedUpTotal.formattedString ?? "£0.00"
         self.service = service
+        self.appState = appState
 
-        savingsGoals
-            .compactMap {
-                $0.first(where: { $0.isSelected == true })
-            }
-            .removeDuplicates()
-            .sink { [weak self] in
-                self?.selectedSavingsGoal.send($0)
-            }
-            .store(in: &cancellables)
+        listenForCurrentAccount()
+        listenForSelectedSavingsGoal()
     }
 }
 
@@ -61,6 +57,7 @@ final class RoundUpViewModel: RoundUpViewModeling {
 
 extension RoundUpViewModel {
     func fetchData() {
+        guard let accountUid = account?.accountUid else { return }
         service.fetchAllSavingGoals(for: accountUid)
             .map(\.savingsGoalList)
             .catch { error -> AnyPublisher<[SavingsGoal], Never> in
@@ -76,7 +73,10 @@ extension RoundUpViewModel {
     }
 
     func saveRoundedUpTotal(completion: @escaping () -> Void) {
-        guard let selectedSavingsGoal = selectedSavingsGoal.value else { return }
+        guard 
+            let accountUid = account?.accountUid,
+            let selectedSavingsGoal = selectedSavingsGoal.value
+        else { return }
         isSavingRoundUp.send(true)
         service.addMoneyToSavingsGoal(
             accountUid: accountUid,
@@ -107,5 +107,33 @@ extension RoundUpViewModel {
         }
 
         savingsGoals.send(updatedSavingsGoals)
+    }
+}
+
+// MARK: - Listeners
+
+private extension RoundUpViewModel {
+    func listenForCurrentAccount() {
+        appState.currentAccount
+            .catch { error -> AnyPublisher<Account?, Never> in
+                print(error.localizedDescription)
+                return Empty().eraseToAnyPublisher()
+            }
+            .sink { [weak self] in
+                self?.account = $0
+            }
+            .store(in: &cancellables)
+    }
+
+    func listenForSelectedSavingsGoal() {
+        savingsGoals
+            .compactMap {
+                $0.first(where: { $0.isSelected == true })
+            }
+            .removeDuplicates()
+            .sink { [weak self] in
+                self?.selectedSavingsGoal.send($0)
+            }
+            .store(in: &cancellables)
     }
 }

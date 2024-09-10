@@ -15,6 +15,7 @@ final class TransactionsHeaderView: UIView {
         let button = STActionButton(title: "Round Up")
         button.snp.makeConstraints { make in
             make.width.equalTo(UIScreen.main.bounds.width * 0.3)
+            make.height.equalTo(40)
         }
         return button
     }()
@@ -34,7 +35,7 @@ final class TransactionsHeaderView: UIView {
         let title = UILabel()
         title.text = "Transactions"
         title.textColor = .label
-        title.font = .systemFont(ofSize: .base, weight: .semibold)
+        title.font = .systemFont(ofSize: 18, weight: .semibold)
         return title
     }()
 

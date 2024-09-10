@@ -15,20 +15,28 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
     // MARK: - Properties
 
     private let service: SavingsServicing
-    let accountUid = "b74e212a-738b-426c-bbec-d17b6e406716" // TODO: REMOVE THIS!
+    private let appState: AppStateProviding
 
+    private var account: Account?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializer
 
-    init(service: SavingsServicing) {
+    init(
+        service: SavingsServicing,
+        appState: AppStateProviding = AppState.shared
+    ) {
         self.service = service
+        self.appState = appState
+
+        listenForCurrentAccount()
     }
 
     // MARK: - CreateSavingsGoalViewModeling Functions
     
     func didTapCreateSavingsGoal(name: String, currency: String, target: String) {
         guard
+            let accountUid = account?.accountUid,
             let currency = Currency(rawValue: currency),
             let minorUnits = Int64(target)
         else { return }
@@ -49,5 +57,21 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
             print("Saving Goal ID: \($0.savingsGoalUid), success: \($0.success)")
         }
         .store(in: &cancellables)
+    }
+}
+
+// MARK: - Listeners
+
+private extension CreateSavingsGoalViewModel {
+    func listenForCurrentAccount() {
+        appState.currentAccount
+            .catch { error -> AnyPublisher<Account?, Never> in
+                print(error.localizedDescription)
+                return Empty().eraseToAnyPublisher()
+            }
+            .sink { [weak self] in
+                self?.account = $0
+            }
+            .store(in: &cancellables)
     }
 }

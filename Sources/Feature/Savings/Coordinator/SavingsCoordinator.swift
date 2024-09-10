@@ -1,0 +1,41 @@
+//
+//  SavingsCoordinator.swift
+//  StarlingRoundUp
+//
+//  Created by Mo Ahmad on 06/09/2024.
+//
+
+import UIKit
+
+final class SavingsCoordinator: Coordinator {
+    let client: HTTPClient
+    var rootController: UIViewController?
+    weak var parentCoordinator: Coordinator?
+
+    init(
+        client: HTTPClient,
+        navigationController: UINavigationController
+    ) {
+        self.client = client
+        self.rootController = navigationController
+    }
+
+    func start() {
+        let service = SavingsService(client: client)
+        let viewModel = SavingsViewModel(service: service, coordinator: self)
+        let viewController = SavingsViewController(viewModel: viewModel)
+        pushViewController(viewController: viewController, animated: true)
+    }
+
+    func presentCreateSavingsGoalVC(service: SavingsServicing) {
+        let viewController = CreateSavingsGoalViewController(
+            viewModel: CreateSavingsGoalViewModel(
+                service: service
+            )
+        )
+        viewController.modalPresentationStyle = .pageSheet
+        viewController.sheetPresentationController?.detents = [.medium()]
+        viewController.sheetPresentationController?.prefersGrabberVisible = true
+        presentViewController(viewController: viewController, animated: true)
+    }
+}

@@ -22,6 +22,7 @@ final class HomeViewModel: HomeViewModeling {
     // MARK: - Properties
 
     private let service: HomeServicing
+    private let appState: AppStateProviding
 
     var isLoading = CurrentValueSubject<Bool, Never>(true)
     var userInfo = CurrentValueSubject<UserInfo, Never>(.init())
@@ -29,6 +30,7 @@ final class HomeViewModel: HomeViewModeling {
     var roundedUpTotal: CurrencyAndAmount?
 
     private var feedItems = CurrentValueSubject<[FeedItem], Never>([])
+    private var account: Account?
     private var _userInfo = UserInfo()
     private var cancellables = Set<AnyCancellable>()
     private weak var coordinator: Coordinator?
@@ -36,31 +38,23 @@ final class HomeViewModel: HomeViewModeling {
     // MARK: - Initializer
 
     init(
+        service: HomeServicing,
         coordinator: Coordinator?,
-        service: HomeServicing = HomeService()
+        appState: AppStateProviding = AppState.shared
     ) {
-        self.coordinator = coordinator
         self.service = service
+        self.coordinator = coordinator
+        self.appState = appState
+
+        listenForCurrentAccount()
     }
 
+    // MARK: - HomeViewModeling Functions
+    
     func fetchData() {
+        guard let account else { return }
         isLoading.send(true)
         let group = DispatchGroup()
-        var account: Account?
-
-        group.enter()
-        service.fetchAccounts()
-            .map(\.accounts)
-            .compactMap { $0.first(where: { $0.accountType == .primary }) }
-            .catch { error -> AnyPublisher<Account, Never> in
-                print(error.localizedDescription)
-                return Empty().eraseToAnyPublisher()
-            }
-            .sink { accountResponse in
-                account = accountResponse
-                group.leave()
-            }
-            .store(in: &cancellables)
 
         group.enter()
         service.fetchName()
@@ -86,55 +80,6 @@ final class HomeViewModel: HomeViewModeling {
                 group.leave()
             }
             .store(in: &cancellables)
-
-        group.notify(queue: .global()) { [weak self] in
-            guard let self,
-                  let account else {
-                return
-            }
-
-            fetchRemainingFeedData(account: account)
-        }
-    }
-
-    func didTapRoundUp() {
-        guard let coordinator = coordinator as? HomeCoordinator else { return }
-        let roundedUpTotal = feedItems.value
-            .filter { $0.direction == .paymentOut }
-            .compactMap(\.amount?.minorUnits)
-            .map(Self.calculateRoundedUpValue)
-            .reduce(0, +)
-
-        coordinator.presentRoundedUpViewController(
-            roundedUpTotal: convertToCurrencyAndAmount(
-                roundedUpTotal
-            )
-        )
-    }
-
-    func didChangeSegmentedControl(index: Int) {
-        updateFilteredItems(at: index)
-    }
-
-    private func updateFilteredItems(at index: Int) {
-        var items = feedItems.value
-        switch index {
-        case 1:
-            items = items.filter { $0.direction == .paymentIn }
-        case 2:
-            items = items.filter { $0.direction == .paymentOut }
-        default:
-            break
-        }
-        return filteredFeedItems.send(items)
-    }
-}
-
-// MARK: - Fetch Data
-
-private extension HomeViewModel {
-    func fetchRemainingFeedData(account: Account) {
-        let group = DispatchGroup()
 
         group.enter()
         service.fetchAccountIdentifiers(accountUid: account.accountUid)
@@ -186,6 +131,44 @@ private extension HomeViewModel {
             userInfo.send(_userInfo)
         }
     }
+
+    func didTapRoundUp() {
+        guard let coordinator = coordinator as? HomeCoordinator else {
+            return
+        }
+        
+        let roundedUpTotal = feedItems.value
+            .filter { $0.direction == .paymentOut }
+            .compactMap(\.amount?.minorUnits)
+            .map(Self.calculateRoundedUpValue)
+            .reduce(0, +)
+
+        coordinator.presentRoundedUpViewController(
+            roundedUpTotal: convertToCurrencyAndAmount(
+                roundedUpTotal
+            )
+        )
+    }
+
+    func didChangeSegmentedControl(index: Int) {
+        updateFilteredItems(at: index)
+    }
+}
+
+// MARK: - Listeners
+
+private extension HomeViewModel {
+    func listenForCurrentAccount() {
+        appState.currentAccount
+            .catch { error -> AnyPublisher<Account?, Never> in
+                print(error.localizedDescription)
+                return Empty().eraseToAnyPublisher()
+            }
+            .sink { [weak self] in
+                self?.account = $0
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: - Private Helpers
@@ -205,5 +188,18 @@ private extension HomeViewModel {
 
         // Calculate the difference and return it
         return roundedUpValue - majorUnit
+    }
+
+    func updateFilteredItems(at index: Int) {
+        var items = feedItems.value
+        switch index {
+        case 1:
+            items = items.filter { $0.direction == .paymentIn }
+        case 2:
+            items = items.filter { $0.direction == .paymentOut }
+        default:
+            break
+        }
+        return filteredFeedItems.send(items)
     }
 }

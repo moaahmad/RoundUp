@@ -20,33 +20,41 @@ final class SavingsViewModel: SavingsViewModeling {
     // MARK: - Properties
 
     private let service: SavingsServicing
-    let accountUid = "b74e212a-738b-426c-bbec-d17b6e406716" // TODO: REMOVE THIS!
-    
+    private let appState: AppStateProviding
+
     var isLoading = CurrentValueSubject<Bool, Never>(true)
     var savingsGoals = CurrentValueSubject<[SavingsGoal], Never>([])
 
+    private var account: Account?
     private weak var coordinator: Coordinator?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializer
 
     init(
+        service: SavingsServicing,
         coordinator: Coordinator?,
-        service: SavingsServicing = SavingsService()
+        appState: AppStateProviding = AppState.shared
     ) {
         self.coordinator = coordinator
         self.service = service
+        self.appState = appState
+
+        listenForCurrentAccount()
     }
 
+    // MARK: - SavingsViewModeling Functions
+
     func fetchData() {
+        guard let accountUid = account?.accountUid else { return }
         isLoading.send(true)
         service.fetchAllSavingGoals(for: accountUid)
             .map(\.savingsGoalList)
+            .receive(on: DispatchQueue.main)
             .catch { error -> AnyPublisher<[SavingsGoal], Never> in
                 print(error.localizedDescription)
                 return Empty().eraseToAnyPublisher()
             }
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.isLoading.send(false)
                 self?.savingsGoals.send($0)
@@ -55,7 +63,25 @@ final class SavingsViewModel: SavingsViewModeling {
     }
 
     func didTapPlusButton() {
-        guard let coordinator = coordinator as? SavingsCoordinator else { return }
+        guard let coordinator = coordinator as? SavingsCoordinator else {
+            return
+        }
         coordinator.presentCreateSavingsGoalVC(service: service)
+    }
+}
+
+// MARK: - Listeners
+
+private extension SavingsViewModel {
+    func listenForCurrentAccount() {
+        appState.currentAccount
+            .catch { error -> AnyPublisher<Account?, Never> in
+                print(error.localizedDescription)
+                return Empty().eraseToAnyPublisher()
+            }
+            .sink { [weak self] in
+                self?.account = $0
+            }
+            .store(in: &cancellables)
     }
 }
