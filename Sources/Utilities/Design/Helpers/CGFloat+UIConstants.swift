@@ -34,7 +34,6 @@ extension CGFloat {
 
 extension CGFloat {
     static let buttonHeight: CGFloat = 50.0
-    static let navigationBarHeight: CGFloat = 50.0
     static let textFieldHeight: CGFloat = 45
 }
 

@@ -40,7 +40,9 @@ final class SavingsGoalCell: UITableViewCell {
     }()
 
     private lazy var horizontalStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [verticalStackView, percentSavedLabel])
+        let stackView = UIStackView(
+            arrangedSubviews: [verticalStackView, percentSavedLabel]
+        )
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = .sm
@@ -65,11 +67,11 @@ final class SavingsGoalCell: UITableViewCell {
     func update(with savingsGoal: SavingsGoal, hidePercentSaved: Bool = false) {
         titleLabel.text = savingsGoal.name
 
-        let totalSaved = savingsGoal.totalSaved.formattedString ?? "Nothing saved yet"
-        savedValueView.update(label: "Saved so far:", value: totalSaved)
+        let totalSaved = savingsGoal.totalSaved.formattedString ?? "saved_so_far_default_value".localized()
+        savedValueView.update(label: "saved_so_far_label".localized(), value: totalSaved)
 
-        let target = savingsGoal.target?.formattedString ?? "No target set"
-        targetValueView.update(label: "Target:", value: target)
+        let target = savingsGoal.target?.formattedString ?? "target_label_default_value".localized()
+        targetValueView.update(label: "target_label".localized(), value: target)
 
         if hidePercentSaved {
             percentSavedLabel.isHidden = true
@@ -84,7 +86,7 @@ final class SavingsGoalCell: UITableViewCell {
         contentView.addSubview(horizontalStackView)
 
         horizontalStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(16)
+            make.edges.equalToSuperview().inset(amount: .base)
         }
     }
 }

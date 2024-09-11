@@ -36,6 +36,7 @@ final class STTitleLabel: UILabel {
     // MARK: - UI Setup
 
     private func configure() {
+        numberOfLines = 0
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.8
         lineBreakMode = .byTruncatingTail

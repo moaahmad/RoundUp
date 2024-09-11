@@ -13,13 +13,16 @@ final class HomeViewController: BaseViewController {
     // MARK: - Properties
 
     private let viewModel: HomeViewModeling
-
     private var cancellables = Set<AnyCancellable>()
 
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
     private lazy var accountInfoView = AccountInfoView()
     private lazy var transactionsHeaderView = TransactionsHeaderView()
+    private lazy var emptyStateView = EmptyView(
+        message: "transactions_empty_title".localized(),
+        description: "transactions_empty_description".localized()
+    )
 
     // MARK: - Initializers
 
@@ -33,31 +36,24 @@ final class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        configureUserInteractions()
         bindViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        resetSegmentedControl()
-        viewModel.fetchData()
-    }
-
-    // MARK: - User Interactions
-
-    @objc private func onRoundUpTapped() {
-        viewModel.didTapRoundUp()
-    }
-
-    @objc func onSegmentedControlValueChanged(_ sender: UISegmentedControl) {
-        viewModel.didChangeSegmentedControl(index: sender.selectedSegmentIndex)
+        loadFeed()
     }
 }
 
 // MARK: - UITableView Delegate
 
 extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        transactionsHeaderView
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
+        !viewModel.isFeedEmpty ? transactionsHeaderView : nil
     }
 }
 
@@ -76,7 +72,8 @@ private extension HomeViewController {
                     withIdentifier: TransactionRowCell.reuseID,
                     for: indexPath
                 ) as? TransactionRowCell else {
-                    fatalError("Unable to dequeue TransactionRowCell")
+                    assertionFailure("Unable to dequeue TransactionRowCell")
+                    return UITableViewCell()
                 }
 
                 cell.update(with: feedItem)
@@ -85,7 +82,7 @@ private extension HomeViewController {
         )
     }
 
-    func update(with feedItems: [FeedItem], animate: Bool = false) {
+    func applySnapshot(for feedItems: [FeedItem], animate: Bool = false) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, FeedItem>()
         snapshot.appendSections([Section.main])
         snapshot.appendItems(feedItems, toSection: .main)
@@ -97,21 +94,10 @@ private extension HomeViewController {
 
 private extension HomeViewController {
     func setupView() {
-        title = "home_title".localized()
+        title = "home_tab_title".localized()
         setupTableView()
         setupAccountInfoView()
-
-        transactionsHeaderView.roundUpButton.addTarget(
-            self,
-            action: #selector(onRoundUpTapped),
-            for: .touchUpInside
-        )
-
-        transactionsHeaderView.segmentedControl.addTarget(
-            self,
-            action: #selector(onSegmentedControlValueChanged),
-            for: .valueChanged
-        )
+        setupEmptyStateView()
     }
 
     func setupTableView() {
@@ -125,6 +111,7 @@ private extension HomeViewController {
         tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .systemBackground
+        tableView.refreshControl = UIRefreshControl()
 
         view.addSubview(tableView)
 
@@ -140,9 +127,61 @@ private extension HomeViewController {
 
         accountInfoView.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.top).offset(amount: .md)
+            make.horizontalEdges.equalToSuperview().inset(amount: .md)
             make.height.equalTo(180)
-            make.width.centerX.equalToSuperview().inset(amount: .base)
+            make.centerX.equalToSuperview()
         }
+    }
+
+    func setupEmptyStateView() {
+        emptyStateView.isHidden = true
+
+        view.addSubview(emptyStateView)
+
+        emptyStateView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView).inset(amount: .md)
+        }
+    }
+}
+
+// MARK: - User Interactions
+
+private extension HomeViewController {
+    @objc func onRoundUpTapped() {
+        viewModel.didTapRoundUp()
+    }
+
+    @objc func onSegmentedControlValueChanged(_ sender: UISegmentedControl) {
+        viewModel.didChangeSegmentedControl(
+            index: sender.selectedSegmentIndex
+        )
+    }
+
+    @objc func refreshControlDidStart(
+        sender: UIRefreshControl?,
+        event: UIEvent?
+    ) {
+        loadFeed()
+    }
+
+    func configureUserInteractions() {
+        tableView.refreshControl?.addTarget(
+            self,
+            action: #selector(refreshControlDidStart),
+            for: .valueChanged
+        )
+
+        transactionsHeaderView.roundUpButton.addTarget(
+            self,
+            action: #selector(onRoundUpTapped),
+            for: .touchUpInside
+        )
+
+        transactionsHeaderView.segmentedControl.addTarget(
+            self,
+            action: #selector(onSegmentedControlValueChanged),
+            for: .valueChanged
+        )
     }
 }
 
@@ -155,6 +194,7 @@ private extension HomeViewController {
             .sink { [weak self] isLoading in
                 guard let self else { return }
                 if isLoading {
+                    emptyStateView.isHidden = true
                     tableView.isHidden = true
                     showLoadingView()
                 } else {
@@ -166,32 +206,59 @@ private extension HomeViewController {
             }
             .store(in: &cancellables)
 
-        Publishers.CombineLatest(
-            viewModel.userInfo,
-            viewModel.filteredFeedItems
-        )
-        .filter { !$0.0.accountNumber.isEmpty && !$0.1.isEmpty }
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] userInfo, items in
-            print("userInfo:", userInfo)
-            print("feedItems:", items.count)
+        viewModel.userInfo
+            .filter { !$0.accountNumber.isEmpty }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] userInfo in
+                print("userInfo:", userInfo)
 
-            self?.accountInfoView.configure(
-                name: userInfo.name,
-                accountNumber: userInfo.accountNumber,
-                sortCode: userInfo.sortCode,
-                balance: userInfo.balance
-            )
-            self?.update(with: items)
-        }
-        .store(in: &cancellables)
+                self?.accountInfoView.configure(
+                    name: userInfo.name,
+                    accountNumber: userInfo.accountNumber,
+                    sortCode: userInfo.sortCode,
+                    balance: userInfo.balance
+                )
+            }
+            .store(in: &cancellables)
+
+        viewModel.feedItems
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] items in
+                guard let self else { return }
+                updateView(for: items)
+                tableView.reloadData()
+            }
+            .store(in: &cancellables)
+
+        viewModel.filteredFeedItems
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] items in
+                guard let self else { return }
+                print("feedItems:", items.count)
+                applySnapshot(for: items)
+            }
+            .store(in: &cancellables)
     }
 }
 
 // MARK: - Private Helpers
 
 private extension HomeViewController {
+    func loadFeed() {
+        resetSegmentedControl()
+        viewModel.fetchData()
+    }
+
     func resetSegmentedControl() {
         transactionsHeaderView.segmentedControl.selectedSegmentIndex = 0
+    }
+
+    func updateView(for items: [FeedItem]) {
+        if let refreshControl = tableView.refreshControl,
+           refreshControl.isRefreshing {
+            tableView.endRefreshing()
+        }
+        emptyStateView.isHidden = !items.isEmpty
+        tableView.isHidden = items.isEmpty
     }
 }

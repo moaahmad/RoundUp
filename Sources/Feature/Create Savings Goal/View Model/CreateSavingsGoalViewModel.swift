@@ -1,14 +1,20 @@
 //
-//  CreateSavingsViewModel.swift
+//  CreateSavingsGoalViewModel.swift
 //  StarlingRoundUp
 //
 //  Created by Mo Ahmad on 10/09/2024.
 //
 
 import Combine
+import Foundation
 
 protocol CreateSavingsGoalViewModeling {
-    func didTapCreateSavingsGoal(name: String, currency: String, target: String)
+    func didTapCreateSavingsGoal(
+        name: String,
+        currency: String,
+        target: String,
+        completion: @escaping () -> Void
+    )
 }
 
 final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
@@ -34,11 +40,17 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
 
     // MARK: - CreateSavingsGoalViewModeling Functions
     
-    func didTapCreateSavingsGoal(name: String, currency: String, target: String) {
+    func didTapCreateSavingsGoal(
+        name: String,
+        currency: String,
+        target: String,
+        completion: @escaping () -> Void
+    ) {
         guard
             let accountUid = account?.accountUid,
             let currency = Currency(rawValue: currency),
-            let minorUnits = Int64(target)
+            let target = Int64(target)
+
         else { return }
 
         service.createSavingsGoal(
@@ -46,15 +58,20 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
             savingsGoalRequest: SavingsGoalRequest(
                 name: name,
                 currency: currency,
-                target: CurrencyAndAmount(currency: currency, minorUnits: minorUnits)
+                target: CurrencyAndAmount(
+                    currency: currency,
+                    minorUnits: target * 100
+                )
             )
         )
+        .receive(on: DispatchQueue.main)
         .catch { error -> AnyPublisher<CreateOrUpdateSavingsGoalResponse, Never> in
             print(error.localizedDescription)
             return Empty().eraseToAnyPublisher()
         }
         .sink {
             print("Saving Goal ID: \($0.savingsGoalUid), success: \($0.success)")
+            completion()
         }
         .store(in: &cancellables)
     }

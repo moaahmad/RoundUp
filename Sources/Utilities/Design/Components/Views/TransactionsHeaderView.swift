@@ -12,7 +12,7 @@ final class TransactionsHeaderView: UIView {
     // MARK: - UI Elements
     
     lazy var roundUpButton: UIButton = {
-        let button = STActionButton(title: "Round Up")
+        let button = STActionButton(title: "round_up".localized())
         button.snp.makeConstraints { make in
             make.width.equalTo(UIScreen.main.bounds.width * 0.3)
             make.height.equalTo(40)
@@ -21,7 +21,13 @@ final class TransactionsHeaderView: UIView {
     }()
 
     lazy var segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["All", "In", "Out"])
+        let control = UISegmentedControl(
+            items: [
+                "all".localized(),
+                "in".localized(),
+                "out".localized()
+            ]
+        )
         control.setTitleTextAttributes([.foregroundColor: UIColor.label], for: .normal)
         control.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         control.selectedSegmentIndex = 0
@@ -34,7 +40,7 @@ final class TransactionsHeaderView: UIView {
 
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
-        title.text = "Transactions"
+        title.text = "transactions_title".localized()
         title.textColor = .label
         title.font = .systemFont(ofSize: 18, weight: .semibold)
         return title

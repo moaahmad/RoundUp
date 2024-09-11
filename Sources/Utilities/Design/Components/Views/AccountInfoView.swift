@@ -76,7 +76,6 @@ final class AccountInfoView: UIView {
         addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
         }
     }
 }
@@ -92,8 +91,8 @@ final class AccountInfoView: UIView {
         balance: "£2340.23"
     )
     view.snp.makeConstraints { make in
-        make.height.equalTo(UIScreen.main.bounds.height * 0.2)
-        make.width.equalTo(UIScreen.main.bounds.width - .xxl)
+        make.height.equalTo(Device.height * 0.2)
+        make.width.equalTo(Device.width - .xxl)
     }
     return view
 }

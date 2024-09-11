@@ -11,7 +11,9 @@ import Foundation
 protocol HomeViewModeling {
     var isLoading: CurrentValueSubject<Bool, Never> { get }
     var userInfo: CurrentValueSubject<UserInfo, Never> { get }
+    var feedItems: CurrentValueSubject<[FeedItem], Never> { get }
     var filteredFeedItems: PassthroughSubject<[FeedItem], Never> { get }
+    var isFeedEmpty: Bool { get }
 
     func fetchData()
     func didTapRoundUp()
@@ -26,10 +28,13 @@ final class HomeViewModel: HomeViewModeling {
 
     var isLoading = CurrentValueSubject<Bool, Never>(true)
     var userInfo = CurrentValueSubject<UserInfo, Never>(.init())
+    var feedItems = CurrentValueSubject<[FeedItem], Never>([])
     var filteredFeedItems = PassthroughSubject<[FeedItem], Never>()
     var roundedUpTotal: CurrencyAndAmount?
+    var isFeedEmpty: Bool {
+        feedItems.value.isEmpty
+    }
 
-    private var feedItems = CurrentValueSubject<[FeedItem], Never>([])
     private var account: Account?
     private var _userInfo = UserInfo()
     private var cancellables = Set<AnyCancellable>()
@@ -136,17 +141,8 @@ final class HomeViewModel: HomeViewModeling {
         guard let coordinator = coordinator as? HomeCoordinator else {
             return
         }
-        
-        let roundedUpTotal = feedItems.value
-            .filter { $0.direction == .paymentOut }
-            .compactMap(\.amount?.minorUnits)
-            .map(Self.calculateRoundedUpValue)
-            .reduce(0, +)
-
         coordinator.presentRoundedUpViewController(
-            roundedUpTotal: convertToCurrencyAndAmount(
-                roundedUpTotal
-            )
+            transactions: feedItems.value
         )
     }
 
@@ -174,22 +170,6 @@ private extension HomeViewModel {
 // MARK: - Private Helpers
 
 private extension HomeViewModel {
-    func convertToCurrencyAndAmount(_ total: Double) -> CurrencyAndAmount {
-        let minorUnits = Int64(total * 100)
-        return CurrencyAndAmount(currency: .gbp, minorUnits: minorUnits)
-    }
-
-    static func calculateRoundedUpValue(_ minorUnit: Int64) -> Double {
-        // Convert the minor unit to a major unit
-        let majorUnit = Double(minorUnit) / 100.0
-
-        // Find the next value up from that major unit
-        let roundedUpValue = ceil(majorUnit)
-
-        // Calculate the difference and return it
-        return roundedUpValue - majorUnit
-    }
-
     func updateFilteredItems(at index: Int) {
         var items = feedItems.value
         switch index {

@@ -52,7 +52,7 @@ final class TransactionRowCell: UITableViewCell {
 
     func update(with feedItem: FeedItem) {
         self.transactionDirection = feedItem.direction
-        self.titleLabel.text = feedItem.reference ?? "Unknown Reference"
+        self.titleLabel.text = feedItem.reference ?? "unknown_reference".localized()
         let amount = feedItem.amount?.formattedString ?? "-"
         self.priceLabel.text = transactionDirection == .paymentIn ? "+\(amount)" : amount
         self.priceLabel.textColor = transactionDirection == .paymentIn ? .systemGreen : .label

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4E5B09C32C8E381100FBA473 /* TransactionsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09C22C8E381100FBA473 /* TransactionsHeaderView.swift */; };
 		4E5B09C52C8F112C00FBA473 /* TransactionRowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09C42C8F112C00FBA473 /* TransactionRowCell.swift */; };
-		4E5B09C82C904EE900FBA473 /* CreateSavingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09C72C904EE900FBA473 /* CreateSavingsViewModel.swift */; };
+		4E5B09C82C904EE900FBA473 /* CreateSavingsGoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09C72C904EE900FBA473 /* CreateSavingsGoalViewModel.swift */; };
 		4E5B09CB2C90511D00FBA473 /* STTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09CA2C90511D00FBA473 /* STTextField.swift */; };
 		4E5B09D42C90A77900FBA473 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09D32C90A77900FBA473 /* AppEnvironment.swift */; };
 		4E5B09D72C90A95000FBA473 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B09D62C90A95000FBA473 /* APIConstants.swift */; };
@@ -27,6 +27,9 @@
 		4E5B0A112C90FDD100FBA473 /* UserName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A102C90FDD100FBA473 /* UserName.swift */; };
 		4E5B0A132C90FDE800FBA473 /* AccountIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A122C90FDE800FBA473 /* AccountIdentifiers.swift */; };
 		4E5B0A172C91031C00FBA473 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A162C91031C00FBA473 /* AppState.swift */; };
+		4E5B0A252C91E19300FBA473 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A242C91E19300FBA473 /* EmptyView.swift */; };
+		4E5B0A292C92387F00FBA473 /* RoundUpHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A282C92387F00FBA473 /* RoundUpHeaderView.swift */; };
+		4E5B0A2C2C924C9A00FBA473 /* DateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A2B2C924C9A00FBA473 /* DateProvider.swift */; };
 		4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */; };
 		4EC7FE8F2C8BAF8700A37E78 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */; };
 		4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE902C8BAF8700A37E78 /* HomeViewController.swift */; };
@@ -94,7 +97,7 @@
 /* Begin PBXFileReference section */
 		4E5B09C22C8E381100FBA473 /* TransactionsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsHeaderView.swift; sourceTree = "<group>"; };
 		4E5B09C42C8F112C00FBA473 /* TransactionRowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowCell.swift; sourceTree = "<group>"; };
-		4E5B09C72C904EE900FBA473 /* CreateSavingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavingsViewModel.swift; sourceTree = "<group>"; };
+		4E5B09C72C904EE900FBA473 /* CreateSavingsGoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavingsGoalViewModel.swift; sourceTree = "<group>"; };
 		4E5B09CA2C90511D00FBA473 /* STTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STTextField.swift; sourceTree = "<group>"; };
 		4E5B09D32C90A77900FBA473 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		4E5B09D52C90A7B900FBA473 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -113,6 +116,9 @@
 		4E5B0A102C90FDD100FBA473 /* UserName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserName.swift; sourceTree = "<group>"; };
 		4E5B0A122C90FDE800FBA473 /* AccountIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountIdentifiers.swift; sourceTree = "<group>"; };
 		4E5B0A162C91031C00FBA473 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		4E5B0A242C91E19300FBA473 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		4E5B0A282C92387F00FBA473 /* RoundUpHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundUpHeaderView.swift; sourceTree = "<group>"; };
+		4E5B0A2B2C924C9A00FBA473 /* DateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProvider.swift; sourceTree = "<group>"; };
 		4EC7FE892C8BAF8700A37E78 /* StarlingRoundUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarlingRoundUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -312,7 +318,7 @@
 		4E5B0A182C91091600FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
-				4E5B09C72C904EE900FBA473 /* CreateSavingsViewModel.swift */,
+				4E5B09C72C904EE900FBA473 /* CreateSavingsGoalViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -405,6 +411,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4E5B0A2A2C924C8A00FBA473 /* Date */ = {
+			isa = PBXGroup;
+			children = (
+				4E5B0A2B2C924C9A00FBA473 /* DateProvider.swift */,
+			);
+			path = Date;
+			sourceTree = "<group>";
+		};
 		4EC7FE802C8BAF8700A37E78 = {
 			isa = PBXGroup;
 			children = (
@@ -479,6 +493,7 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FEBF2C8BB03100A37E78 /* Coordinator */,
+				4E5B0A2A2C924C8A00FBA473 /* Date */,
 				4E5B09D02C90968000FBA473 /* Design */,
 				4EC7FEDC2C8BB4CA00A37E78 /* Extensions */,
 				4EC7FEDB2C8BB4BB00A37E78 /* Networking */,
@@ -608,9 +623,11 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */,
+				4E5B0A242C91E19300FBA473 /* EmptyView.swift */,
 				4EC7FF1C2C8D9F3500A37E78 /* RoundUpTotalView.swift */,
 				4EC7FF212C8DF67900A37E78 /* STValueView.swift */,
 				4E5B09C22C8E381100FBA473 /* TransactionsHeaderView.swift */,
+				4E5B0A282C92387F00FBA473 /* RoundUpHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -779,6 +796,7 @@
 			files = (
 				4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */,
 				4EC7FEE22C8BB51700A37E78 /* UITableView+Extensions.swift in Sources */,
+				4E5B0A252C91E19300FBA473 /* EmptyView.swift in Sources */,
 				4E5B09F82C90DB0F00FBA473 /* RootViewModel.swift in Sources */,
 				4E5B09D72C90A95000FBA473 /* APIConstants.swift in Sources */,
 				4E5B0A0B2C90FD7A00FBA473 /* TransactionDirection.swift in Sources */,
@@ -795,7 +813,7 @@
 				4EC7FF062C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift in Sources */,
 				4EC7FF0F2C8CE7CB00A37E78 /* RoundUpViewModel.swift in Sources */,
 				4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */,
-				4E5B09C82C904EE900FBA473 /* CreateSavingsViewModel.swift in Sources */,
+				4E5B09C82C904EE900FBA473 /* CreateSavingsGoalViewModel.swift in Sources */,
 				4E5B09FE2C90EFED00FBA473 /* RootService.swift in Sources */,
 				4E5B09CB2C90511D00FBA473 /* STTextField.swift in Sources */,
 				4E5B0A072C90FCEF00FBA473 /* FeedItem.swift in Sources */,
@@ -804,6 +822,7 @@
 				4EC7FEE72C8BB56200A37E78 /* URLSessionHTTPClient.swift in Sources */,
 				4E5B0A172C91031C00FBA473 /* AppState.swift in Sources */,
 				4E5B0A0D2C90FDA600FBA473 /* AccountType.swift in Sources */,
+				4E5B0A2C2C924C9A00FBA473 /* DateProvider.swift in Sources */,
 				4EC7FEFE2C8BBB7F00A37E78 /* SavingsCoordinator.swift in Sources */,
 				4EC7FF1B2C8D9AD400A37E78 /* STActionButton.swift in Sources */,
 				4EC7FF222C8DF67900A37E78 /* STValueView.swift in Sources */,
@@ -827,6 +846,7 @@
 				4E5B09FC2C90EFCF00FBA473 /* RootDestination.swift in Sources */,
 				4E5B09FA2C90EF6700FBA473 /* RootViewController.swift in Sources */,
 				4EC7FECE2C8BB3A300A37E78 /* HomeService.swift in Sources */,
+				4E5B0A292C92387F00FBA473 /* RoundUpHeaderView.swift in Sources */,
 				4EC7FED32C8BB40C00A37E78 /* UserInfo.swift in Sources */,
 				4EC7FEE02C8BB4FC00A37E78 /* URLRequest+Extensions.swift in Sources */,
 				4EC7FED72C8BB43A00A37E78 /* SavingsGoal.swift in Sources */,

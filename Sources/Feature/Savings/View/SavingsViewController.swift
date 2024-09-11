@@ -17,6 +17,10 @@ final class SavingsViewController: BaseViewController {
     private var cancellables = Set<AnyCancellable>()
     private lazy var tableView = UITableView(frame: .zero, style: .grouped)
     private lazy var dataSource = makeDataSource()
+    private lazy var emptyStateView = EmptyView(
+        message: "No Savings Goals",
+        description: "Tap + to create a new savings goal."
+    )
 
     // MARK: - Initializers
 
@@ -43,6 +47,10 @@ final class SavingsViewController: BaseViewController {
     @objc private func onPlusButtonTapped() {
         viewModel.didTapPlusButton()
     }
+
+    @objc private func refreshControlDidStart(sender: UIRefreshControl?, event: UIEvent?) {
+        viewModel.fetchData()
+    }
 }
 
 // MARK: - TableView DataSource
@@ -60,7 +68,8 @@ private extension SavingsViewController {
                     withIdentifier: SavingsGoalCell.reuseID,
                     for: indexPath
                 ) as? SavingsGoalCell else {
-                    fatalError("Unable to dequeue SavingsGoalCell")
+                    assertionFailure("Unable to dequeue SavingsGoalCell")
+                    return UITableViewCell()
                 }
 
                 cell.update(with: savingsGoal)
@@ -69,7 +78,7 @@ private extension SavingsViewController {
         )
     }
 
-    func update(with savingsGoals: [SavingsGoal], animate: Bool = false) {
+    func applySnapshot(with savingsGoals: [SavingsGoal], animate: Bool = false) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, SavingsGoal>()
         snapshot.appendSections([Section.main])
         snapshot.appendItems(savingsGoals, toSection: .main)
@@ -83,10 +92,11 @@ private extension SavingsViewController {
     func setupView() {
         setupNavigationBar()
         setupTableView()
+        setupEmptyStateView()
     }
 
     func setupNavigationBar() {
-        title = "Savings"
+        title = "goals_tab_title".localized()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus.circle"),
@@ -104,6 +114,7 @@ private extension SavingsViewController {
         )
         tableView.removeExcessCells()
         tableView.allowsSelection = false
+        tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .systemBackground
 
         view.addSubview(tableView)
@@ -112,6 +123,15 @@ private extension SavingsViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.leading.trailing.equalToSuperview()
+        }
+    }
+
+    func setupEmptyStateView() {
+        emptyStateView.isHidden = true
+        view.addSubview(emptyStateView)
+
+        emptyStateView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(amount: .md)
         }
     }
 }
@@ -138,11 +158,23 @@ private extension SavingsViewController {
         
         viewModel.savingsGoals
             .receive(on: DispatchQueue.main)
-            .filter { !$0.isEmpty }
-            .sink { [weak self] in
-                print("Savings Goals:", $0)
-                self?.update(with: $0)
+            .sink { [weak self] goals in
+                guard let self else { return }
+                applySnapshot(with: goals)
+                updateView(for: goals)
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension SavingsViewController {
+    func updateView(for goals: [SavingsGoal]) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self else { return }
+            tableView.isHidden = goals.isEmpty
+            emptyStateView.isHidden = !goals.isEmpty
+        }
     }
 }

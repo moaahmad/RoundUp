@@ -21,32 +21,45 @@ protocol RoundUpViewModeling {
 }
 
 final class RoundUpViewModel: RoundUpViewModeling {
+    enum RoundUpViewState {
+        case loading
+        case none
+        case roundUp(total: String)
+    }
+
     // MARK: - Properties
 
-    let roundedUpTitle: String
-    private let roundedUpTotal: CurrencyAndAmount
+    private let transactions: [FeedItem]
     private let service: SavingsServicing
     private let appState: AppStateProviding
+    private let dateProvider: DateProviding
 
     var isLoading = CurrentValueSubject<Bool, Never>(true)
     var isSavingRoundUp = CurrentValueSubject<Bool, Never>(false)
     var selectedSavingsGoal = CurrentValueSubject<SavingsGoal?, Never>(nil)
     var savingsGoals = CurrentValueSubject<[SavingsGoal], Never>([])
 
+    var roundedUpTitle: String {
+        roundedUpTotal?.formattedString ?? "£0.00"
+    }
+
+    private var roundedUpTotal: CurrencyAndAmount?
     private var account: Account?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializers
 
     init(
-        roundedUpTotal: CurrencyAndAmount,
+        transactions: [FeedItem],
         service: SavingsServicing,
-        appState: AppStateProviding = AppState.shared
+        appState: AppStateProviding = AppState.shared,
+        dateProvider: DateProviding = DateProvider()
     ) {
-        self.roundedUpTotal = roundedUpTotal
-        self.roundedUpTitle = roundedUpTotal.formattedString ?? "£0.00"
+        self.transactions = transactions
         self.service = service
         self.appState = appState
+        self.dateProvider = dateProvider
+        self.roundedUpTotal = calculateRoundUpTotal(for: transactions)
 
         listenForCurrentAccount()
         listenForSelectedSavingsGoal()
@@ -65,9 +78,9 @@ extension RoundUpViewModel {
                 return Empty().eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
+            .sink { [weak self] goals in
                 self?.isLoading.send(false)
-                self?.savingsGoals.send($0)
+                self?.savingsGoals.send(goals)
             }
             .store(in: &cancellables)
     }
@@ -75,12 +88,13 @@ extension RoundUpViewModel {
     func saveRoundedUpTotal(completion: @escaping () -> Void) {
         guard 
             let accountUid = account?.accountUid,
-            let selectedSavingsGoal = selectedSavingsGoal.value
+            let savingsGoalUid = selectedSavingsGoal.value?.savingsGoalUid,
+            let roundedUpTotal
         else { return }
         isSavingRoundUp.send(true)
         service.addMoneyToSavingsGoal(
             accountUid: accountUid,
-            savingsGoalUid: selectedSavingsGoal.savingsGoalUid,
+            savingsGoalUid: savingsGoalUid,
             transferUid: UUID().uuidString,
             topUpRequest: .init(amount: roundedUpTotal)
         )
@@ -99,8 +113,7 @@ extension RoundUpViewModel {
 
     func selectSavingsGoal(at index: Int) {
         var updatedSavingsGoals = savingsGoals.value
-        updatedSavingsGoals = updatedSavingsGoals.enumerated().map {
-            currentIndex, goal in
+        updatedSavingsGoals = updatedSavingsGoals.enumerated().map { currentIndex, goal in
             var updatedGoal = goal
             updatedGoal.isSelected = (currentIndex == index)
             return updatedGoal
@@ -135,5 +148,43 @@ private extension RoundUpViewModel {
                 self?.selectedSavingsGoal.send($0)
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension RoundUpViewModel {
+    func filterFeedItemsStartedThisWeek(items: [FeedItem]) -> [FeedItem] {
+        guard let dateRange = dateProvider.currentWeekDateRange() else { return [] }
+
+        return items.filter { item in
+            guard let startDate = item.transactionDate else { return false }
+            return startDate >= dateRange.startOfWeek && startDate <= dateRange.endOfWeek
+        }
+    }
+
+    func calculateRoundUpTotal(for feedItems: [FeedItem]) -> CurrencyAndAmount {
+        let transactions = filterFeedItemsStartedThisWeek(items: feedItems)
+        guard !transactions.isEmpty else {
+            return convertToCurrencyAndAmount(0)
+        }
+        let roundedUpTotal = feedItems
+            .compactMap(\.amount?.minorUnits)
+            .map(Self.calculateRoundedUpValue)
+            .reduce(0, +)
+
+        return convertToCurrencyAndAmount(roundedUpTotal)
+    }
+
+    func convertToCurrencyAndAmount(_ total: Double) -> CurrencyAndAmount {
+        let currency = account?.currency ?? .gbp
+        let minorUnits = Int64(total * 100)
+        return CurrencyAndAmount(currency: currency, minorUnits: minorUnits)
+    }
+
+    static func calculateRoundedUpValue(_ minorUnit: Int64) -> Double {
+        let majorUnit = Double(minorUnit) / 100.0
+        let roundedUpValue = ceil(majorUnit)
+        return roundedUpValue - majorUnit
     }
 }

@@ -33,9 +33,8 @@ final class SavingsCoordinator: Coordinator {
                 service: service
             )
         )
-        viewController.modalPresentationStyle = .pageSheet
-        viewController.sheetPresentationController?.detents = [.medium()]
-        viewController.sheetPresentationController?.prefersGrabberVisible = true
-        presentViewController(viewController: viewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        presentViewController(viewController: navigationController, animated: true)
     }
 }

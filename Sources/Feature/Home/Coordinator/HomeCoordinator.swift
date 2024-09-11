@@ -27,16 +27,15 @@ final class HomeCoordinator: Coordinator {
         pushViewController(viewController: viewController, animated: true)
     }
 
-    func presentRoundedUpViewController(roundedUpTotal: CurrencyAndAmount) {
+    func presentRoundedUpViewController(transactions: [FeedItem]) {
         let viewController = RoundUpViewController(
             viewModel: RoundUpViewModel(
-                roundedUpTotal: roundedUpTotal, 
+                transactions: transactions, 
                 service: SavingsService(client: client)
             )
         )
-        viewController.modalPresentationStyle = .pageSheet
-        viewController.sheetPresentationController?.detents = [.large(), .medium()]
-        viewController.sheetPresentationController?.prefersGrabberVisible = true
-        presentViewController(viewController: viewController, animated: true)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        presentViewController(viewController: navigationController, animated: true)
     }
 }

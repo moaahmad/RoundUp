@@ -13,26 +13,19 @@ final class RoundUpViewController: BaseViewController {
     // MARK: - Properties
 
     private let viewModel: RoundUpViewModeling
-
     private var selectedIndexPath: IndexPath?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - UI Elements
 
-    private lazy var navigationBar: UINavigationBar = {
-        UINavigationBar(
-            frame: CGRect(
-                x: .none, y: .none,
-                width: view.frame.size.width,
-                height: .navigationBarHeight
-            )
-        )
-    }()
-
     private lazy var headerView = RoundUpTotalView(total: viewModel.roundedUpTitle)
     private lazy var saveButton = STActionButton(title: "save".localized())
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
+    private lazy var emptyStateView = EmptyView(
+        message: "savings_goals_empty_title".localized(),
+        description: "savings_goals_empty_description".localized()
+    )
 
     // MARK: - Initializers
 
@@ -70,6 +63,13 @@ extension RoundUpViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         viewModel.selectSavingsGoal(at: indexPath.row)
     }
+
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
+        !viewModel.savingsGoals.value.isEmpty ? RoundUpHeaderView() : nil
+    }
 }
 
 // MARK: - UITableView DataSource
@@ -87,11 +87,9 @@ private extension RoundUpViewController {
                     withIdentifier: SavingsGoalCell.reuseID,
                     for: indexPath
                 ) as? SavingsGoalCell else {
-                    fatalError("Unable to dequeue SavingsGoalCell")
+                    return UITableViewCell()
                 }
-
                 cell.update(with: savingsGoal, hidePercentSaved: true)
-
                 if let isSelected = savingsGoal.isSelected {
                     cell.accessoryType = isSelected ? .checkmark : .none
                 }
@@ -115,19 +113,17 @@ private extension RoundUpViewController {
         setupNavigationBar()
         setupTableView()
         setupSaveButton()
+        setupEmptyStateView()
     }
 
     func setupNavigationBar() {
-        let navigationItem = UINavigationItem(title: "save_round_up_title".localized())
-        let closeButton = UIBarButtonItem(
+        title = "save_round_up_title".localized()
+        navigationItem.rightBarButtonItem = .init(
             title: "close".localized(),
             style: .plain,
             target: self,
             action: #selector(closeButtonTapped)
         )
-        navigationItem.rightBarButtonItem = closeButton
-        navigationBar.setItems([navigationItem], animated: false)
-        view.addSubview(navigationBar)
     }
 
     func setupTableView() {
@@ -143,8 +139,7 @@ private extension RoundUpViewController {
         view.addSubview(tableView)
 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
         }
 
         setupHeaderView()
@@ -167,6 +162,7 @@ private extension RoundUpViewController {
             action: #selector(saveButtonTapped),
             for: .touchUpInside
         )
+
         view.addSubview(saveButton)
 
         saveButton.snp.makeConstraints { make in
@@ -174,6 +170,15 @@ private extension RoundUpViewController {
             make.leading.trailing.equalToSuperview().inset(amount: .base)
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(amount: .base)
             make.height.equalTo(CGFloat.buttonHeight)
+        }
+    }
+
+    func setupEmptyStateView() {
+        emptyStateView.isHidden = true
+        view.addSubview(emptyStateView)
+
+        emptyStateView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(amount: .md)
         }
     }
 }
@@ -218,11 +223,24 @@ private extension RoundUpViewController {
             .store(in: &cancellables)
 
         viewModel.savingsGoals
-            .receive(on: DispatchQueue.main)
-            .filter { !$0.isEmpty }
-            .sink { [weak self] in
-                self?.applySnapshot(with: $0, animate: false)
+            .removeDuplicates()
+            .sink { [weak self] goals in
+                self?.updateView(for: goals)
+                self?.applySnapshot(with: goals, animate: false)
+                self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension RoundUpViewController {
+    func updateView(for goals: [SavingsGoal]) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self else { return }
+            emptyStateView.isHidden = !goals.isEmpty
+            tableView.isHidden = goals.isEmpty
+        }
     }
 }

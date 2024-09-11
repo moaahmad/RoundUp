@@ -11,13 +11,11 @@ import UIKit
 final class RoundUpTotalView: UIView {
     // MARK: - UI Elements
 
-    private lazy var helpLabel: UILabel = {
-        let helpLabel = UILabel()
-        helpLabel.text = "Your rounded up total"
-        helpLabel.textColor = .secondaryLabel
-        helpLabel.font = .systemFont(ofSize: 16)
-        return helpLabel
-    }()
+    private lazy var subtitleLabel = STTitleLabel(
+        title: "round_up_subtitle".localized(),
+        color: .secondaryLabel,
+        font: .systemFont(ofSize: 16, weight: .medium)
+    )
 
     private lazy var valueLabel: UILabel = {
         let valueLabel = UILabel()
@@ -26,7 +24,7 @@ final class RoundUpTotalView: UIView {
     }()
 
     private lazy var headerStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [valueLabel, helpLabel])
+        let stackView = UIStackView(arrangedSubviews: [valueLabel, subtitleLabel])
         stackView.axis = .vertical
         stackView.spacing = .xxxs
         stackView.alignment = .leading

@@ -12,7 +12,6 @@ final class CreateSavingsGoalViewController: BaseViewController {
     // MARK: - Properties
 
     private let viewModel: CreateSavingsGoalViewModeling
-    private let currencies = Currency.allCases.map { $0.rawValue }
 
     // MARK: - UI Elements
 
@@ -36,8 +35,9 @@ final class CreateSavingsGoalViewController: BaseViewController {
 
     private lazy var currencyTextField: STTextField = {
         let textField = STTextField(placeholder: "select_currency_placeholder".localized())
+        textField.text = Currency.gbp.rawValue
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
-        textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
+        textField.isUserInteractionEnabled = false
         return textField
     }()
 
@@ -52,23 +52,11 @@ final class CreateSavingsGoalViewController: BaseViewController {
     }()
 
     private lazy var createGoalButton: STActionButton = {
-        let button = STActionButton(title: "Create Goal")
+        let button = STActionButton(title: "create_goal_button_title".localized())
         button.isEnabled = false
         button.backgroundColor = .systemGray
         button.addTarget(self, action: #selector(createGoalButtonTapped), for: .touchUpInside)
         return button
-    }()
-
-    private lazy var currencyPicker = UIPickerView()
-
-    private lazy var navigationBar: UINavigationBar = {
-        UINavigationBar(
-            frame: CGRect(
-                x: .none, y: .none,
-                width: view.frame.size.width,
-                height: .navigationBarHeight
-            )
-        )
     }()
 
     // MARK: - Initializers
@@ -83,21 +71,17 @@ final class CreateSavingsGoalViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        setupCurrencyPicker()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nameTextField.becomeFirstResponder()
     }
 
     // MARK: - User Interactions
 
     @objc private func closeButtonTapped() {
         dismiss(animated: true)
-    }
-
-    // MARK: - Setup Currency Picker
-
-    private func setupCurrencyPicker() {
-        currencyPicker.delegate = self
-        currencyPicker.dataSource = self
-        currencyTextField.inputView = currencyPicker
     }
 
     // MARK: - User Interactions
@@ -115,7 +99,9 @@ final class CreateSavingsGoalViewController: BaseViewController {
             name: name,
             currency: currency,
             target: target
-        )
+        ) { [weak self] in
+            self?.dismiss(animated: true)
+        }
     }
 
     @objc private func textFieldEditingChanged(_ sender: UITextField) {
@@ -134,43 +120,6 @@ final class CreateSavingsGoalViewController: BaseViewController {
     }
 }
 
-// MARK: - UIPickerView DataSource & Delegate
-
-extension CreateSavingsGoalViewController: UIPickerViewDelegate & UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-
-    func pickerView(
-        _ pickerView: UIPickerView,
-        numberOfRowsInComponent component: Int
-    ) -> Int {
-        currencies.count
-    }
-
-    func pickerView(
-        _ pickerView: UIPickerView,
-        titleForRow row: Int,
-        forComponent component: Int
-    ) -> String? {
-        currencies[row]
-    }
-
-    func pickerView(
-        _ pickerView: UIPickerView,
-        didSelectRow row: Int,
-        inComponent component: Int
-    ) {
-        currencyTextField.text = currencies[row]
-        currencyTextField.resignFirstResponder()
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
-
 // MARK: - Setup Views
 
 private extension CreateSavingsGoalViewController {
@@ -180,27 +129,19 @@ private extension CreateSavingsGoalViewController {
     }
 
     func setupContentView() {
-        let navigationItem = UINavigationItem(title: "Create Savings Goal")
-        let closeButton = UIBarButtonItem(
-            title: "Close",
+        title = "create_savings_goal_title".localized()
+        navigationItem.rightBarButtonItem = .init(
+            title: "close".localized(),
             style: .plain,
             target: self,
             action: #selector(closeButtonTapped)
         )
-        navigationItem.rightBarButtonItem = closeButton
-        navigationBar.setItems([navigationItem], animated: false)
 
-        view.addSubview(navigationBar)
         view.addSubview(scrollView)
         view.addSubview(createGoalButton)
 
-        navigationBar.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-        }
-
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(createGoalButton.snp.top).inset(amount: .base)
         }
 
@@ -212,6 +153,7 @@ private extension CreateSavingsGoalViewController {
     }
 
     func setupScrollView() {
+        scrollView.alwaysBounceVertical = true
         scrollView.addSubview(scrollStackViewContainer)
 
         scrollStackViewContainer.snp.makeConstraints { make in
