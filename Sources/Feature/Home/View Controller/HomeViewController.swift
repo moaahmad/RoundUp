@@ -97,7 +97,7 @@ private extension HomeViewController {
 
 private extension HomeViewController {
     func setupView() {
-        title = "Home"
+        title = "home_title".localized()
         setupTableView()
         setupAccountInfoView()
 
@@ -140,7 +140,7 @@ private extension HomeViewController {
 
         accountInfoView.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.top).offset(amount: .md)
-            make.height.equalTo((Device.height * 0.2))
+            make.height.equalTo(180)
             make.width.centerX.equalToSuperview().inset(amount: .base)
         }
     }

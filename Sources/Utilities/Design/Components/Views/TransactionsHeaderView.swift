@@ -41,7 +41,9 @@ final class TransactionsHeaderView: UIView {
     }()
 
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, UIView(), roundUpButton])
+        let stackView = UIStackView(
+            arrangedSubviews: [titleLabel, UIView(), roundUpButton]
+        )
         stackView.axis = .horizontal
         stackView.spacing = .md
         stackView.alignment = .center

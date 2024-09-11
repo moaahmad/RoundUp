@@ -1,6 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "account_number_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account Number"
+          }
+        }
+      }
+    },
+    "close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
     "connectivity_error_message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -67,6 +89,17 @@
         }
       }
     },
+    "home_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        }
+      }
+    },
     "invalid_data_error_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -111,6 +144,28 @@
         }
       }
     },
+    "save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "save_round_up_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Round Up"
+          }
+        }
+      }
+    },
     "select_currency_placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -118,6 +173,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select currency"
+          }
+        }
+      }
+    },
+    "sort_code_label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort Code"
           }
         }
       }

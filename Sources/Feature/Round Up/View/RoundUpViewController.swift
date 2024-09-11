@@ -30,7 +30,7 @@ final class RoundUpViewController: BaseViewController {
     }()
 
     private lazy var headerView = RoundUpTotalView(total: viewModel.roundedUpTitle)
-    private lazy var saveButton = STActionButton(title: "Save")
+    private lazy var saveButton = STActionButton(title: "save".localized())
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
 
@@ -118,9 +118,9 @@ private extension RoundUpViewController {
     }
 
     func setupNavigationBar() {
-        let navigationItem = UINavigationItem(title: "Save Round Up")
+        let navigationItem = UINavigationItem(title: "save_round_up_title".localized())
         let closeButton = UIBarButtonItem(
-            title: "Close",
+            title: "close".localized(),
             style: .plain,
             target: self,
             action: #selector(closeButtonTapped)
@@ -172,7 +172,7 @@ private extension RoundUpViewController {
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.bottom).offset(amount: .md)
             make.leading.trailing.equalToSuperview().inset(amount: .base)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(amount: .base)
             make.height.equalTo(CGFloat.buttonHeight)
         }
     }

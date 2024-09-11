@@ -12,7 +12,7 @@ final class AccountInfoView: UIView {
     // MARK: - UI Elements
 
     private lazy var nameLabel = STTitleLabel(
-        font: .systemFont(ofSize: 20, weight: .semibold)
+        font: .systemFont(ofSize: 18, weight: .semibold)
     )
     private lazy var accountNumberLabel = STValueView()
     private lazy var sortCodeLabel = STValueView()
@@ -20,22 +20,47 @@ final class AccountInfoView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 27, weight: .black)
         label.textColor = .label
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    // MARK: - Initializer
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(
+            arrangedSubviews: [nameLabel, accountNumberLabel, sortCodeLabel, balanceLabel]
+        )
+        stackView.axis = .vertical
+        stackView.spacing = .md
+        stackView.distribution = .fillProportionally
+        stackView.layoutMargins = .init(top: .base, left: .base, bottom: .base, right: .base)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+
+    // MARK: - Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        styleView()
         setupView()
-        setupConstraints()
+        styleView()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Configuration
+
+    func configure(name: String, accountNumber: String, sortCode: String, balance: String) {
+        nameLabel.text = name
+        accountNumberLabel.update(
+            label: "account_number_label".localized(),
+            value: accountNumber
+        )
+        sortCodeLabel.update(
+            label: "sort_code_label".localized(),
+            value: sortCode
+        )
+        balanceLabel.text = balance
     }
 
     // MARK: - Setup Methods
@@ -48,44 +73,11 @@ final class AccountInfoView: UIView {
     }
 
     private func setupView() {
-        addSubview(nameLabel)
-        addSubview(accountNumberLabel)
-        addSubview(sortCodeLabel)
-        addSubview(balanceLabel)
-    }
-
-    private func setupConstraints() {
-        nameLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().offset(amount: .lg)
-            make.trailing.equalToSuperview().inset(amount: .lg)
+        addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
-
-        accountNumberLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp_bottomMargin).offset(amount: .lg)
-            make.leading.equalToSuperview().offset(amount: .lg)
-            make.trailing.equalToSuperview().inset(amount: .lg)
-        }
-
-        sortCodeLabel.snp.makeConstraints { make in
-            make.top.equalTo(accountNumberLabel.snp_bottomMargin).offset(amount: .lg)
-            make.leading.equalToSuperview().offset(amount: .lg)
-            make.trailing.equalToSuperview().inset(amount: .lg)
-        }
-
-        balanceLabel.snp.makeConstraints { make in
-            make.top.equalTo(sortCodeLabel.snp_bottomMargin).offset(amount: .lg)
-            make.leading.equalToSuperview().offset(amount: .lg)
-            make.trailing.equalToSuperview().inset(amount: .lg)
-        }
-    }
-
-    // MARK: - Configuration
-
-    func configure(name: String, accountNumber: String, sortCode: String, balance: String) {
-        nameLabel.text = name
-        accountNumberLabel.update(label: "Account Number: ", value: accountNumber)
-        sortCodeLabel.update(label: "Sort Code:", value: sortCode)
-        balanceLabel.text = balance
     }
 }
 

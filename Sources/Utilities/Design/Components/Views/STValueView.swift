@@ -13,7 +13,7 @@ final class STValueView: UIView {
 
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .secondaryLabel
         return label
     }()
@@ -26,7 +26,9 @@ final class STValueView: UIView {
     }()
 
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [label, value, UIView(frame: .zero)])
+        let stackView = UIStackView(
+            arrangedSubviews: [label, value, UIView(frame: .zero)]
+        )
         stackView.axis = .horizontal
         stackView.spacing = .xxs
         stackView.alignment = .center
@@ -56,7 +58,7 @@ final class STValueView: UIView {
     private func configureLayout() {
         addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 }
@@ -67,7 +69,7 @@ final class STValueView: UIView {
     let view = STValueView()
     view.update(label: "Label:", value: "Value")
     view.snp.makeConstraints { make in
-        make.width.equalTo(UIScreen.main.bounds.width - .xxl)
+        make.width.equalTo(Device.width - .xxl)
     }
     return view
 }
