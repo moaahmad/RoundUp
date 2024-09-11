@@ -11,30 +11,11 @@ import UIKit
 final class AccountInfoView: UIView {
     // MARK: - UI Elements
 
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.textColor = .label
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var accountNumberLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .secondaryLabel
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var sortCodeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .secondaryLabel
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
+    private lazy var nameLabel = STTitleLabel(
+        font: .systemFont(ofSize: 20, weight: .semibold)
+    )
+    private lazy var accountNumberLabel = STValueView()
+    private lazy var sortCodeLabel = STValueView()
     private lazy var balanceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 27, weight: .black)
@@ -102,8 +83,8 @@ final class AccountInfoView: UIView {
 
     func configure(name: String, accountNumber: String, sortCode: String, balance: String) {
         nameLabel.text = name
-        accountNumberLabel.text = "Account Number: \(accountNumber)"
-        sortCodeLabel.text = "Sort Code: \(sortCode)"
+        accountNumberLabel.update(label: "Account Number: ", value: accountNumber)
+        sortCodeLabel.update(label: "Sort Code:", value: sortCode)
         balanceLabel.text = balance
     }
 }

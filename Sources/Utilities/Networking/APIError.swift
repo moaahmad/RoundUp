@@ -22,7 +22,7 @@ public enum APIError: LocalizedError {
         case .invalidResponse:
             "invalid_response_error_title".localized()
         case .invalidRequest:
-            "invalid_response_error_title".localized() // TODO: CHANGE THIS!
+            "invalid_request_error_title".localized()
         }
     }
 

@@ -13,14 +13,14 @@ final class STValueView: UIView {
 
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = .secondaryLabel
         return label
     }()
 
     private lazy var value: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = .label
         return label
     }()
@@ -39,12 +39,6 @@ final class STValueView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configureLayout()
-    }
-
-    convenience init(label: String, value: String) {
-        self.init(frame: .zero)
-        self.label.text = label
-        self.value.text = value
     }
 
     @available(*, unavailable)
@@ -70,7 +64,8 @@ final class STValueView: UIView {
 // MARK: - Previews
 
 #Preview {
-    let view = STValueView(label: "Label:", value: "Value")
+    let view = STValueView()
+    view.update(label: "Label:", value: "Value")
     view.snp.makeConstraints { make in
         make.width.equalTo(UIScreen.main.bounds.width - .xxl)
     }

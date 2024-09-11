@@ -32,21 +32,8 @@ final class HomeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Home"
+        setupView()
         bindViewModel()
-        configureTableView()
-
-        transactionsHeaderView.roundUpButton.addTarget(
-            self,
-            action: #selector(onRoundUpTapped),
-            for: .touchUpInside
-        )
-        
-        transactionsHeaderView.segmentedControl.addTarget(
-            self,
-            action: #selector(onSegmentedControlValueChanged),
-            for: .valueChanged
-        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,7 +96,25 @@ private extension HomeViewController {
 // MARK: - Setup Views
 
 private extension HomeViewController {
-    func configureTableView() {
+    func setupView() {
+        title = "Home"
+        setupTableView()
+        setupAccountInfoView()
+
+        transactionsHeaderView.roundUpButton.addTarget(
+            self,
+            action: #selector(onRoundUpTapped),
+            for: .touchUpInside
+        )
+
+        transactionsHeaderView.segmentedControl.addTarget(
+            self,
+            action: #selector(onSegmentedControlValueChanged),
+            for: .valueChanged
+        )
+    }
+
+    func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = dataSource
         tableView.register(
@@ -128,8 +133,6 @@ private extension HomeViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
-
-        setupAccountInfoView()
     }
 
     func setupAccountInfoView() {

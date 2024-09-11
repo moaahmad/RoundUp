@@ -23,6 +23,28 @@
         }
       }
     },
+    "enter_goal_name_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter goal name"
+          }
+        }
+      }
+    },
+    "enter_target_amount_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter target amount"
+          }
+        }
+      }
+    },
     "generic_error_message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -56,6 +78,17 @@
         }
       }
     },
+    "invalid_request_error_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid Request Error"
+          }
+        }
+      }
+    },
     "invalid_response_error_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -74,6 +107,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "select_currency_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select currency"
           }
         }
       }

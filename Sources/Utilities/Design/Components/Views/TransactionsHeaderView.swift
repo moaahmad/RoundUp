@@ -27,6 +27,7 @@ final class TransactionsHeaderView: UIView {
         control.selectedSegmentIndex = 0
         control.selectedSegmentTintColor = .accent
         control.backgroundColor = .systemBackground
+        control.snp.makeConstraints { $0.height.equalTo(CGFloat.xxl) }
         control.layoutMargins = .init(top: .none, left: .none, bottom: .base, right: .none)
         return control
     }()

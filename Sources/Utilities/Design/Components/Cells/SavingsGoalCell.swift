@@ -13,9 +13,9 @@ final class SavingsGoalCell: UITableViewCell {
 
     // MARK: - UI Elements
 
-    private lazy var titleLabel = STTitleLabel(title: "")
-    private lazy var savedValueView = STValueView(label: "", value: "")
-    private lazy var targetValueView = STValueView(label: "", value: "")
+    private lazy var titleLabel = STTitleLabel()
+    private lazy var savedValueView = STValueView()
+    private lazy var targetValueView = STValueView()
 
     private lazy var percentSavedLabel: UILabel = {
         let label = UILabel()

@@ -43,7 +43,6 @@ private extension RootViewController {
                 case .loading:
                     break
                 case .home:
-                    dismissLoadingView()
                     viewModel.navigateTo(.home)
                 }
             }

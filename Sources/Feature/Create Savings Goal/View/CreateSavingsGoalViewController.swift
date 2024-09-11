@@ -28,14 +28,14 @@ final class CreateSavingsGoalViewController: BaseViewController {
     }()
 
     private lazy var nameTextField: STTextField = {
-        let textField = STTextField(placeholder: "Enter goal name")
+        let textField = STTextField(placeholder: "enter_goal_name_placeholder".localized())
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         return textField
     }()
 
     private lazy var currencyTextField: STTextField = {
-        let textField = STTextField(placeholder: "Select currency")
+        let textField = STTextField(placeholder: "select_currency_placeholder".localized())
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         return textField
@@ -43,7 +43,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
 
     private lazy var targetAmountTextField: STTextField = {
         let textField = STTextField(
-            placeholder: "Enter target amount",
+            placeholder: "enter_target_amount_placeholder".localized(),
             keyboardType: .decimalPad
         )
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }

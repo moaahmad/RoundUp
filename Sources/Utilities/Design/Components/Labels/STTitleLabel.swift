@@ -21,7 +21,7 @@ final class STTitleLabel: UILabel {
     }
 
     convenience init(
-        title: String,
+        title: String = "",
         textAlignment: NSTextAlignment = .left,
         color: UIColor = .label,
         font: UIFont = .systemFont(ofSize: 18, weight: .semibold)
