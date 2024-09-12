@@ -10,7 +10,7 @@ import UIKit
 
 final class TransactionsHeaderView: UIView {
     // MARK: - UI Elements
-    
+
     lazy var roundUpButton: UIButton = {
         let button = STActionButton(title: "round_up".localized())
         button.snp.makeConstraints { make in
@@ -58,7 +58,6 @@ final class TransactionsHeaderView: UIView {
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
-
 
     // MARK: - Initializer
 

@@ -37,8 +37,6 @@
 		4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE902C8BAF8700A37E78 /* HomeViewController.swift */; };
 		4EC7FE962C8BAF8800A37E78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EC7FE952C8BAF8800A37E78 /* Assets.xcassets */; };
 		4EC7FE992C8BAF8800A37E78 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EC7FE972C8BAF8800A37E78 /* LaunchScreen.storyboard */; };
-		4EC7FEAE2C8BAF8900A37E78 /* StarlingRoundUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEAD2C8BAF8900A37E78 /* StarlingRoundUpUITests.swift */; };
-		4EC7FEB02C8BAF8900A37E78 /* StarlingRoundUpUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEAF2C8BAF8900A37E78 /* StarlingRoundUpUITestsLaunchTests.swift */; };
 		4EC7FEC22C8BB05300A37E78 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEC12C8BB05300A37E78 /* Coordinator.swift */; };
 		4EC7FEC42C8BB05E00A37E78 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEC32C8BB05E00A37E78 /* RootCoordinator.swift */; };
 		4EC7FEC62C8BB0B600A37E78 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEC52C8BB0B600A37E78 /* HomeCoordinator.swift */; };
@@ -132,8 +130,6 @@
 		4EC7FE9A2C8BAF8900A37E78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EC7FE9F2C8BAF8900A37E78 /* StarlingRoundUpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarlingRoundUpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC7FEA92C8BAF8900A37E78 /* StarlingRoundUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarlingRoundUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4EC7FEAD2C8BAF8900A37E78 /* StarlingRoundUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlingRoundUpUITests.swift; sourceTree = "<group>"; };
-		4EC7FEAF2C8BAF8900A37E78 /* StarlingRoundUpUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarlingRoundUpUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4EC7FEC12C8BB05300A37E78 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		4EC7FEC32C8BB05E00A37E78 /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		4EC7FEC52C8BB0B600A37E78 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
@@ -428,7 +424,6 @@
 			children = (
 				4EC7FE8B2C8BAF8700A37E78 /* Sources */,
 				4EC7FEA22C8BAF8900A37E78 /* Tests */,
-				4EC7FEAC2C8BAF8900A37E78 /* UITests */,
 				4EC7FE8A2C8BAF8700A37E78 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -461,15 +456,6 @@
 				4EC7FF092C8CC47100A37E78 /* HomeViewModelTests.swift */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		4EC7FEAC2C8BAF8900A37E78 /* UITests */ = {
-			isa = PBXGroup;
-			children = (
-				4EC7FEAD2C8BAF8900A37E78 /* StarlingRoundUpUITests.swift */,
-				4EC7FEAF2C8BAF8900A37E78 /* StarlingRoundUpUITestsLaunchTests.swift */,
-			);
-			path = UITests;
 			sourceTree = "<group>";
 		};
 		4EC7FEBC2C8BAFBE00A37E78 /* Supporting Files */ = {
@@ -673,6 +659,7 @@
 				4EC7FE852C8BAF8700A37E78 /* Sources */,
 				4EC7FE862C8BAF8700A37E78 /* Frameworks */,
 				4EC7FE872C8BAF8700A37E78 /* Resources */,
+				4E5B0A342C931BC000FBA473 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -756,6 +743,7 @@
 			mainGroup = 4EC7FE802C8BAF8700A37E78;
 			packageReferences = (
 				4EC7FED82C8BB4A800A37E78 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				4E5B0A332C931AE400FBA473 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = 4EC7FE8A2C8BAF8700A37E78 /* Products */;
 			projectDirPath = "";
@@ -794,6 +782,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4E5B0A342C931BC000FBA473 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SWIFT_PACKAGE_DIR=\"${BUILD_DIR%Build/*}SourcePackages/artifacts\"\nSWIFTLINT_CMD=$(ls \"$SWIFT_PACKAGE_DIR\"/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-*/bin/swiftlint | head -n 1)\n\nif test -f \"$SWIFTLINT_CMD\" 2>&1\nthen\n    \"$SWIFTLINT_CMD\"\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4EC7FE852C8BAF8700A37E78 /* Sources */ = {
@@ -878,8 +889,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4EC7FEB02C8BAF8900A37E78 /* StarlingRoundUpUITestsLaunchTests.swift in Sources */,
-				4EC7FEAE2C8BAF8900A37E78 /* StarlingRoundUpUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1038,6 +1047,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D8T996G46R;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Sources/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1067,6 +1077,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D8T996G46R;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Sources/Supporting Files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1205,6 +1216,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4E5B0A332C931AE400FBA473 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = exactVersion;
+				version = 0.57.0;
+			};
+		};
 		4EC7FED82C8BB4A800A37E78 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";

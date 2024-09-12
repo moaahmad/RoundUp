@@ -82,12 +82,12 @@ extension RoundUpViewModel {
     }
 
     func saveRoundedUpTotal(completion: @escaping () -> Void) {
-        guard 
+        guard
             let accountUid = account?.accountUid,
             let savingsGoalUid = selectedSavingsGoal.value?.savingsGoalUid,
             let roundedUpTotal
         else { return }
-        
+
         isSavingRoundUp.send(true)
         service.addMoneyToSavingsGoal(
             accountUid: accountUid,

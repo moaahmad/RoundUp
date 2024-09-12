@@ -188,6 +188,7 @@ private extension HomeViewController {
 // MARK: - Bindings
 
 private extension HomeViewController {
+    // swiftlint:disable:next function_body_length
     func bindViewModel() {
         viewModel.isLoading
             .removeDuplicates()

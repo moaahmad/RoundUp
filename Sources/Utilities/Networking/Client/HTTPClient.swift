@@ -52,7 +52,7 @@ extension HTTPClient {
                 promise(.success(decodedResponse))
             case 403:
                 let error = try decoder.decode(GenericAPIError.self, from: data)
-                promise(.failure(APIError.invalidResponse(error.error_description)))
+                promise(.failure(APIError.invalidResponse(error.errorDescription)))
             default:
                 let decodedErrorResponse = try decoder.decode(ErrorResponse.self, from: data)
                 guard let error = decodedErrorResponse.errors.first else {

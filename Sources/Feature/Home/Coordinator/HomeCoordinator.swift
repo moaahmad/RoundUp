@@ -30,7 +30,7 @@ final class HomeCoordinator: Coordinator {
     func presentRoundedUpViewController(transactions: [FeedItem]) {
         let viewController = RoundUpViewController(
             viewModel: RoundUpViewModel(
-                transactions: transactions, 
+                transactions: transactions,
                 service: SavingsService(client: client)
             )
         )

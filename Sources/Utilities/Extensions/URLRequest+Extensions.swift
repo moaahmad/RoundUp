@@ -8,7 +8,7 @@
 import Foundation
 
 extension URLRequest {
-    public enum HTTPMethod: String {
+    enum HTTPMethod: String {
         case get = "GET"
         case post = "POST"
         case put = "PUT"
@@ -18,7 +18,7 @@ extension URLRequest {
 }
 
 extension URLRequest {
-    public init(
+    init(
         method: HTTPMethod,
         url: URL,
         bodyData: Data? = nil
@@ -27,7 +27,6 @@ extension URLRequest {
         httpMethod = method.rawValue
         addValue("application/json", forHTTPHeaderField: "Accept")
         addValue(APIConstants.bearerToken, forHTTPHeaderField: "Authorization")
-        
         if [HTTPMethod.post, .put].contains(method) {
             httpBody = bodyData
             addValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -56,6 +56,7 @@ final class HomeViewModel: HomeViewModeling {
 
     // MARK: - HomeViewModeling Functions
     
+    // swiftlint:disable:next function_body_length
     func fetchData() {
         guard let account else { return }
         isLoading.send(true)

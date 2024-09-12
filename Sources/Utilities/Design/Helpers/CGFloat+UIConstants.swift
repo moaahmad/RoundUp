@@ -7,6 +7,7 @@
 
 import UIKit
 
+// switflint:disable identifier_name
 extension CGFloat {
     /// 0
     static let none: CGFloat = 0
