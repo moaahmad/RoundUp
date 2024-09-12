@@ -30,6 +30,8 @@
 		4E5B0A252C91E19300FBA473 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A242C91E19300FBA473 /* EmptyView.swift */; };
 		4E5B0A292C92387F00FBA473 /* RoundUpHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A282C92387F00FBA473 /* RoundUpHeaderView.swift */; };
 		4E5B0A2C2C924C9A00FBA473 /* DateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A2B2C924C9A00FBA473 /* DateProvider.swift */; };
+		4E5B0A302C9256B400FBA473 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A2F2C9256B400FBA473 /* ErrorResponse.swift */; };
+		4E5B0A322C93190E00FBA473 /* GenericAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A312C93190E00FBA473 /* GenericAPIError.swift */; };
 		4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */; };
 		4EC7FE8F2C8BAF8700A37E78 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */; };
 		4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE902C8BAF8700A37E78 /* HomeViewController.swift */; };
@@ -58,10 +60,10 @@
 		4EC7FEF02C8BB63A00A37E78 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4EC7FEEF2C8BB63A00A37E78 /* Localizable.xcstrings */; };
 		4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */; };
 		4EC7FEF42C8BB6CD00A37E78 /* AccountInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */; };
-		4EC7FEF72C8BBACD00A37E78 /* SavingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF62C8BBACD00A37E78 /* SavingsViewController.swift */; };
-		4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF82C8BBAD600A37E78 /* SavingsViewModel.swift */; };
-		4EC7FEFB2C8BBAEC00A37E78 /* SavingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */; };
-		4EC7FEFE2C8BBB7F00A37E78 /* SavingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */; };
+		4EC7FEF72C8BBACD00A37E78 /* SavingsGoalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF62C8BBACD00A37E78 /* SavingsGoalsViewController.swift */; };
+		4EC7FEF92C8BBAD600A37E78 /* SavingsGoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF82C8BBAD600A37E78 /* SavingsGoalsViewModel.swift */; };
+		4EC7FEFB2C8BBAEC00A37E78 /* SavingsGoalsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFA2C8BBAEC00A37E78 /* SavingsGoalsService.swift */; };
+		4EC7FEFE2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFD2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift */; };
 		4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */; };
 		4EC7FF042C8C9D6800A37E78 /* CGFloat+UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF032C8C9D6800A37E78 /* CGFloat+UIConstants.swift */; };
 		4EC7FF062C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FF052C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift */; };
@@ -119,6 +121,8 @@
 		4E5B0A242C91E19300FBA473 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		4E5B0A282C92387F00FBA473 /* RoundUpHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundUpHeaderView.swift; sourceTree = "<group>"; };
 		4E5B0A2B2C924C9A00FBA473 /* DateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProvider.swift; sourceTree = "<group>"; };
+		4E5B0A2F2C9256B400FBA473 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		4E5B0A312C93190E00FBA473 /* GenericAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericAPIError.swift; sourceTree = "<group>"; };
 		4EC7FE892C8BAF8700A37E78 /* StarlingRoundUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarlingRoundUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,10 +154,10 @@
 		4EC7FEEF2C8BB63A00A37E78 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoView.swift; sourceTree = "<group>"; };
-		4EC7FEF62C8BBACD00A37E78 /* SavingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsViewController.swift; sourceTree = "<group>"; };
-		4EC7FEF82C8BBAD600A37E78 /* SavingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsViewModel.swift; sourceTree = "<group>"; };
-		4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsService.swift; sourceTree = "<group>"; };
-		4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsCoordinator.swift; sourceTree = "<group>"; };
+		4EC7FEF62C8BBACD00A37E78 /* SavingsGoalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsViewController.swift; sourceTree = "<group>"; };
+		4EC7FEF82C8BBAD600A37E78 /* SavingsGoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsViewModel.swift; sourceTree = "<group>"; };
+		4EC7FEFA2C8BBAEC00A37E78 /* SavingsGoalsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsService.swift; sourceTree = "<group>"; };
+		4EC7FEFD2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsCoordinator.swift; sourceTree = "<group>"; };
 		4EC7FEFF2C8BBBEF00A37E78 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		4EC7FF032C8C9D6800A37E78 /* CGFloat+UIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+UIConstants.swift"; sourceTree = "<group>"; };
 		4EC7FF052C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConstraintMakerEditable+Extensions.swift"; sourceTree = "<group>"; };
@@ -382,7 +386,7 @@
 		4E5B0A202C91097100FBA473 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				4EC7FEFD2C8BBB7F00A37E78 /* SavingsCoordinator.swift */,
+				4EC7FEFD2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -390,7 +394,7 @@
 		4E5B0A212C91097800FBA473 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				4EC7FEFA2C8BBAEC00A37E78 /* SavingsService.swift */,
+				4EC7FEFA2C8BBAEC00A37E78 /* SavingsGoalsService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -398,7 +402,7 @@
 		4E5B0A222C91097E00FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
-				4EC7FEF82C8BBAD600A37E78 /* SavingsViewModel.swift */,
+				4EC7FEF82C8BBAD600A37E78 /* SavingsGoalsViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -406,7 +410,7 @@
 		4E5B0A232C91098400FBA473 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4EC7FEF62C8BBACD00A37E78 /* SavingsViewController.swift */,
+				4EC7FEF62C8BBACD00A37E78 /* SavingsGoalsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -516,7 +520,7 @@
 				4EC7FECA2C8BB2B300A37E78 /* Home */,
 				4E5B09F62C90DA5600FBA473 /* Root */,
 				4EC7FF0D2C8CE7A600A37E78 /* Round Up */,
-				4EC7FEF52C8BBAB400A37E78 /* Savings */,
+				4EC7FEF52C8BBAB400A37E78 /* Savings Goals */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -548,6 +552,8 @@
 				4E5B0A0A2C90FD7A00FBA473 /* TransactionDirection.swift */,
 				4EC7FED22C8BB40C00A37E78 /* UserInfo.swift */,
 				4E5B0A102C90FDD100FBA473 /* UserName.swift */,
+				4E5B0A2F2C9256B400FBA473 /* ErrorResponse.swift */,
+				4E5B0A312C93190E00FBA473 /* GenericAPIError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -585,7 +591,7 @@
 			path = Client;
 			sourceTree = "<group>";
 		};
-		4EC7FEF52C8BBAB400A37E78 /* Savings */ = {
+		4EC7FEF52C8BBAB400A37E78 /* Savings Goals */ = {
 			isa = PBXGroup;
 			children = (
 				4E5B0A202C91097100FBA473 /* Coordinator */,
@@ -593,7 +599,7 @@
 				4E5B0A222C91097E00FBA473 /* View Model */,
 				4E5B0A232C91098400FBA473 /* View */,
 			);
-			path = Savings;
+			path = "Savings Goals";
 			sourceTree = "<group>";
 		};
 		4EC7FF0D2C8CE7A600A37E78 /* Round Up */ = {
@@ -794,7 +800,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4EC7FEF92C8BBAD600A37E78 /* SavingsViewModel.swift in Sources */,
+				4EC7FEF92C8BBAD600A37E78 /* SavingsGoalsViewModel.swift in Sources */,
 				4EC7FEE22C8BB51700A37E78 /* UITableView+Extensions.swift in Sources */,
 				4E5B0A252C91E19300FBA473 /* EmptyView.swift in Sources */,
 				4E5B09F82C90DB0F00FBA473 /* RootViewModel.swift in Sources */,
@@ -809,23 +815,25 @@
 				4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */,
 				4EC7FECC2C8BB39200A37E78 /* HomeViewModel.swift in Sources */,
 				4E5B09C32C8E381100FBA473 /* TransactionsHeaderView.swift in Sources */,
-				4EC7FEF72C8BBACD00A37E78 /* SavingsViewController.swift in Sources */,
+				4EC7FEF72C8BBACD00A37E78 /* SavingsGoalsViewController.swift in Sources */,
 				4EC7FF062C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift in Sources */,
 				4EC7FF0F2C8CE7CB00A37E78 /* RoundUpViewModel.swift in Sources */,
 				4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */,
+				4E5B0A322C93190E00FBA473 /* GenericAPIError.swift in Sources */,
 				4E5B09C82C904EE900FBA473 /* CreateSavingsGoalViewModel.swift in Sources */,
 				4E5B09FE2C90EFED00FBA473 /* RootService.swift in Sources */,
 				4E5B09CB2C90511D00FBA473 /* STTextField.swift in Sources */,
 				4E5B0A072C90FCEF00FBA473 /* FeedItem.swift in Sources */,
-				4EC7FEFB2C8BBAEC00A37E78 /* SavingsService.swift in Sources */,
+				4EC7FEFB2C8BBAEC00A37E78 /* SavingsGoalsService.swift in Sources */,
 				4EC7FF1D2C8D9F3500A37E78 /* RoundUpTotalView.swift in Sources */,
 				4EC7FEE72C8BB56200A37E78 /* URLSessionHTTPClient.swift in Sources */,
 				4E5B0A172C91031C00FBA473 /* AppState.swift in Sources */,
 				4E5B0A0D2C90FDA600FBA473 /* AccountType.swift in Sources */,
 				4E5B0A2C2C924C9A00FBA473 /* DateProvider.swift in Sources */,
-				4EC7FEFE2C8BBB7F00A37E78 /* SavingsCoordinator.swift in Sources */,
+				4EC7FEFE2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift in Sources */,
 				4EC7FF1B2C8D9AD400A37E78 /* STActionButton.swift in Sources */,
 				4EC7FF222C8DF67900A37E78 /* STValueView.swift in Sources */,
+				4E5B0A302C9256B400FBA473 /* ErrorResponse.swift in Sources */,
 				4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */,
 				4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */,
 				4E5B0A132C90FDE800FBA473 /* AccountIdentifiers.swift in Sources */,

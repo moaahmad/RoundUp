@@ -1,5 +1,5 @@
 //
-//  SavingsViewController.swift
+//  SavingsGoalsViewController.swift
 //  StarlingRoundUp
 //
 //  Created by Mo Ahmad on 06/09/2024.
@@ -9,10 +9,10 @@ import Combine
 import SnapKit
 import UIKit
 
-final class SavingsViewController: BaseViewController {
+final class SavingsGoalsViewController: BaseViewController {
     // MARK: - Properties
 
-    private let viewModel: SavingsViewModeling
+    private let viewModel: SavingsGoalsViewModeling
 
     private var cancellables = Set<AnyCancellable>()
     private lazy var tableView = UITableView(frame: .zero, style: .grouped)
@@ -24,7 +24,7 @@ final class SavingsViewController: BaseViewController {
 
     // MARK: - Initializers
 
-    init(viewModel: SavingsViewModeling) {
+    init(viewModel: SavingsGoalsViewModeling) {
         self.viewModel = viewModel
         super.init()
     }
@@ -55,7 +55,7 @@ final class SavingsViewController: BaseViewController {
 
 // MARK: - TableView DataSource
 
-private extension SavingsViewController {
+private extension SavingsGoalsViewController {
     enum Section {
         case main
     }
@@ -88,7 +88,7 @@ private extension SavingsViewController {
 
 // MARK: - Setup Views
 
-private extension SavingsViewController {
+private extension SavingsGoalsViewController {
     func setupView() {
         setupNavigationBar()
         setupTableView()
@@ -138,7 +138,7 @@ private extension SavingsViewController {
 
 // MARK: Bindings
 
-private extension SavingsViewController {
+private extension SavingsGoalsViewController {
     func bindViewModel() {
         viewModel.isLoading
             .removeDuplicates()
@@ -164,12 +164,19 @@ private extension SavingsViewController {
                 updateView(for: goals)
             }
             .store(in: &cancellables)
+
+        viewModel.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.showErrorAlert(error: error)
+            }
+            .store(in: &cancellables)
     }
 }
 
 // MARK: - Private Helpers
 
-private extension SavingsViewController {
+private extension SavingsGoalsViewController {
     func updateView(for goals: [SavingsGoal]) {
         UIView.animate(withDuration: 0.3) { [weak self] in
             guard let self else { return }

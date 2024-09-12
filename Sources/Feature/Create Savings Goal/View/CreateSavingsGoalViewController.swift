@@ -5,6 +5,7 @@
 //  Created by Mo Ahmad on 07/09/2024.
 //
 
+import Combine
 import UIKit
 import SnapKit
 
@@ -12,6 +13,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
     // MARK: - Properties
 
     private let viewModel: CreateSavingsGoalViewModeling
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - UI Elements
 
@@ -71,6 +73,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        bindViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -160,5 +163,18 @@ private extension CreateSavingsGoalViewController {
             make.edges.equalToSuperview().inset(amount: .base)
             make.width.equalTo(scrollView.snp.width).inset(amount: .base)
         }
+    }
+}
+
+// MARK: - Bindings
+
+private extension CreateSavingsGoalViewController {
+    func bindViewModel() {
+        viewModel.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.showErrorAlert(error: error)
+            }
+            .store(in: &cancellables)
     }
 }

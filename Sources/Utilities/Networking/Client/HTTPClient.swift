@@ -46,13 +46,19 @@ extension HTTPClient {
         promise: (Swift.Result<T, Error>) -> Void
     ) {
         do {
-            if response.statusCode != 200 {
-                let errorMessage = String(data: data, encoding: .utf8) ?? "Unknown error"
-                debugPrint("Error: \(response.statusCode), Message: \(errorMessage)")
-                promise(.failure(APIError.invalidResponse))
-            } else {
+            switch response.statusCode {
+            case 200...299:
                 let decodedResponse = try decoder.decode(T.self, from: data)
                 promise(.success(decodedResponse))
+            case 403:
+                let error = try decoder.decode(GenericAPIError.self, from: data)
+                promise(.failure(APIError.invalidResponse(error.error_description)))
+            default:
+                let decodedErrorResponse = try decoder.decode(ErrorResponse.self, from: data)
+                guard let error = decodedErrorResponse.errors.first else {
+                    return promise(.failure(APIError.invalidResponse(nil)))
+                }
+                promise(.failure(APIError.invalidResponse(error.message)))
             }
         } catch {
             promise(.failure(APIError.invalidData))

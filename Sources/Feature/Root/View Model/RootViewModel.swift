@@ -10,6 +10,7 @@ import Foundation
 
 protocol RootViewModeling {
     var rootDestination: CurrentValueSubject<RootDestination, Never> { get }
+    var errorPublisher: PassthroughSubject<Error, Never> { get }
 
     func fetchData()
     func navigateTo(_ rootDestination: RootDestination)
@@ -22,6 +23,7 @@ final class RootViewModel: RootViewModeling {
     private let appState: AppStateProviding
 
     var rootDestination = CurrentValueSubject<RootDestination, Never>(.loading)
+    var errorPublisher = PassthroughSubject<Error, Never>()
     weak var coordinator: Coordinator?
     private var cancellables = Set<AnyCancellable>()
 
@@ -43,11 +45,11 @@ final class RootViewModel: RootViewModeling {
         service.fetchAccounts()
             .map(\.accounts)
             .compactMap { $0.first(where: { $0.accountType == .primary }) }
-            .catch { error -> AnyPublisher<Account, Never> in
-                print(error.localizedDescription)
+            .receive(on: DispatchQueue.main)
+            .catch { [weak self] error -> AnyPublisher<Account, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.appState.updateAccount(with: $0)
                 self?.rootDestination.send(.home)

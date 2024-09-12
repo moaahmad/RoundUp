@@ -1,5 +1,5 @@
 //
-//  SavingsService.swift
+//  SavingsGoalsService.swift
 //  StarlingRoundUp
 //
 //  Created by Mo Ahmad on 06/09/2024.
@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-protocol SavingsServicing {
+protocol SavingsGoalsServicing {
     func fetchAllSavingGoals(for accountUid: String) -> Future<SavingsGoalsResponse, Error>
     func createSavingsGoal(
         accountUid: String,
@@ -23,7 +23,7 @@ protocol SavingsServicing {
     func deleteSavingsGoal()
 }
 
-struct SavingsService: SavingsServicing {
+struct SavingsService: SavingsGoalsServicing {
     // MARK: - Properties
 
     private let client: HTTPClient

@@ -55,3 +55,17 @@ extension BaseViewController {
         }
     }
 }
+
+// MARK: - Error Alert
+
+extension BaseViewController {
+    func showErrorAlert(error: Error) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+}

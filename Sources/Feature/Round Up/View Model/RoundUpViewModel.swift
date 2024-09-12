@@ -13,6 +13,7 @@ protocol RoundUpViewModeling {
     var selectedSavingsGoal: CurrentValueSubject<SavingsGoal?, Never> { get }
     var isSavingRoundUp: CurrentValueSubject<Bool, Never> { get }
     var savingsGoals: CurrentValueSubject<[SavingsGoal], Never> { get }
+    var errorPublisher: PassthroughSubject<Error, Never> { get }
     var roundedUpTitle: String { get }
 
     func fetchData()
@@ -21,16 +22,10 @@ protocol RoundUpViewModeling {
 }
 
 final class RoundUpViewModel: RoundUpViewModeling {
-    enum RoundUpViewState {
-        case loading
-        case none
-        case roundUp(total: String)
-    }
-
     // MARK: - Properties
 
     private let transactions: [FeedItem]
-    private let service: SavingsServicing
+    private let service: SavingsGoalsServicing
     private let appState: AppStateProviding
     private let dateProvider: DateProviding
 
@@ -38,6 +33,7 @@ final class RoundUpViewModel: RoundUpViewModeling {
     var isSavingRoundUp = CurrentValueSubject<Bool, Never>(false)
     var selectedSavingsGoal = CurrentValueSubject<SavingsGoal?, Never>(nil)
     var savingsGoals = CurrentValueSubject<[SavingsGoal], Never>([])
+    var errorPublisher = PassthroughSubject<Error, Never>()
 
     var roundedUpTitle: String {
         roundedUpTotal?.formattedString ?? "£0.00"
@@ -51,7 +47,7 @@ final class RoundUpViewModel: RoundUpViewModeling {
 
     init(
         transactions: [FeedItem],
-        service: SavingsServicing,
+        service: SavingsGoalsServicing,
         appState: AppStateProviding = AppState.shared,
         dateProvider: DateProviding = DateProvider()
     ) {
@@ -73,8 +69,8 @@ extension RoundUpViewModel {
         guard let accountUid = account?.accountUid else { return }
         service.fetchAllSavingGoals(for: accountUid)
             .map(\.savingsGoalList)
-            .catch { error -> AnyPublisher<[SavingsGoal], Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<[SavingsGoal], Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
@@ -91,6 +87,7 @@ extension RoundUpViewModel {
             let savingsGoalUid = selectedSavingsGoal.value?.savingsGoalUid,
             let roundedUpTotal
         else { return }
+        
         isSavingRoundUp.send(true)
         service.addMoneyToSavingsGoal(
             accountUid: accountUid,
@@ -99,12 +96,12 @@ extension RoundUpViewModel {
             topUpRequest: .init(amount: roundedUpTotal)
         )
         .receive(on: DispatchQueue.main)
-        .catch { error -> AnyPublisher<SavingsGoalTransferResponse, Never> in
-            print(error.localizedDescription)
+        .catch { [weak self] error -> AnyPublisher<SavingsGoalTransferResponse, Never> in
+            self?.isSavingRoundUp.send(false)
+            self?.errorPublisher.send(error)
             return Empty().eraseToAnyPublisher()
         }
-        .sink { [weak self] in
-            print("Transfer ID: \($0.transferUid), success: \($0.success)")
+        .sink { [weak self] _ in
             self?.isSavingRoundUp.send(false)
             completion()
         }
@@ -128,8 +125,8 @@ extension RoundUpViewModel {
 private extension RoundUpViewModel {
     func listenForCurrentAccount() {
         appState.currentAccount
-            .catch { error -> AnyPublisher<Account?, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<Account?, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in
@@ -154,15 +151,6 @@ private extension RoundUpViewModel {
 // MARK: - Private Helpers
 
 private extension RoundUpViewModel {
-    func filterFeedItemsStartedThisWeek(items: [FeedItem]) -> [FeedItem] {
-        guard let dateRange = dateProvider.currentWeekDateRange() else { return [] }
-
-        return items.filter { item in
-            guard let startDate = item.transactionDate else { return false }
-            return startDate >= dateRange.startOfWeek && startDate <= dateRange.endOfWeek
-        }
-    }
-
     func calculateRoundUpTotal(for feedItems: [FeedItem]) -> CurrencyAndAmount {
         let transactions = filterFeedItemsStartedThisWeek(items: feedItems)
         guard !transactions.isEmpty else {
@@ -174,6 +162,15 @@ private extension RoundUpViewModel {
             .reduce(0, +)
 
         return convertToCurrencyAndAmount(roundedUpTotal)
+    }
+
+    func filterFeedItemsStartedThisWeek(items: [FeedItem]) -> [FeedItem] {
+        guard let dateRange = dateProvider.currentWeekDateRange() else { return [] }
+
+        return items.filter { item in
+            guard let startDate = item.transactionDate else { return false }
+            return startDate >= dateRange.startOfWeek && startDate <= dateRange.endOfWeek
+        }
     }
 
     func convertToCurrencyAndAmount(_ total: Double) -> CurrencyAndAmount {

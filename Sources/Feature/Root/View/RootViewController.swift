@@ -12,7 +12,6 @@ final class RootViewController: BaseViewController {
     // MARK: - Properties
 
     private let viewModel: RootViewModeling
-
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializers
@@ -45,6 +44,13 @@ private extension RootViewController {
                 case .home:
                     viewModel.navigateTo(.home)
                 }
+            }
+            .store(in: &cancellables)
+
+        viewModel.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.showErrorAlert(error: error)
             }
             .store(in: &cancellables)
     }

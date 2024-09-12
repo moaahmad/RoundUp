@@ -9,6 +9,8 @@ import Combine
 import Foundation
 
 protocol CreateSavingsGoalViewModeling {
+    var errorPublisher: PassthroughSubject<Error, Never> { get }
+
     func didTapCreateSavingsGoal(
         name: String,
         currency: String,
@@ -20,16 +22,17 @@ protocol CreateSavingsGoalViewModeling {
 final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
     // MARK: - Properties
 
-    private let service: SavingsServicing
+    private let service: SavingsGoalsServicing
     private let appState: AppStateProviding
 
+    var errorPublisher = PassthroughSubject<Error, Never>()
     private var account: Account?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializer
 
     init(
-        service: SavingsServicing,
+        service: SavingsGoalsServicing,
         appState: AppStateProviding = AppState.shared
     ) {
         self.service = service
@@ -65,8 +68,8 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
             )
         )
         .receive(on: DispatchQueue.main)
-        .catch { error -> AnyPublisher<CreateOrUpdateSavingsGoalResponse, Never> in
-            print(error.localizedDescription)
+        .catch { [weak self] error -> AnyPublisher<CreateOrUpdateSavingsGoalResponse, Never> in
+            self?.errorPublisher.send(error)
             return Empty().eraseToAnyPublisher()
         }
         .sink {

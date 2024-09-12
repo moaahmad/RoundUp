@@ -238,6 +238,13 @@ private extension HomeViewController {
                 applySnapshot(for: items)
             }
             .store(in: &cancellables)
+
+        viewModel.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.showErrorAlert(error: error)
+            }
+            .store(in: &cancellables)
     }
 }
 

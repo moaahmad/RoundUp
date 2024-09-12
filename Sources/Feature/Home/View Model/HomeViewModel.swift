@@ -13,6 +13,7 @@ protocol HomeViewModeling {
     var userInfo: CurrentValueSubject<UserInfo, Never> { get }
     var feedItems: CurrentValueSubject<[FeedItem], Never> { get }
     var filteredFeedItems: PassthroughSubject<[FeedItem], Never> { get }
+    var errorPublisher: PassthroughSubject<Error, Never> { get }
     var isFeedEmpty: Bool { get }
 
     func fetchData()
@@ -30,10 +31,9 @@ final class HomeViewModel: HomeViewModeling {
     var userInfo = CurrentValueSubject<UserInfo, Never>(.init())
     var feedItems = CurrentValueSubject<[FeedItem], Never>([])
     var filteredFeedItems = PassthroughSubject<[FeedItem], Never>()
+    var errorPublisher = PassthroughSubject<Error, Never>()
     var roundedUpTotal: CurrencyAndAmount?
-    var isFeedEmpty: Bool {
-        feedItems.value.isEmpty
-    }
+    var isFeedEmpty: Bool { feedItems.value.isEmpty }
 
     private var account: Account?
     private var _userInfo = UserInfo()
@@ -64,8 +64,8 @@ final class HomeViewModel: HomeViewModeling {
         group.enter()
         service.fetchName()
             .map(\.accountHolderName)
-            .catch { error -> AnyPublisher<String, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<String, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in
@@ -76,8 +76,8 @@ final class HomeViewModel: HomeViewModeling {
 
         group.enter()
         service.fetchAccountHolder()
-            .catch { error -> AnyPublisher<AccountHolder, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<AccountHolder, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in
@@ -88,8 +88,8 @@ final class HomeViewModel: HomeViewModeling {
 
         group.enter()
         service.fetchAccountIdentifiers(accountUid: account.accountUid)
-            .catch { error -> AnyPublisher<AccountIdentifiers, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<AccountIdentifiers, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in
@@ -101,8 +101,8 @@ final class HomeViewModel: HomeViewModeling {
         group.enter()
         service.fetchBalance(accountUid: account.accountUid)
             .map(\.effectiveBalance)
-            .catch { error -> AnyPublisher<CurrencyAndAmount, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<CurrencyAndAmount, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in
@@ -119,8 +119,8 @@ final class HomeViewModel: HomeViewModeling {
         )
         .map(\.feedItems)
         .removeDuplicates()
-        .catch { error -> AnyPublisher<[FeedItem], Never> in
-            print(error.localizedDescription)
+        .catch { [weak self] error -> AnyPublisher<[FeedItem], Never> in
+            self?.errorPublisher.send(error)
             return Empty().eraseToAnyPublisher()
         }
         .sink { [weak self] in
@@ -156,8 +156,8 @@ final class HomeViewModel: HomeViewModeling {
 private extension HomeViewModel {
     func listenForCurrentAccount() {
         appState.currentAccount
-            .catch { error -> AnyPublisher<Account?, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<Account?, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in

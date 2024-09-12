@@ -67,17 +67,17 @@ private extension AppTabCoordinator {
             image: UIImage(systemName: "banknote.fill"),
             tag: 1
         )
-        configureSavingsCoordinator(with: savingsNavigationController)
+        configureSavingsGoalsCoordinator(with: savingsNavigationController)
         return savingsNavigationController
     }
 
-    func configureSavingsCoordinator(with navigationController: UINavigationController) {
-        let savingsCoordinator = SavingsCoordinator(
+    func configureSavingsGoalsCoordinator(with navigationController: UINavigationController) {
+        let savingsGoalsCoordinator = SavingsGoalsCoordinator(
             client: client,
             navigationController: navigationController
         )
-        savingsCoordinator.parentCoordinator = self
-        savingsCoordinator.start()
-        childCoordinators.append(savingsCoordinator)
+        savingsGoalsCoordinator.parentCoordinator = self
+        savingsGoalsCoordinator.start()
+        childCoordinators.append(savingsGoalsCoordinator)
     }
 }
