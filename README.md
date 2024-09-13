@@ -1,8 +1,8 @@
 # StarlingRoundUp
 
-StarlingRoundUp is an iOS application that leverages the [Starling Bank API](https://developer.starlingbank.com/docs) to help users save more effectively. The app aggregates all transactions within a given week, rounds each transaction up to the nearest pound, and allows users to allocate the rounded-up amount to one of their savings goals.
+'Round Up' is an iOS application that uses the [Starling Bank API](https://developer.starlingbank.com/docs) to help users save more effectively. The app aggregates all transactions within a given week, rounds each transaction up to the nearest pound, and allows users to allocate the rounded-up amount to one of their savings goals.
 
-**Please note: Before running the app, please add the API Access Token for your customer to `Debug.xcconfig` otherwise a `fatalError` will be thrown. Unit tests can still be run without the token configured.**
+**Important:** Before running the app, ensure that you add your API Access Token to the `Debug.xcconfig` file. If the token is not configured, the app will encounter a `fatalError`. Note that unit tests can still be executed without the token.
 
 ## Requirements
 
@@ -17,11 +17,11 @@ These requirements were derived from the project challenge document and addition
 
 ## Technical Specifications
 
-- **Frameworks**: UIKit and Combine are used extensively throughout the app to manage UI elements and handle asynchronous data streams.
-- **iOS Deployment Target**: 15.2 (N-2 compatibility)
+- **Frameworks**: The app uses UIKit to manage UI components and Combine for handling asynchronous data streams and state management.
+- **iOS Deployment Target**: `15.2` (N-2 compatibility)
 - **Development Environment**: Xcode 15+ is required for compiling and running the application.
 - **Code Quality**: [SwiftLint](https://github.com/realm/SwiftLint) is used as a code linter to enforce consistent coding standards and improve code quality across the project.
-- **Constraints Management**: The app uses [SnapKit](https://github.com/SnapKit/SnapKit) for concise and readable Auto Layout constraints, simplifying UI layout management and reducing boilerplate code.
+- **Constraints Management**: [SnapKit](https://github.com/SnapKit/SnapKit) is used for concise and readable Auto Layout constraints, simplifying UI layout management and reducing boilerplate code.
 
 ## Known Issues
 
@@ -40,7 +40,7 @@ These requirements were derived from the project challenge document and addition
 - Expand unit test coverage to additional features beyond the Home feature, Networking stack, and round-up calculations.
 - Comprehensive error handling across the app allowing users to retry network calls etc.
 - To enhance code organisation, scalability, and reusability, the app should be modularised by moving distinct groups of code, such as Coordinators, Design components, and Networking logic, into their own modules. This can be achieved using Swift Packages, which would allow for a more maintainable project structure, better separation of concerns, and the ability to reuse or replace modules independently across different parts of the app or in future projects.
-- VoiceOver support has not yet been implemented. However, the app leverages system fonts and colours, which align with built-in accessibility features like Dynamic Type and system-wide colour adjustments for better readability and user experience.
+- VoiceOver support has not yet been implemented. However, the app uses system fonts and colours, which align with built-in accessibility features like Dynamic Type and system-wide colour adjustments for better readability and user experience.
 - Snapshot testing and UI testing to ensure a consistent and reliable user interface.
 - iPad support for a broader range of devices. 
 
@@ -65,11 +65,11 @@ The app is built using the Model-View-ViewModel-Coordinator (MVVM-C) architectur
 
 - **Coordinator**: Manages the navigation flow of the app. Coordinators handle the presentation logic, such as showing new screens or dismissing existing ones, thereby decoupling navigation responsibilities from ViewControllers and ViewModels. This approach improves the reusability of Views and ViewModels and helps keep them focused on their core tasks without being cluttered by navigation code.
 
-  - **Benefits of MVVM-C**:
-    - **Separation of Concerns**: MVVM-C enforces a clear separation of UI, business logic, and navigation, making the codebase more maintainable and testable.
-    - **Reusability**: ViewModels can be reused across different Views, and Coordinators can manage complex navigation flows.
-    - **Scalability**: The architecture scales well with the app's growth, allowing the addition of new features with minimal impact on existing components.
-    - **Testability**: The clear separation between ViewModels and Views makes it easier to unit test business logic without dealing with UI code.
+- **Benefits of MVVM-C**:
+  - **Separation of Concerns**: MVVM-C enforces a clear separation of UI, business logic, and navigation, making the codebase more maintainable and testable.
+  - **Reusability**: ViewModels can be reused across different Views, and Coordinators can manage complex navigation flows.
+  - **Scalability**: The architecture scales well with the app's growth, allowing the addition of new features with minimal impact on existing components.
+  - **Testability**: The clear separation between ViewModels and Views makes it easier to unit test business logic without dealing with UI code.
 
 ## Current App State
 
