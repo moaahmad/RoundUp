@@ -15,7 +15,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
     private let viewModel: CreateSavingsGoalViewModeling
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - UI Elements
+    // MARK: - UI Components
 
     private lazy var scrollView = UIScrollView()
 
@@ -29,14 +29,14 @@ final class CreateSavingsGoalViewController: BaseViewController {
     }()
 
     private lazy var nameTextField: STTextField = {
-        let textField = STTextField(placeholder: "enter_goal_name_placeholder".localized())
+        let textField = STTextField(placeholder: viewModel.nameTextPlaceholder)
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.addTarget(self, action: #selector(textFieldEditingChanged), for: .editingChanged)
         return textField
     }()
 
     private lazy var currencyTextField: STTextField = {
-        let textField = STTextField(placeholder: "select_currency_placeholder".localized())
+        let textField = STTextField(placeholder: viewModel.selectCurrencyPlaceholder)
         textField.text = Currency.gbp.rawValue
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
         textField.isUserInteractionEnabled = false
@@ -45,7 +45,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
 
     private lazy var targetAmountTextField: STTextField = {
         let textField = STTextField(
-            placeholder: "enter_target_amount_placeholder".localized(),
+            placeholder: viewModel.targetAmountPlaceholder,
             keyboardType: .decimalPad
         )
         textField.snp.makeConstraints { make in make.height.equalTo(CGFloat.textFieldHeight) }
@@ -54,7 +54,7 @@ final class CreateSavingsGoalViewController: BaseViewController {
     }()
 
     private lazy var createGoalButton: STActionButton = {
-        let button = STActionButton(title: "create_goal_button_title".localized())
+        let button = STActionButton(title: viewModel.createGoalTitle)
         button.isEnabled = false
         button.backgroundColor = .systemGray
         button.addTarget(self, action: #selector(createGoalButtonTapped), for: .touchUpInside)
@@ -74,44 +74,26 @@ final class CreateSavingsGoalViewController: BaseViewController {
         super.viewDidLoad()
         setupViews()
         bindViewModel()
+        targetAmountTextField.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nameTextField.becomeFirstResponder()
     }
+}
 
-    // MARK: - User Interactions
-
-    @objc private func closeButtonTapped() {
-        dismiss(animated: true)
-    }
-
-    @objc private func createGoalButtonTapped() {
-        guard let name = nameTextField.text, !name.isEmpty,
-              let currency = currencyTextField.text, !currency.isEmpty,
-              let target = targetAmountTextField.text, !target.isEmpty
-        else {
-            showErrorAlert(message: "Please fill in all fields")
-            return
-        }
-
-        viewModel.didTapCreateSavingsGoal(
-            name: name,
-            currency: currency,
-            target: target
-        ) { [weak self] in
-            self?.dismiss(animated: true)
-        }
-    }
-
-    @objc private func textFieldEditingChanged(_ sender: UITextField) {
-        let isNameValid = !(nameTextField.text?.isEmpty ?? true)
-        let isCurrencyValid = !(currencyTextField.text?.isEmpty ?? true)
-        let isTargetValid = !(targetAmountTextField.text?.isEmpty ?? true)
-
-        createGoalButton.isEnabled = isNameValid && isCurrencyValid && isTargetValid
-        createGoalButton.backgroundColor = createGoalButton.isEnabled ? .accent : .systemGray
+extension CreateSavingsGoalViewController: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        viewModel.shouldChangeCharacters(
+            textField.text,
+            shouldChangeCharactersIn: range,
+            replacementString: string
+        )
     }
 }
 
@@ -124,9 +106,9 @@ private extension CreateSavingsGoalViewController {
     }
 
     func setupContentView() {
-        title = "create_savings_goal_title".localized()
+        title = viewModel.title
         navigationItem.rightBarButtonItem = .init(
-            title: "close".localized(),
+            title: viewModel.closeTitle,
             style: .plain,
             target: self,
             action: #selector(closeButtonTapped)
@@ -155,6 +137,41 @@ private extension CreateSavingsGoalViewController {
             make.edges.equalToSuperview().inset(amount: .base)
             make.width.equalTo(scrollView.snp.width).inset(amount: .base)
         }
+    }
+}
+
+// MARK: - User Interactions
+
+private extension CreateSavingsGoalViewController {
+    @objc func closeButtonTapped() {
+        dismiss(animated: true)
+    }
+
+    @objc func createGoalButtonTapped() {
+        guard let name = nameTextField.text, !name.isEmpty,
+              let currency = currencyTextField.text, !currency.isEmpty,
+              let target = targetAmountTextField.text, !target.isEmpty
+        else {
+            showErrorAlert(message: viewModel.errorMessage)
+            return
+        }
+
+        viewModel.didTapCreateSavingsGoal(
+            name: name,
+            currency: currency,
+            target: target
+        ) { [weak self] in
+            self?.dismiss(animated: true)
+        }
+    }
+
+    @objc func textFieldEditingChanged(_ sender: UITextField) {
+        let isNameValid = !(nameTextField.text?.isEmpty ?? true)
+        let isCurrencyValid = !(currencyTextField.text?.isEmpty ?? true)
+        let isTargetValid = !(targetAmountTextField.text?.isEmpty ?? true)
+
+        createGoalButton.isEnabled = isNameValid && isCurrencyValid && isTargetValid
+        createGoalButton.backgroundColor = createGoalButton.isEnabled ? .accent : .systemGray
     }
 }
 

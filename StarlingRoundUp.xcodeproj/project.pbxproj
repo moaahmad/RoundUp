@@ -12,6 +12,8 @@
 		4E0487ED2C94966E00DC6692 /* StubNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487EC2C94966E00DC6692 /* StubNavigationController.swift */; };
 		4E0487F12C9496B200DC6692 /* RoundUpViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487F02C9496B200DC6692 /* RoundUpViewModelTests.swift */; };
 		4E0487F42C94A07E00DC6692 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487F22C949F2700DC6692 /* Date+Extensions.swift */; };
+		4E0487F62C94C53900DC6692 /* StubSavingsGoalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487F52C94C53900DC6692 /* StubSavingsGoalService.swift */; };
+		4E0487FA2C94F76500DC6692 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487F82C94F37200DC6692 /* Environment.swift */; };
 		4E0869E92C9334D30039D287 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A3B2C9323D600FBA473 /* XCTestCase+Extensions.swift */; };
 		4E0869F22C933CA10039D287 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0869F12C933CA10039D287 /* URL+Extensions.swift */; };
 		4E0869F42C933D940039D287 /* HomeURLRequestPoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0869F32C933D940039D287 /* HomeURLRequestPoolTests.swift */; };
@@ -111,6 +113,9 @@
 		4E0487EC2C94966E00DC6692 /* StubNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNavigationController.swift; sourceTree = "<group>"; };
 		4E0487F02C9496B200DC6692 /* RoundUpViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundUpViewModelTests.swift; sourceTree = "<group>"; };
 		4E0487F22C949F2700DC6692 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		4E0487F52C94C53900DC6692 /* StubSavingsGoalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubSavingsGoalService.swift; sourceTree = "<group>"; };
+		4E0487F72C94E29F00DC6692 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		4E0487F82C94F37200DC6692 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		4E0869F02C9336960039D287 /* StarlingRoundUp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = StarlingRoundUp.xctestplan; sourceTree = "<group>"; };
 		4E0869F12C933CA10039D287 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		4E0869F32C933D940039D287 /* HomeURLRequestPoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeURLRequestPoolTests.swift; sourceTree = "<group>"; };
@@ -551,6 +556,7 @@
 				4E0869FA2C9347870039D287 /* StubHomeCoordinator.swift */,
 				4E086A0B2C939E270039D287 /* StubAppState.swift */,
 				4E0487EC2C94966E00DC6692 /* StubNavigationController.swift */,
+				4E0487F52C94C53900DC6692 /* StubSavingsGoalService.swift */,
 				4E0869FC2C93496F0039D287 /* HTTPClientSpy.swift */,
 				4E086A002C934A3E0039D287 /* MockURLProtocol.swift */,
 			);
@@ -578,6 +584,7 @@
 		4EC7FE802C8BAF8700A37E78 = {
 			isa = PBXGroup;
 			children = (
+				4E0487F72C94E29F00DC6692 /* README.md */,
 				4EC7FE8B2C8BAF8700A37E78 /* Sources */,
 				4EC7FEA22C8BAF8900A37E78 /* Tests */,
 				4EC7FE8A2C8BAF8700A37E78 /* Products */,
@@ -634,6 +641,7 @@
 			children = (
 				4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */,
 				4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */,
+				4E0487F82C94F37200DC6692 /* Environment.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -976,6 +984,7 @@
 				4EC7FEFE2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift in Sources */,
 				4EC7FF1B2C8D9AD400A37E78 /* STActionButton.swift in Sources */,
 				4EC7FF222C8DF67900A37E78 /* STValueView.swift in Sources */,
+				4E0487FA2C94F76500DC6692 /* Environment.swift in Sources */,
 				4E5B0A302C9256B400FBA473 /* ErrorResponse.swift in Sources */,
 				4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */,
 				4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */,
@@ -1017,6 +1026,7 @@
 				4E0869F62C9340490039D287 /* HomeViewModelTests.swift in Sources */,
 				4E0869FD2C93496F0039D287 /* HTTPClientSpy.swift in Sources */,
 				4E5B0A3E2C93241600FBA473 /* URLPoolTests.swift in Sources */,
+				4E0487F62C94C53900DC6692 /* StubSavingsGoalService.swift in Sources */,
 				4E086A042C934A730039D287 /* URLSessionHTTPClientTests.swift in Sources */,
 				4E0487E82C93B27500DC6692 /* MockData.swift in Sources */,
 				4E0487F12C9496B200DC6692 /* RoundUpViewModelTests.swift in Sources */,
@@ -1107,7 +1117,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1164,7 +1174,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1191,6 +1201,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1225,6 +1236,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1251,7 +1263,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D8T996G46R;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.moahmad.StarlingRoundUpTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1275,7 +1287,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D8T996G46R;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.moahmad.StarlingRoundUpTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,8 +8,6 @@
 import XCTest
 @testable import StarlingRoundUp
 
-// NOTE: - Due to time constraints only `HomeURLRequestPool` functions will be tested.
-
 final class HomeURLRequestPoolTests: XCTestCase {
     func test_accountHolderRequest_returnsCorrectURLRequest() {
         // Given

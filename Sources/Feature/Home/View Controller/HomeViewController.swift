@@ -15,6 +15,8 @@ final class HomeViewController: BaseViewController {
     private let viewModel: HomeViewModeling
     private var cancellables = Set<AnyCancellable>()
 
+    // MARK: - UI Components
+
     private lazy var tableView = UITableView(frame: .zero, style: .plain)
     private lazy var dataSource = makeDataSource()
     private lazy var accountInfoView = AccountInfoView()
@@ -221,25 +223,21 @@ private extension HomeViewController {
             .store(in: &cancellables)
 
         viewModel.feedItems
-            .filter { [weak self] _ in
-                guard let isLoading = self?.viewModel.isLoading.value else {
-                    return false
-                }
-                return !isLoading
-            }
+            .combineLatest(viewModel.isLoading)
+            .drop(while: { _, isLoading in
+                isLoading == true
+            })
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] items in
+            .sink { [weak self] items, isLoading in
                 guard let self else { return }
-                updateView(for: items)
-                tableView.reloadData()
+                updateView(for: items, isLoading: isLoading)
             }
             .store(in: &cancellables)
 
         viewModel.filteredFeedItems
             .receive(on: DispatchQueue.main)
             .sink { [weak self] items in
-                guard let self else { return }
-                applySnapshot(for: items)
+                self?.applySnapshot(for: items)
             }
             .store(in: &cancellables)
 
@@ -269,8 +267,9 @@ private extension HomeViewController {
         transactionsHeaderView.segmentedControl.selectedSegmentIndex = 0
     }
 
-    func updateView(for items: [FeedItem]) {
-        emptyStateView.isHidden = !items.isEmpty
-        tableView.isHidden = items.isEmpty
+    func updateView(for items: [FeedItem], isLoading: Bool) {
+        if !isLoading {
+            emptyStateView.isHidden = !items.isEmpty
+        }
     }
 }

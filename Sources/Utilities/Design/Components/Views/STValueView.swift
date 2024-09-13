@@ -62,14 +62,3 @@ final class STValueView: UIView {
         }
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    let view = STValueView()
-    view.update(label: "Label:", value: "Value")
-    view.snp.makeConstraints { make in
-        make.width.equalTo(Device.width - .xxl)
-    }
-    return view
-}

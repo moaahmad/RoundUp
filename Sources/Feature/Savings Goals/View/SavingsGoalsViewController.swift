@@ -13,8 +13,10 @@ final class SavingsGoalsViewController: BaseViewController {
     // MARK: - Properties
 
     private let viewModel: SavingsGoalsViewModeling
-
     private var cancellables = Set<AnyCancellable>()
+
+    // MARK: - UI Components
+    
     private lazy var tableView = UITableView(frame: .zero, style: .grouped)
     private lazy var dataSource = makeDataSource()
     private lazy var emptyStateView = EmptyView(
@@ -39,16 +41,6 @@ final class SavingsGoalsViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.fetchData()
-    }
-
-    // MARK: - User Interactions
-
-    @objc private func onPlusButtonTapped() {
-        viewModel.didTapPlusButton()
-    }
-
-    @objc private func refreshControlDidStart(sender: UIRefreshControl?, event: UIEvent?) {
         viewModel.fetchData()
     }
 }
@@ -136,6 +128,18 @@ private extension SavingsGoalsViewController {
     }
 }
 
+// MARK: - User Interactions
+
+private extension SavingsGoalsViewController {
+    @objc private func onPlusButtonTapped() {
+        viewModel.didTapPlusButton()
+    }
+
+    @objc private func refreshControlDidStart(sender: UIRefreshControl?, event: UIEvent?) {
+        viewModel.fetchData()
+    }
+}
+
 // MARK: Bindings
 
 private extension SavingsGoalsViewController {
@@ -157,14 +161,12 @@ private extension SavingsGoalsViewController {
             .store(in: &cancellables)
         
         viewModel.savingsGoals
-            .filter { [weak self] _ in
-                guard let isLoading = self?.viewModel.isLoading.value else {
-                    return false
-                }
-                return !isLoading
-            }
+            .combineLatest(viewModel.isLoading)
+            .drop(while: { _, isLoading in
+                isLoading == true
+            })
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] goals in
+            .sink { [weak self] goals, _ in
                 guard let self else { return }
                 applySnapshot(with: goals)
                 updateView(for: goals)

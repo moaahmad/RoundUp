@@ -11,10 +11,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private var coordinator: RootCoordinator?
 
-    private var isRunningTests: Bool {
-        UserDefaults.standard.value(forKey: "XCTIDEConnectionTimeout") != nil
-    }
-
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -22,7 +18,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        if isRunningTests {
+        if Environment.isRunningTests {
             window?.rootViewController = UIViewController()
         } else {
             initializeRootCoordinator()

@@ -75,17 +75,3 @@ final class EmptyView: UIView {
         }
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    let view = EmptyView(
-        message: "No Transactions",
-        description: "You currently don't have any transactions."
-    )
-    view.snp.makeConstraints { make in
-        make.height.equalTo(UIScreen.main.bounds.height * 0.2)
-        make.width.equalTo(UIScreen.main.bounds.width - .xxl)
-    }
-    return view
-}

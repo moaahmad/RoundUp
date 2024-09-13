@@ -56,14 +56,3 @@ final class RoundUpHeaderView: UIView {
         }
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    let view = RoundUpHeaderView()
-    view.snp.makeConstraints { make in
-        make.width.equalTo(Device.width)
-        make.height.equalTo(Device.height)
-    }
-    return view
-}

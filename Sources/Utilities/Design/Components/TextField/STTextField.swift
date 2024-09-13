@@ -32,14 +32,3 @@ final class STTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    let view = STTextField(placeholder: "Placeholder text...")
-    view.snp.makeConstraints { make in
-        make.width.equalTo(UIScreen.main.bounds.width - .xxl)
-        make.height.equalTo(45)
-    }
-    return view
-}

@@ -34,17 +34,6 @@
         }
       }
     },
-    "connectivity_error_message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maybe check your internet connection?"
-          }
-        }
-      }
-    },
     "create_goal_button_title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -107,17 +96,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
-          }
-        }
-      }
-    },
-    "generic_error_message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please try again"
           }
         }
       }

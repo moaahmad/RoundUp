@@ -89,7 +89,7 @@ extension URLSessionHTTPClientTests {
 
 // MARK: - Make SUT
 
-extension URLSessionHTTPClientTests {
+private extension URLSessionHTTPClientTests {
     func makeSUT(
         file: StaticString = #file,
         line: UInt  = #line

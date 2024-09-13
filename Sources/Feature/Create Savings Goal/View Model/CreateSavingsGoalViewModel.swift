@@ -9,8 +9,20 @@ import Combine
 import Foundation
 
 protocol CreateSavingsGoalViewModeling {
+    var title: String { get }
+    var closeTitle: String { get }
+    var errorMessage: String { get }
+    var createGoalTitle: String { get }
+    var nameTextPlaceholder: String { get }
+    var selectCurrencyPlaceholder: String { get }
+    var targetAmountPlaceholder: String { get }
     var errorPublisher: PassthroughSubject<Error, Never> { get }
 
+    func shouldChangeCharacters(
+        _ text: String?,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool
     func didTapCreateSavingsGoal(
         name: String,
         currency: String,
@@ -22,6 +34,13 @@ protocol CreateSavingsGoalViewModeling {
 final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
     // MARK: - Properties
 
+    let title = "create_savings_goal_title".localized()
+    let closeTitle = "close".localized()
+    let errorMessage = "Please fill in all fields"
+    let createGoalTitle = "create_goal_button_title".localized()
+    let nameTextPlaceholder = "enter_goal_name_placeholder".localized()
+    let selectCurrencyPlaceholder = "select_currency_placeholder".localized()
+    let targetAmountPlaceholder = "enter_target_amount_placeholder".localized()
     private let service: SavingsGoalsServicing
     private let appState: AppStateProviding
 
@@ -42,7 +61,41 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
     }
 
     // MARK: - CreateSavingsGoalViewModeling Functions
-    
+
+    func shouldChangeCharacters(
+        _ text: String?,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        guard
+            let text,
+            let stringRange = Range(range, in: text)
+        else { return false }
+
+        let updatedText = text.replacingCharacters(in: stringRange, with: string)
+
+        // Check if the updated text has more than one decimal point
+        if updatedText.components(separatedBy: ".").count - 1 > 1 {
+            return false
+        }
+
+        // Limit to 2 decimal places if a decimal point exists
+        if let decimalIndex = updatedText.firstIndex(of: ".") {
+            let decimalPart = updatedText[decimalIndex...].dropFirst()
+            if decimalPart.count > 2 {
+                return false
+            }
+        }
+
+        // Allow only numeric characters and a single decimal point
+        let allowedCharacters = CharacterSet(charactersIn: "0123456789.")
+        if string.rangeOfCharacter(from: allowedCharacters.inverted) != nil {
+            return false
+        }
+
+        return true
+    }
+
     func didTapCreateSavingsGoal(
         name: String,
         currency: String,
@@ -52,8 +105,7 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
         guard
             let accountUid = account?.accountUid,
             let currency = Currency(rawValue: currency),
-            let target = Int64(target)
-
+            let minorUnits = Self.convertStringTargetToMinorUnits(target)
         else { return }
 
         service.createSavingsGoal(
@@ -63,7 +115,7 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
                 currency: currency,
                 target: CurrencyAndAmount(
                     currency: currency,
-                    minorUnits: target * 100
+                    minorUnits: minorUnits
                 )
             )
         )
@@ -72,11 +124,17 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
             self?.errorPublisher.send(error)
             return Empty().eraseToAnyPublisher()
         }
-        .sink {
-            print("Saving Goal ID: \($0.savingsGoalUid), success: \($0.success)")
+        .sink { _ in
             completion()
         }
         .store(in: &cancellables)
+    }
+
+    private static func convertStringTargetToMinorUnits(_ total: String) -> Int64? {
+        guard let totalAsDouble = Double(total) else {
+            return nil
+        }
+        return Int64(totalAsDouble * 100)
     }
 }
 

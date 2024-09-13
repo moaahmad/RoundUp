@@ -92,13 +92,3 @@ final class TransactionsHeaderView: UIView {
         }
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    let view = TransactionsHeaderView()
-    view.snp.makeConstraints { make in
-        make.width.equalTo(Device.width)
-    }
-    return view
-}

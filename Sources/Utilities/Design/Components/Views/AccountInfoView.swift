@@ -79,20 +79,3 @@ final class AccountInfoView: UIView {
         }
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    let view = AccountInfoView()
-    view.configure(
-        name: "Denis Irwin",
-        accountNumber: "1234567890",
-        sortCode: "001122",
-        balance: "£2340.23"
-    )
-    view.snp.makeConstraints { make in
-        make.height.equalTo(Device.height * 0.2)
-        make.width.equalTo(Device.width - .xxl)
-    }
-    return view
-}

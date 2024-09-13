@@ -42,9 +42,3 @@ final class STTitleLabel: UILabel {
         lineBreakMode = .byTruncatingTail
     }
 }
-
-// MARK: - Previews
-
-#Preview {
-    STTitleLabel(title: "Test Title")
-}
