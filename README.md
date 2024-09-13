@@ -70,3 +70,24 @@ The app is built using the Model-View-ViewModel-Coordinator (MVVM-C) architectur
     - **Reusability**: ViewModels can be reused across different Views, and Coordinators can manage complex navigation flows.
     - **Scalability**: The architecture scales well with the app's growth, allowing the addition of new features with minimal impact on existing components.
     - **Testability**: The clear separation between ViewModels and Views makes it easier to unit test business logic without dealing with UI code.
+
+## Current App State
+
+<table>
+    <tr>
+        <th style="text-align: center;">Walkthrough</th>
+        <th style="text-align: center;">Light Mode</th>
+        <th style="text-align: center;">Dark Mode</th>
+    </tr>
+    <tr>
+        <td align="center">
+            <img src="https://github.com/user-attachments/assets/763047dd-9aeb-4c1f-9553-0461c755efaa" alt="Walkthrough" width="300">
+        </td>
+        <td align="center">
+            <img src="https://github.com/user-attachments/assets/fdbe4c51-a833-4090-9eed-92eabf83a98c" alt="Light Mode" width="300">
+        </td>
+        <td align="center">
+            <img src="https://github.com/user-attachments/assets/18d6723c-bd79-42c8-8221-2e33338451e1" alt="Dark Mode" width="300">
+        </td>
+    </tr>
+</table>
