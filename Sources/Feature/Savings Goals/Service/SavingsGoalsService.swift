@@ -20,7 +20,6 @@ protocol SavingsGoalsServicing {
         transferUid: String,
         topUpRequest: TopUpRequest
     ) -> Future<SavingsGoalTransferResponse, Error>
-    func deleteSavingsGoal()
 }
 
 struct SavingsService: SavingsGoalsServicing {
@@ -119,9 +118,5 @@ struct SavingsService: SavingsGoalsServicing {
                 promise(.failure(error))
             }
         }
-    }
-
-    func deleteSavingsGoal() {
-        //
     }
 }

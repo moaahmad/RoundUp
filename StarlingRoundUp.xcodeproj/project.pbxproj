@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4E0487E82C93B27500DC6692 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487E72C93B27500DC6692 /* MockData.swift */; };
+		4E0487EB2C94948400DC6692 /* HomeCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487EA2C94948400DC6692 /* HomeCoordinatorTests.swift */; };
+		4E0487ED2C94966E00DC6692 /* StubNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487EC2C94966E00DC6692 /* StubNavigationController.swift */; };
+		4E0487F12C9496B200DC6692 /* RoundUpViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487F02C9496B200DC6692 /* RoundUpViewModelTests.swift */; };
+		4E0487F42C94A07E00DC6692 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0487F22C949F2700DC6692 /* Date+Extensions.swift */; };
 		4E0869E92C9334D30039D287 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A3B2C9323D600FBA473 /* XCTestCase+Extensions.swift */; };
 		4E0869F22C933CA10039D287 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0869F12C933CA10039D287 /* URL+Extensions.swift */; };
 		4E0869F42C933D940039D287 /* HomeURLRequestPoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0869F32C933D940039D287 /* HomeURLRequestPoolTests.swift */; };
@@ -103,6 +107,10 @@
 
 /* Begin PBXFileReference section */
 		4E0487E72C93B27500DC6692 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		4E0487EA2C94948400DC6692 /* HomeCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinatorTests.swift; sourceTree = "<group>"; };
+		4E0487EC2C94966E00DC6692 /* StubNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNavigationController.swift; sourceTree = "<group>"; };
+		4E0487F02C9496B200DC6692 /* RoundUpViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundUpViewModelTests.swift; sourceTree = "<group>"; };
+		4E0487F22C949F2700DC6692 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		4E0869F02C9336960039D287 /* StarlingRoundUp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = StarlingRoundUp.xctestplan; sourceTree = "<group>"; };
 		4E0869F12C933CA10039D287 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		4E0869F32C933D940039D287 /* HomeURLRequestPoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeURLRequestPoolTests.swift; sourceTree = "<group>"; };
@@ -219,9 +227,34 @@
 			path = "Mock Data";
 			sourceTree = "<group>";
 		};
+		4E0487E92C94947500DC6692 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				4E0487EA2C94948400DC6692 /* HomeCoordinatorTests.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		4E0487EE2C94969500DC6692 /* Round Up */ = {
+			isa = PBXGroup;
+			children = (
+				4E0487EF2C94969E00DC6692 /* View Model */,
+			);
+			path = "Round Up";
+			sourceTree = "<group>";
+		};
+		4E0487EF2C94969E00DC6692 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				4E0487F02C9496B200DC6692 /* RoundUpViewModelTests.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
 		4E0869EA2C93353B0039D287 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				4E0487E92C94947500DC6692 /* Coordinator */,
 				4E086A052C934BE20039D287 /* Service */,
 				4E0869F72C9340520039D287 /* View Model */,
 			);
@@ -488,6 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				4E0869EA2C93353B0039D287 /* Home */,
+				4E0487EE2C94969500DC6692 /* Round Up */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -516,6 +550,7 @@
 				4E0869F82C93454F0039D287 /* StubHomeService.swift */,
 				4E0869FA2C9347870039D287 /* StubHomeCoordinator.swift */,
 				4E086A0B2C939E270039D287 /* StubAppState.swift */,
+				4E0487EC2C94966E00DC6692 /* StubNavigationController.swift */,
 				4E0869FC2C93496F0039D287 /* HTTPClientSpy.swift */,
 				4E086A002C934A3E0039D287 /* MockURLProtocol.swift */,
 			);
@@ -688,6 +723,7 @@
 				4EC7FEDD2C8BB4E700A37E78 /* Strings+Extensions.swift */,
 				4EC7FEE12C8BB51700A37E78 /* UITableView+Extensions.swift */,
 				4EC7FEDF2C8BB4FC00A37E78 /* URLRequest+Extensions.swift */,
+				4E0487F22C949F2700DC6692 /* Date+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -915,6 +951,7 @@
 				4EC7FF202C8DEC8100A37E78 /* SavingsGoalCell.swift in Sources */,
 				4EC7FF042C8C9D6800A37E78 /* CGFloat+UIConstants.swift in Sources */,
 				4EC7FF0C2C8CD75C00A37E78 /* RoundUpViewController.swift in Sources */,
+				4E0487F42C94A07E00DC6692 /* Date+Extensions.swift in Sources */,
 				4EC7FEEE2C8BB5C000A37E78 /* URLRequestPool.swift in Sources */,
 				4E5B0A002C90F5AA00FBA473 /* AppTabCoordinator.swift in Sources */,
 				4EC7FEC22C8BB05300A37E78 /* Coordinator.swift in Sources */,
@@ -982,11 +1019,14 @@
 				4E5B0A3E2C93241600FBA473 /* URLPoolTests.swift in Sources */,
 				4E086A042C934A730039D287 /* URLSessionHTTPClientTests.swift in Sources */,
 				4E0487E82C93B27500DC6692 /* MockData.swift in Sources */,
+				4E0487F12C9496B200DC6692 /* RoundUpViewModelTests.swift in Sources */,
 				4E0869FB2C9347870039D287 /* StubHomeCoordinator.swift in Sources */,
 				4E086A072C934BFC0039D287 /* HomeServiceTests.swift in Sources */,
 				4E0869F22C933CA10039D287 /* URL+Extensions.swift in Sources */,
 				4E086A0C2C939E270039D287 /* StubAppState.swift in Sources */,
 				4E0869E92C9334D30039D287 /* XCTestCase+Extensions.swift in Sources */,
+				4E0487ED2C94966E00DC6692 /* StubNavigationController.swift in Sources */,
+				4E0487EB2C94948400DC6692 /* HomeCoordinatorTests.swift in Sources */,
 				4E086A012C934A3E0039D287 /* MockURLProtocol.swift in Sources */,
 				4E0869F92C93454F0039D287 /* StubHomeService.swift in Sources */,
 				4E0869F42C933D940039D287 /* HomeURLRequestPoolTests.swift in Sources */,

@@ -26,9 +26,7 @@ extension FeedItem {
         guard let transactionTime = transactionTime else {
             return nil
         }
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return dateFormatter.date(from: transactionTime)
+        return Date.fromISO8601String(transactionTime)
     }
 }
 

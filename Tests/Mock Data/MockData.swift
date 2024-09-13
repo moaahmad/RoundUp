@@ -49,11 +49,25 @@ enum MockData {
         .init(
             feedItems: [
                 .init(
-                    feedItemUid: "1234",
+                    feedItemUid: "123",
                     amount: .init(currency: .gbp, minorUnits: 10000),
                     direction: .paymentOut,
-                    reference: "Test Reference",
-                    transactionTime: Date.now.description
+                    reference: "Test Reference 1",
+                    transactionTime: Date.now.toISO8601String
+                ),
+                .init(
+                    feedItemUid: "456",
+                    amount: .init(currency: .gbp, minorUnits: 20000),
+                    direction: .paymentOut,
+                    reference: "Test Reference 2",
+                    transactionTime: Date.now.toISO8601String
+                ),
+                .init(
+                    feedItemUid: "789",
+                    amount: .init(currency: .gbp, minorUnits: 30000),
+                    direction: .paymentIn,
+                    reference: "Test Reference 3",
+                    transactionTime: Date.now.toISO8601String
                 )
             ]
         )

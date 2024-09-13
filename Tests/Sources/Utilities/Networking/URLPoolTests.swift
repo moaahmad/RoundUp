@@ -89,7 +89,7 @@ final class URLPoolTests: XCTestCase {
         // Given
         let accountUid = UUID().uuidString
         let categoryUid = UUID().uuidString
-        let changesSince = Date.now.description
+        let changesSince = Date.now.toISO8601String
         let sut = URLPool()
 
         // When

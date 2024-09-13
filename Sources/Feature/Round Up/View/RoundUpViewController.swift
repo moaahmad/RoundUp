@@ -24,7 +24,7 @@ final class RoundUpViewController: BaseViewController {
     private lazy var dataSource = makeDataSource()
     private lazy var emptyStateView = EmptyView(
         message: "savings_goals_empty_title".localized(),
-        description: "savings_goals_empty_description".localized()
+        description: "round_up_empty_description".localized()
     )
 
     // MARK: - Initializers
@@ -234,7 +234,7 @@ private extension RoundUpViewController {
         viewModel.errorPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.showErrorAlert(error: error)
+                self?.showErrorAlert(message: error.localizedDescription)
             }
             .store(in: &cancellables)
     }

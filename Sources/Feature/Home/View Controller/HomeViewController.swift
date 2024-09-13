@@ -20,8 +20,8 @@ final class HomeViewController: BaseViewController {
     private lazy var accountInfoView = AccountInfoView()
     private lazy var transactionsHeaderView = TransactionsHeaderView()
     private lazy var emptyStateView = EmptyView(
-        message: "transactions_empty_title".localized(),
-        description: "transactions_empty_description".localized()
+        message: viewModel.emptyState.message,
+        description: viewModel.emptyState.description
     )
 
     // MARK: - Initializers
@@ -94,7 +94,7 @@ private extension HomeViewController {
 
 private extension HomeViewController {
     func setupView() {
-        title = "home_tab_title".localized()
+        title = viewModel.title
         setupTableView()
         setupAccountInfoView()
         setupEmptyStateView()
@@ -117,7 +117,7 @@ private extension HomeViewController {
 
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
     }
@@ -246,7 +246,7 @@ private extension HomeViewController {
         viewModel.errorPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.showErrorAlert(error: error)
+                self?.showErrorAlert(message: error.localizedDescription)
             }
             .store(in: &cancellables)
     }

@@ -87,14 +87,12 @@ final class CreateSavingsGoalViewController: BaseViewController {
         dismiss(animated: true)
     }
 
-    // MARK: - User Interactions
-
     @objc private func createGoalButtonTapped() {
         guard let name = nameTextField.text, !name.isEmpty,
               let currency = currencyTextField.text, !currency.isEmpty,
               let target = targetAmountTextField.text, !target.isEmpty
         else {
-            showAlert(message: "Please fill in all fields")
+            showErrorAlert(message: "Please fill in all fields")
             return
         }
 
@@ -114,12 +112,6 @@ final class CreateSavingsGoalViewController: BaseViewController {
 
         createGoalButton.isEnabled = isNameValid && isCurrencyValid && isTargetValid
         createGoalButton.backgroundColor = createGoalButton.isEnabled ? .accent : .systemGray
-    }
-
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
     }
 }
 
@@ -173,7 +165,7 @@ private extension CreateSavingsGoalViewController {
         viewModel.errorPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.showErrorAlert(error: error)
+                self?.showErrorAlert(message: error.localizedDescription)
             }
             .store(in: &cancellables)
     }

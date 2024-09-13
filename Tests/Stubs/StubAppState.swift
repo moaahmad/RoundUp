@@ -27,7 +27,7 @@ extension MockData {
         accountType: AccountType = .primary,
         defaultCategory: String = UUID().uuidString,
         currency: Currency = .gbp,
-        createdAt: String = Date.now.description,
+        createdAt: String = Date.now.toISO8601String,
         name: String = anyUserName().accountHolderName
     ) -> Account {
         .init(

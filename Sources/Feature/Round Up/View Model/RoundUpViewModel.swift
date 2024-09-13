@@ -39,7 +39,7 @@ final class RoundUpViewModel: RoundUpViewModeling {
         roundedUpTotal?.formattedString ?? "£0.00"
     }
 
-    private var roundedUpTotal: CurrencyAndAmount?
+    private(set) var roundedUpTotal: CurrencyAndAmount?
     private var account: Account?
     private var cancellables = Set<AnyCancellable>()
 
@@ -165,7 +165,9 @@ private extension RoundUpViewModel {
     }
 
     func filterFeedItemsStartedThisWeek(items: [FeedItem]) -> [FeedItem] {
-        guard let dateRange = dateProvider.currentWeekDateRange() else { return [] }
+        guard let dateRange = dateProvider.currentWeekDateRange() else {
+            return []
+        }
 
         return items.filter { item in
             guard let startDate = item.transactionDate else { return false }

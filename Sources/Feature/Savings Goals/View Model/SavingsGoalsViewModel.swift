@@ -9,6 +9,8 @@ import Combine
 import Foundation
 
 protocol SavingsGoalsViewModeling {
+    var title: String { get }
+    var emptyState: (message: String, description: String) { get }
     var isLoading: CurrentValueSubject<Bool, Never> { get }
     var savingsGoals: CurrentValueSubject<[SavingsGoal], Never> { get }
     var errorPublisher: PassthroughSubject<Error, Never> { get }
@@ -20,6 +22,11 @@ protocol SavingsGoalsViewModeling {
 final class SavingsGoalsViewModel: SavingsGoalsViewModeling {
     // MARK: - Properties
 
+    let title = "goals_tab_title".localized()
+    let emptyState = (
+        message: "savings_goals_empty_title".localized(),
+        description: "savings_goals_empty_description".localized()
+    )
     private let service: SavingsGoalsServicing
     private let appState: AppStateProviding
 

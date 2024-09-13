@@ -9,7 +9,11 @@ import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    var coordinator: RootCoordinator?
+    private var coordinator: RootCoordinator?
+
+    private var isRunningTests: Bool {
+        UserDefaults.standard.value(forKey: "XCTIDEConnectionTimeout") != nil
+    }
 
     func scene(
         _ scene: UIScene,
@@ -18,11 +22,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        if UserDefaults.standard.value(forKey: "XCTIDEConnectionTimeout") == nil {
+        if isRunningTests {
+            window?.rootViewController = UIViewController()
+        } else {
             initializeRootCoordinator()
             window?.rootViewController = coordinator?.tabBarController
-        } else {
-            window?.rootViewController = UIViewController()
         }
         window?.makeKeyAndVisible()
     }

@@ -10,6 +10,38 @@ import XCTest
 @testable import StarlingRoundUp
 
 final class HomeViewModelTests: XCTestCase {
+    func test_viewCopyIsCorrect() {
+        let sut = makeSUT()
+        XCTAssertEqual(sut.title, "Home")
+        XCTAssertEqual(sut.emptyState.message, "No Transactions")
+        XCTAssertEqual(sut.emptyState.description, "You haven't completed any transactions yet.")
+    }
+
+    func test_isLoading_isFalseWhenDataIsFetched() {
+        // Given
+        var cancellables = Set<AnyCancellable>()
+        let sut = makeSUT()
+        awaitForCurrentAccount(sut)
+        let exp = expectation(description: #function)
+
+        XCTAssertTrue(sut.isLoading.value)
+
+        sut.isLoading
+            .drop(while: { $0 == true })
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                XCTAssertFalse(sut.isLoading.value)
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+
+        // When
+        sut.fetchData()
+
+        // Then
+        wait(for: [exp], timeout: 1.0)
+    }
+
     func test_fetchData_correctlyUpdatesFeedItems() {
         // Given
         var cancellables = Set<AnyCancellable>()
@@ -26,11 +58,11 @@ final class HomeViewModelTests: XCTestCase {
                     XCTFail("First item should not be nil")
                     return
                 }
-                XCTAssertEqual(sut.feedItems.value.count, 1)
-                XCTAssertEqual(firstItem.feedItemUid, "1234")
+                XCTAssertEqual(sut.feedItems.value.count, 3)
+                XCTAssertEqual(firstItem.feedItemUid, "123")
                 XCTAssertEqual(firstItem.amount, .init(currency: .gbp, minorUnits: 10000))
                 XCTAssertEqual(firstItem.direction, .paymentOut)
-                XCTAssertEqual(firstItem.reference, "Test Reference")
+                XCTAssertEqual(firstItem.reference, "Test Reference 1")
                 exp.fulfill()
             }
             .store(in: &cancellables)
@@ -58,10 +90,10 @@ final class HomeViewModelTests: XCTestCase {
                     XCTFail("First item should not be nil")
                     return
                 }
-                XCTAssertEqual(firstItem.feedItemUid, "1234")
+                XCTAssertEqual(firstItem.feedItemUid, "123")
                 XCTAssertEqual(firstItem.amount, .init(currency: .gbp, minorUnits: 10000))
                 XCTAssertEqual(firstItem.direction, .paymentOut)
-                XCTAssertEqual(firstItem.reference, "Test Reference")
+                XCTAssertEqual(firstItem.reference, "Test Reference 1")
                 exp.fulfill()
             }
             .store(in: &cancellables)
@@ -104,6 +136,127 @@ final class HomeViewModelTests: XCTestCase {
         // Then
         wait(for: [exp], timeout: 1.0)
     }
+
+    func test_fetchData_returnsError() {
+        // Given
+        var cancellables = Set<AnyCancellable>()
+        let service = StubHomeService(
+            feedItemsResponseResult: .failure(APIError.invalidData)
+        )
+        let sut = makeSUT(service: service)
+        awaitForCurrentAccount(sut)
+
+        let exp = expectation(description: #function)
+
+        sut.errorPublisher
+            .sink {
+                XCTAssertEqual($0.localizedDescription, "Invalid Data Error")
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+
+        // When
+        sut.fetchData()
+
+        // Then
+        wait(for: [exp], timeout: 1.0)
+    }
+
+    func test_didTapRoundUp_coordinatorPresentRoundUpViewController() {
+        // Given
+        let coordinator = StubHomeCoordinator()
+        let sut = makeSUT(coordinator: coordinator)
+
+        // When
+        sut.didTapRoundUp()
+
+        // Then
+        XCTAssertEqual(coordinator.presentRoundedUpViewControllerCallsCount, 1)
+    }
+
+    func test_didTapRoundUp_noCoordinatorSet_returnsEarly() {
+        // Given
+        let coordinator = StubHomeCoordinator()
+        let sut = makeSUT(coordinator: nil)
+
+        // When
+        sut.didTapRoundUp()
+
+        // Then
+        XCTAssertEqual(coordinator.presentRoundedUpViewControllerCallsCount, 0)
+    }
+
+    func test_didChangeSegmentedControl_withIndex0_showsAllPayments() {
+        // Given
+        var cancellables = Set<AnyCancellable>()
+        let sut = makeSUT()
+        let exp = expectation(description: #function)
+
+        awaitForData(sut)
+
+        sut.filteredFeedItems
+            .sink { items in
+                XCTAssertEqual(items.count, 3)
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+
+        // When
+        sut.didChangeSegmentedControl(index: 0)
+
+        // Then
+        wait(for: [exp], timeout: 1.0)
+    }
+
+    func test_didChangeSegmentedControl_withIndex1_showsPaymentsIn() {
+        // Given
+        var cancellables = Set<AnyCancellable>()
+        let sut = makeSUT()
+        let exp = expectation(description: #function)
+
+        awaitForData(sut)
+
+        sut.filteredFeedItems
+            .sink { items in
+                XCTAssertEqual(items.count, 1)
+                XCTAssertTrue(
+                    items.allSatisfy { $0.direction == .paymentIn }
+                )
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+
+        // When
+        sut.didChangeSegmentedControl(index: 1)
+
+        // Then
+        wait(for: [exp], timeout: 1.0)
+    }
+
+    func test_didChangeSegmentedControl_withIndex2_showsPaymentsOut() {
+        // Given
+        var cancellables = Set<AnyCancellable>()
+        let sut = makeSUT()
+        let exp = expectation(description: #function)
+
+        awaitForData(sut)
+
+        sut.filteredFeedItems
+            .sink { items in
+                XCTAssertEqual(items.count, 2)
+                XCTAssertTrue(
+                    items.allSatisfy { $0.direction == .paymentOut }
+                )
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+
+        // When
+        sut.didChangeSegmentedControl(index: 2)
+
+        // Then
+        wait(for: [exp], timeout: 1.0)
+    }
 }
 
 // MARK: - Make SUT
@@ -141,6 +294,25 @@ private extension HomeViewModelTests {
                 exp.fulfill()
             }
             .store(in: &cancellables)
+
+        wait(for: [exp], timeout: 1.0)
+    }
+
+    func awaitForData(_ sut: HomeViewModel) {
+        var cancellables = Set<AnyCancellable>()
+        let exp = expectation(description: #function)
+
+        awaitForCurrentAccount(sut)
+
+        sut.feedItems
+            .drop(while: { $0.isEmpty })
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                exp.fulfill()
+            }
+            .store(in: &cancellables)
+
+        sut.fetchData()
 
         wait(for: [exp], timeout: 1.0)
     }

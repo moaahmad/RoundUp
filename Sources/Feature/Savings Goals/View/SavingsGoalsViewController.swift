@@ -18,8 +18,8 @@ final class SavingsGoalsViewController: BaseViewController {
     private lazy var tableView = UITableView(frame: .zero, style: .grouped)
     private lazy var dataSource = makeDataSource()
     private lazy var emptyStateView = EmptyView(
-        message: "No Savings Goals",
-        description: "Tap + to create a new savings goal."
+        message: viewModel.emptyState.message,
+        description: viewModel.emptyState.description
     )
 
     // MARK: - Initializers
@@ -96,7 +96,7 @@ private extension SavingsGoalsViewController {
     }
 
     func setupNavigationBar() {
-        title = "goals_tab_title".localized()
+        title = viewModel.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus.circle"),
@@ -120,8 +120,8 @@ private extension SavingsGoalsViewController {
         view.addSubview(tableView)
 
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.top.equalTo(view.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
     }
@@ -174,7 +174,7 @@ private extension SavingsGoalsViewController {
         viewModel.errorPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
-                self?.showErrorAlert(error: error)
+                self?.showErrorAlert(message: error.localizedDescription)
             }
             .store(in: &cancellables)
     }

@@ -9,6 +9,8 @@ import Combine
 import Foundation
 
 protocol HomeViewModeling {
+    var title: String { get }
+    var emptyState: (message: String, description: String) { get }
     var isLoading: CurrentValueSubject<Bool, Never> { get }
     var userInfo: CurrentValueSubject<UserInfo, Never> { get }
     var feedItems: CurrentValueSubject<[FeedItem], Never> { get }
@@ -24,6 +26,11 @@ protocol HomeViewModeling {
 final class HomeViewModel: HomeViewModeling {
     // MARK: - Properties
 
+    let title = "home_tab_title".localized()
+    let emptyState = (
+        message: "transactions_empty_title".localized(),
+        description: "transactions_empty_description".localized()
+    )
     private let service: HomeServicing
     private let appState: AppStateProviding
 
@@ -32,7 +39,6 @@ final class HomeViewModel: HomeViewModeling {
     var feedItems = CurrentValueSubject<[FeedItem], Never>([])
     var filteredFeedItems = PassthroughSubject<[FeedItem], Never>()
     var errorPublisher = PassthroughSubject<Error, Never>()
-    var roundedUpTotal: CurrencyAndAmount?
     var isFeedEmpty: Bool { feedItems.value.isEmpty }
 
     @Published private(set) var account: Account?
