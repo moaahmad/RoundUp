@@ -16,14 +16,14 @@ struct RootService: RootServicing {
     // MARK: - Properties
 
     private let client: HTTPClient
-    private let urlRequestPool: URLRequestPooling
+    private let urlRequestPool: RootURLRequestPooling
     private let decoder: JSONDecoder
 
     // MARK: - Initializer
 
     init(
         client: HTTPClient = URLSessionHTTPClient(),
-        urlRequestPool: URLRequestPooling = URLRequestPool(),
+        urlRequestPool: RootURLRequestPooling = RootURLRequestPool(),
         decoder: JSONDecoder = .init()
     ) {
         self.client = client

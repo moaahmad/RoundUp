@@ -16,7 +16,7 @@ protocol HomeViewModeling {
     var errorPublisher: PassthroughSubject<Error, Never> { get }
     var isFeedEmpty: Bool { get }
 
-    func fetchData()
+    func fetchData(completion: (() -> Void)?)
     func didTapRoundUp()
     func didChangeSegmentedControl(index: Int)
 }
@@ -35,16 +35,16 @@ final class HomeViewModel: HomeViewModeling {
     var roundedUpTotal: CurrencyAndAmount?
     var isFeedEmpty: Bool { feedItems.value.isEmpty }
 
-    private var account: Account?
+    @Published private(set) var account: Account?
     private var _userInfo = UserInfo()
     private var cancellables = Set<AnyCancellable>()
-    private weak var coordinator: Coordinator?
+    private weak var coordinator: HomeCoordinating?
 
     // MARK: - Initializer
 
     init(
         service: HomeServicing,
-        coordinator: Coordinator?,
+        coordinator: HomeCoordinating?,
         appState: AppStateProviding = AppState.shared
     ) {
         self.service = service
@@ -57,7 +57,7 @@ final class HomeViewModel: HomeViewModeling {
     // MARK: - HomeViewModeling Functions
     
     // swiftlint:disable:next function_body_length
-    func fetchData() {
+    func fetchData(completion: (() -> Void)? = nil) {
         guard let account else { return }
         isLoading.send(true)
         let group = DispatchGroup()
@@ -135,13 +135,12 @@ final class HomeViewModel: HomeViewModeling {
             guard let self else { return }
             isLoading.send(false)
             userInfo.send(_userInfo)
+            completion?()
         }
     }
 
     func didTapRoundUp() {
-        guard let coordinator = coordinator as? HomeCoordinator else {
-            return
-        }
+        guard let coordinator else { return }
         coordinator.presentRoundedUpViewController(
             transactions: feedItems.value
         )

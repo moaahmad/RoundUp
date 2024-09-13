@@ -7,7 +7,7 @@
 
 import Combine
 
-protocol AppStateProviding {
+protocol AppStateProviding: AnyObject {
     var currentAccount: CurrentValueSubject<Account?, Error> { get }
 
     func updateAccount(with account: Account)

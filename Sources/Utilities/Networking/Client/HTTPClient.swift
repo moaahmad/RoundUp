@@ -54,6 +54,11 @@ extension HTTPClient {
                 let error = try decoder.decode(GenericAPIError.self, from: data)
                 promise(.failure(APIError.invalidResponse(error.errorDescription)))
             default:
+                guard !data.isEmpty else {
+                    promise(.failure(APIError.invalidResponse(nil)))
+                    return
+                }
+
                 let decodedErrorResponse = try decoder.decode(ErrorResponse.self, from: data)
                 guard let error = decodedErrorResponse.errors.first else {
                     return promise(.failure(APIError.invalidResponse(nil)))

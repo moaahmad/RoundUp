@@ -27,7 +27,7 @@ struct SavingsService: SavingsGoalsServicing {
     // MARK: - Properties
 
     private let client: HTTPClient
-    private let urlRequestPool: SavingsURLRequestPooling
+    private let urlRequestPool: SavingsGoalsURLRequestPooling
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
 
@@ -35,7 +35,7 @@ struct SavingsService: SavingsGoalsServicing {
 
     init(
         client: HTTPClient = URLSessionHTTPClient(),
-        urlRequestPool: SavingsURLRequestPooling = URLRequestPool(),
+        urlRequestPool: SavingsGoalsURLRequestPooling = SavingsGoalsURLRequestPool(),
         decoder: JSONDecoder = .init(),
         encoder: JSONEncoder = .init()
     ) {

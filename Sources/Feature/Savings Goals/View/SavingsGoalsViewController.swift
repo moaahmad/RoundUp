@@ -157,6 +157,12 @@ private extension SavingsGoalsViewController {
             .store(in: &cancellables)
         
         viewModel.savingsGoals
+            .filter { [weak self] _ in
+                guard let isLoading = self?.viewModel.isLoading.value else {
+                    return false
+                }
+                return !isLoading
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] goals in
                 guard let self else { return }

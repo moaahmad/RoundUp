@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct UserName: Decodable {
+struct UserName: Codable, Equatable {
     let accountHolderName: String
 }

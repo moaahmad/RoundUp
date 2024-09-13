@@ -9,7 +9,6 @@ import Combine
 import Foundation
 
 protocol HomeServicing {
-    func fetchAccounts() -> Future<AccountsResponse, Error>
     func fetchName() -> Future<UserName, Error>
     func fetchAccountHolder() -> Future<AccountHolder, Error>
     func fetchAccountIdentifiers(accountUid: String) -> Future<AccountIdentifiers, Error>
@@ -25,14 +24,14 @@ struct HomeService: HomeServicing {
     // MARK: - Properties
 
     private let client: HTTPClient
-    private let urlRequestPool: URLRequestPooling
+    private let urlRequestPool: HomeURLRequestPooling
     private let decoder: JSONDecoder
 
     // MARK: - Initializer
 
     init(
         client: HTTPClient = URLSessionHTTPClient(),
-        urlRequestPool: URLRequestPooling = URLRequestPool(),
+        urlRequestPool: HomeURLRequestPooling = HomeURLRequestPool(),
         decoder: JSONDecoder = .init()
     ) {
         self.client = client
@@ -42,10 +41,10 @@ struct HomeService: HomeServicing {
 
     // MARK: - HomeFeedServicing Functions
 
-    func fetchAccounts() -> Future<AccountsResponse, Error> {
+    func fetchName() -> Future<UserName, Error> {
         client.fetchData(
-            request: urlRequestPool.userAccountsRequest(),
-            responseType: AccountsResponse.self,
+            request: urlRequestPool.userNameRequest(),
+            responseType: UserName.self,
             decoder: decoder
         )
     }
@@ -54,14 +53,6 @@ struct HomeService: HomeServicing {
         client.fetchData(
             request: urlRequestPool.accountHolderRequest(),
             responseType: AccountHolder.self,
-            decoder: decoder
-        )
-    }
-
-    func fetchName() -> Future<UserName, Error> {
-        client.fetchData(
-            request: urlRequestPool.userNameRequest(),
-            responseType: UserName.self,
             decoder: decoder
         )
     }

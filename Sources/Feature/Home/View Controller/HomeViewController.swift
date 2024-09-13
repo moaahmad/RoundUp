@@ -211,8 +211,6 @@ private extension HomeViewController {
             .filter { !$0.accountNumber.isEmpty }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] userInfo in
-                print("userInfo:", userInfo)
-
                 self?.accountInfoView.configure(
                     name: userInfo.name,
                     accountNumber: userInfo.accountNumber,
@@ -223,6 +221,12 @@ private extension HomeViewController {
             .store(in: &cancellables)
 
         viewModel.feedItems
+            .filter { [weak self] _ in
+                guard let isLoading = self?.viewModel.isLoading.value else {
+                    return false
+                }
+                return !isLoading
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] items in
                 guard let self else { return }
@@ -235,7 +239,6 @@ private extension HomeViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] items in
                 guard let self else { return }
-                print("feedItems:", items.count)
                 applySnapshot(for: items)
             }
             .store(in: &cancellables)
@@ -254,7 +257,12 @@ private extension HomeViewController {
 private extension HomeViewController {
     func loadFeed() {
         resetSegmentedControl()
-        viewModel.fetchData()
+        viewModel.fetchData { [weak self] in
+            if let refreshControl = self?.tableView.refreshControl,
+               refreshControl.isRefreshing {
+                self?.tableView.endRefreshing()
+            }
+        }
     }
 
     func resetSegmentedControl() {
@@ -262,10 +270,6 @@ private extension HomeViewController {
     }
 
     func updateView(for items: [FeedItem]) {
-        if let refreshControl = tableView.refreshControl,
-           refreshControl.isRefreshing {
-            tableView.endRefreshing()
-        }
         emptyStateView.isHidden = !items.isEmpty
         tableView.isHidden = items.isEmpty
     }

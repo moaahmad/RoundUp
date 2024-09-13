@@ -3,6 +3,7 @@ excluded:
 - Register
 - Frameworks
 - Dependencies
+- Tests
 
 disabled_rules:
 - multiple_closures_with_trailing_closure
@@ -20,7 +21,7 @@ large_tuple:
   error: 4
 identifier_name:
   max_length:
-   warning: 60
+    warning: 60
   min_length:
     warning: 1
     error: 1

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: LocalizedError {
+enum APIError: LocalizedError, Equatable {
     case connectivity
     case invalidResponse(String?)
     case invalidRequest
@@ -23,19 +23,6 @@ enum APIError: LocalizedError {
             message ?? "invalid_response_error_title".localized()
         case .invalidRequest:
             "invalid_request_error_title".localized()
-        }
-    }
-
-    var recoverySuggestion: String? {
-        switch self {
-        case .connectivity:
-            "connectivity_error_message".localized()
-        case .invalidData:
-            "generic_error_message".localized()
-        case .invalidResponse:
-            "generic_error_message".localized()
-        case .invalidRequest:
-            "generic_error_message".localized()
         }
     }
 }

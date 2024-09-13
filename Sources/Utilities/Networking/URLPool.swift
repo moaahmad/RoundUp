@@ -7,6 +7,24 @@
 
 import Foundation
 
+protocol RootURLPooling {
+    func accountsURL() -> URL
+}
+
+protocol HomeURLPooling {
+    func accountHolderURL() -> URL
+    func nameURL() -> URL
+    func accountIdentifiersURL(accountUid: String) -> URL
+    func balanceURL(accountUid: String) -> URL
+    func transactionsURL(accountUid: String, categoryUid: String, changesSince: String) -> URL
+}
+
+protocol SavingsGoalsURLPooling {
+    func allSavingsGoalsURL(accountUid: String) -> URL
+    func createSavingsGoalsURL(accountUid: String) -> URL
+    func topUpSavingsGoalURL(accountUid: String, savingsGoalUid: String, transferUid: String) -> URL
+}
+
 struct URLPool {
     private enum Endpoint {
         case accounts
@@ -44,57 +62,51 @@ struct URLPool {
 
     static private let scheme = "https"
     static private let host = "api-sandbox.starlingbank.com"
+}
 
-    // MARK: - Home URLs
+// MARK: - Root URLs
 
-    static func accountsURL() -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+extension URLPool: RootURLPooling {
+    func accountsURL() -> URL {
+        Self.configureURL(
             path: Endpoint.accounts.path
         )
     }
+}
 
-    static func accountHolderURL() -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+// MARK: - Home URLs
+
+extension URLPool: HomeURLPooling {
+    func accountHolderURL() -> URL {
+        Self.configureURL(
             path: Endpoint.accountHolder.path
         )
     }
 
-    static func nameURL() -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+    func nameURL() -> URL {
+        Self.configureURL(
             path: Endpoint.name.path
         )
     }
 
-    static func accountIdentifiersURL(accountUid: String) -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+    func accountIdentifiersURL(accountUid: String) -> URL {
+        Self.configureURL(
             path: Endpoint.accountIdentifiers(accountUid: accountUid).path
         )
     }
 
-    static func balanceURL(accountUid: String) -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+    func balanceURL(accountUid: String) -> URL {
+        Self.configureURL(
             path: Endpoint.balance(accountUid: accountUid).path
         )
     }
 
-    static func transactionsURL(
+    func transactionsURL(
         accountUid: String,
         categoryUid: String,
         changesSince: String
     ) -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+        Self.configureURL(
             path: Endpoint.transactions(
                 accountUid: accountUid,
                 categoryUid: categoryUid,
@@ -102,33 +114,29 @@ struct URLPool {
             ).path
         )
     }
+}
 
-    // MARK: - Savings Goals URLs
+// MARK: - Savings Goals URLs
 
-    static func allSavingsGoalsURL(accountUid: String) -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+extension URLPool: SavingsGoalsURLPooling {
+    func allSavingsGoalsURL(accountUid: String) -> URL {
+        Self.configureURL(
             path: Endpoint.allSavingsGoal(accountUid: accountUid).path
         )
     }
 
-    static func createSavingsGoalsURL(accountUid: String) -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+    func createSavingsGoalsURL(accountUid: String) -> URL {
+        Self.configureURL(
             path: Endpoint.createSavingsGoal(accountUid: accountUid).path
         )
     }
 
-    static func topUpSavingsGoalURL(
+    func topUpSavingsGoalURL(
         accountUid: String,
         savingsGoalUid: String,
         transferUid: String
     ) -> URL {
-        configureURL(
-            scheme: scheme,
-            host: host,
+        Self.configureURL(
             path: Endpoint.topUpSavingsGoal(
                 accountUid: accountUid,
                 savingsGoalUid: savingsGoalUid,
@@ -142,8 +150,8 @@ struct URLPool {
 
 private extension URLPool {
     static func configureURL(
-        scheme: String,
-        host: String,
+        scheme: String = scheme,
+        host: String = host,
         path: String,
         parameters: [URLQueryItem]? = nil
     ) -> URL {

@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class HomeCoordinator: Coordinator {
+protocol HomeCoordinating: Coordinator {
+    func presentRoundedUpViewController(transactions: [FeedItem])
+}
+
+final class HomeCoordinator: HomeCoordinating {
     let client: HTTPClient
     var rootController: UIViewController?
     weak var parentCoordinator: Coordinator?

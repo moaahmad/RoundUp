@@ -7,8 +7,27 @@
 
 import Foundation
 
-protocol HomeURLRequestPooling {
+// MARK: - Root URL Requests
+
+protocol RootURLRequestPooling {
     func userAccountsRequest() -> URLRequest
+}
+
+struct RootURLRequestPool: RootURLRequestPooling {
+    private let urlPool: RootURLPooling
+
+    init(urlPool: RootURLPooling = URLPool()) {
+        self.urlPool = urlPool
+    }
+
+    func userAccountsRequest() -> URLRequest {
+        .init(method: .get, url: urlPool.accountsURL())
+    }
+}
+
+// MARK: - Home URL Requests
+
+protocol HomeURLRequestPooling {
     func accountHolderRequest() -> URLRequest
     func userNameRequest() -> URLRequest
     func userAccountIdentifiersRequest(accountUid: String) -> URLRequest
@@ -20,43 +39,32 @@ protocol HomeURLRequestPooling {
     ) -> URLRequest
 }
 
-protocol SavingsURLRequestPooling {
-    func allSavingsGoalsRequest(accountUid: String) -> URLRequest
-    func createSavingsGoal(accountUid: String, savingsGoalRequestData: Data) -> URLRequest
-    func topUpSavingsGoal(
-        accountUid: String,
-        savingsGoalUid: String,
-        transferUid: String,
-        topUpRequestData: Data
-    ) -> URLRequest
-}
+struct HomeURLRequestPool: HomeURLRequestPooling {
+    private let urlPool: HomeURLPooling
 
-protocol URLRequestPooling: HomeURLRequestPooling & SavingsURLRequestPooling {}
-
-struct URLRequestPool: URLRequestPooling {
-    func userAccountsRequest() -> URLRequest {
-        .init(method: .get, url: URLPool.accountsURL())
+    init(urlPool: HomeURLPooling = URLPool()) {
+        self.urlPool = urlPool
     }
 
     func userNameRequest() -> URLRequest {
-        .init(method: .get, url: URLPool.nameURL())
+        .init(method: .get, url: urlPool.nameURL())
     }
 
     func accountHolderRequest() -> URLRequest {
-        .init(method: .get, url: URLPool.accountHolderURL())
+        .init(method: .get, url: urlPool.accountHolderURL())
     }
 
     func userAccountIdentifiersRequest(accountUid: String) -> URLRequest {
         .init(
             method: .get,
-            url: URLPool.accountIdentifiersURL(accountUid: accountUid)
+            url: urlPool.accountIdentifiersURL(accountUid: accountUid)
         )
     }
 
     func accountBalanceRequest(accountUid: String) -> URLRequest {
         .init(
             method: .get,
-            url: URLPool.balanceURL(accountUid: accountUid)
+            url: urlPool.balanceURL(accountUid: accountUid)
         )
     }
 
@@ -67,20 +75,39 @@ struct URLRequestPool: URLRequestPooling {
     ) -> URLRequest {
         .init(
             method: .get,
-            url: URLPool.transactionsURL(
+            url: urlPool.transactionsURL(
                 accountUid: accountUid,
                 categoryUid: categoryUid,
                 changesSince: changesSince
             )
         )
     }
+}
 
-    // MARK: - SavingsURLRequestPooling
+// MARK: - Savings Goals URL Requests
+
+protocol SavingsGoalsURLRequestPooling {
+    func allSavingsGoalsRequest(accountUid: String) -> URLRequest
+    func createSavingsGoal(accountUid: String, savingsGoalRequestData: Data) -> URLRequest
+    func topUpSavingsGoal(
+        accountUid: String,
+        savingsGoalUid: String,
+        transferUid: String,
+        topUpRequestData: Data
+    ) -> URLRequest
+}
+
+struct SavingsGoalsURLRequestPool: SavingsGoalsURLRequestPooling {
+    private let urlPool: SavingsGoalsURLPooling
+
+    init(urlPool: SavingsGoalsURLPooling = URLPool()) {
+        self.urlPool = urlPool
+    }
 
     func allSavingsGoalsRequest(accountUid: String) -> URLRequest {
         .init(
             method: .get,
-            url: URLPool.allSavingsGoalsURL(accountUid: accountUid)
+            url: urlPool.allSavingsGoalsURL(accountUid: accountUid)
         )
     }
 
@@ -90,7 +117,7 @@ struct URLRequestPool: URLRequestPooling {
     ) -> URLRequest {
         .init(
             method: .put,
-            url: URLPool.createSavingsGoalsURL(accountUid: accountUid),
+            url: urlPool.createSavingsGoalsURL(accountUid: accountUid),
             bodyData: savingsGoalRequestData
         )
     }
@@ -103,7 +130,7 @@ struct URLRequestPool: URLRequestPooling {
     ) -> URLRequest {
         .init(
             method: .put,
-            url: URLPool.topUpSavingsGoalURL(
+            url: urlPool.topUpSavingsGoalURL(
                 accountUid: accountUid,
                 savingsGoalUid: savingsGoalUid,
                 transferUid: transferUid
