@@ -7,24 +7,6 @@
 
 import Foundation
 
-protocol RootURLPooling {
-    func accountsURL() -> URL
-}
-
-protocol HomeURLPooling {
-    func accountHolderURL() -> URL
-    func nameURL() -> URL
-    func accountIdentifiersURL(accountUid: String) -> URL
-    func balanceURL(accountUid: String) -> URL
-    func transactionsURL(accountUid: String, categoryUid: String, changesSince: String) -> URL
-}
-
-protocol SavingsGoalsURLPooling {
-    func allSavingsGoalsURL(accountUid: String) -> URL
-    func createSavingsGoalsURL(accountUid: String) -> URL
-    func topUpSavingsGoalURL(accountUid: String, savingsGoalUid: String, transferUid: String) -> URL
-}
-
 struct URLPool {
     private enum Endpoint {
         case accounts

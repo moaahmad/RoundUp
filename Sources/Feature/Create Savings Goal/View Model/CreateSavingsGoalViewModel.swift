@@ -8,29 +8,6 @@
 import Combine
 import Foundation
 
-protocol CreateSavingsGoalViewModeling {
-    var title: String { get }
-    var closeTitle: String { get }
-    var errorMessage: String { get }
-    var createGoalTitle: String { get }
-    var nameTextPlaceholder: String { get }
-    var selectCurrencyPlaceholder: String { get }
-    var targetAmountPlaceholder: String { get }
-    var errorPublisher: PassthroughSubject<Error, Never> { get }
-
-    func shouldChangeCharacters(
-        _ text: String?,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String
-    ) -> Bool
-    func didTapCreateSavingsGoal(
-        name: String,
-        currency: String,
-        target: String,
-        completion: @escaping () -> Void
-    )
-}
-
 final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
     // MARK: - Properties
 
@@ -129,13 +106,6 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
         }
         .store(in: &cancellables)
     }
-
-    private static func convertStringTargetToMinorUnits(_ total: String) -> Int64? {
-        guard let totalAsDouble = Double(total) else {
-            return nil
-        }
-        return Int64(totalAsDouble * 100)
-    }
 }
 
 // MARK: - Listeners
@@ -143,13 +113,24 @@ final class CreateSavingsGoalViewModel: CreateSavingsGoalViewModeling {
 private extension CreateSavingsGoalViewModel {
     func listenForCurrentAccount() {
         appState.currentAccount
-            .catch { error -> AnyPublisher<Account?, Never> in
-                print(error.localizedDescription)
+            .catch { [weak self] error -> AnyPublisher<Account?, Never> in
+                self?.errorPublisher.send(error)
                 return Empty().eraseToAnyPublisher()
             }
             .sink { [weak self] in
                 self?.account = $0
             }
             .store(in: &cancellables)
+    }
+}
+
+// MARK: - Private Helpers
+
+private extension CreateSavingsGoalViewModel {
+    static func convertStringTargetToMinorUnits(_ total: String) -> Int64? {
+        guard let totalAsDouble = Double(total) else {
+            return nil
+        }
+        return Int64(totalAsDouble * 100)
     }
 }

@@ -53,6 +53,28 @@
 		4E5B0A302C9256B400FBA473 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A2F2C9256B400FBA473 /* ErrorResponse.swift */; };
 		4E5B0A322C93190E00FBA473 /* GenericAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A312C93190E00FBA473 /* GenericAPIError.swift */; };
 		4E5B0A3E2C93241600FBA473 /* URLPoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5B0A3D2C93241600FBA473 /* URLPoolTests.swift */; };
+		4EB440932C9506ED00241198 /* AppStateProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440922C9506ED00241198 /* AppStateProviding.swift */; };
+		4EB440952C95071100241198 /* CreateSavingsGoalViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440942C95071100241198 /* CreateSavingsGoalViewModeling.swift */; };
+		4EB440972C95073800241198 /* HomeCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440962C95073800241198 /* HomeCoordinating.swift */; };
+		4EB440992C95075200241198 /* HomeServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440982C95075200241198 /* HomeServicing.swift */; };
+		4EB4409B2C95076F00241198 /* HomeViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB4409A2C95076F00241198 /* HomeViewModeling.swift */; };
+		4EB4409D2C9507AF00241198 /* RootCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB4409C2C9507AF00241198 /* RootCoordinating.swift */; };
+		4EB4409F2C95084700241198 /* RootServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB4409E2C95084700241198 /* RootServicing.swift */; };
+		4EB440A12C95086900241198 /* RootViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440A02C95086900241198 /* RootViewModeling.swift */; };
+		4EB440A32C95088800241198 /* RoundUpViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440A22C95088800241198 /* RoundUpViewModeling.swift */; };
+		4EB440A52C9508DB00241198 /* SavingsGoalsCoordinating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440A42C9508DB00241198 /* SavingsGoalsCoordinating.swift */; };
+		4EB440A72C9508F400241198 /* SavingsGoalsServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440A62C9508F400241198 /* SavingsGoalsServicing.swift */; };
+		4EB440A92C95091400241198 /* SavingsGoalsViewModeling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440A82C95091400241198 /* SavingsGoalsViewModeling.swift */; };
+		4EB440AB2C95094900241198 /* DateProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440AA2C95094900241198 /* DateProviding.swift */; };
+		4EB440AE2C95099F00241198 /* RootURLPooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440AD2C95099F00241198 /* RootURLPooling.swift */; };
+		4EB440B02C9509AB00241198 /* HomeURLPooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440AF2C9509AB00241198 /* HomeURLPooling.swift */; };
+		4EB440B22C9509B500241198 /* SavingsGoalsURLPooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440B12C9509B500241198 /* SavingsGoalsURLPooling.swift */; };
+		4EB440B52C950A4F00241198 /* RootURLRequestPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440B42C950A4F00241198 /* RootURLRequestPool.swift */; };
+		4EB440B72C950A6000241198 /* HomeURLRequestPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440B62C950A6000241198 /* HomeURLRequestPool.swift */; };
+		4EB440B92C950A7900241198 /* SavingsGoalsURLRequestPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440B82C950A7900241198 /* SavingsGoalsURLRequestPool.swift */; };
+		4EB440BE2C950AB800241198 /* SavingsGoalsURLRequestPooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440BD2C950AB800241198 /* SavingsGoalsURLRequestPooling.swift */; };
+		4EB440C02C950ACC00241198 /* HomeURLRequestPooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440BF2C950ACC00241198 /* HomeURLRequestPooling.swift */; };
+		4EB440C22C950ADF00241198 /* RootURLRequestPooling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB440C12C950ADF00241198 /* RootURLRequestPooling.swift */; };
 		4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */; };
 		4EC7FE8F2C8BAF8700A37E78 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */; };
 		4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FE902C8BAF8700A37E78 /* HomeViewController.swift */; };
@@ -75,7 +97,6 @@
 		4EC7FEE72C8BB56200A37E78 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEE62C8BB56200A37E78 /* URLSessionHTTPClient.swift */; };
 		4EC7FEE92C8BB57800A37E78 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEE82C8BB57800A37E78 /* APIError.swift */; };
 		4EC7FEEC2C8BB5A700A37E78 /* URLPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEEB2C8BB5A700A37E78 /* URLPool.swift */; };
-		4EC7FEEE2C8BB5C000A37E78 /* URLRequestPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEED2C8BB5C000A37E78 /* URLRequestPool.swift */; };
 		4EC7FEF02C8BB63A00A37E78 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4EC7FEEF2C8BB63A00A37E78 /* Localizable.xcstrings */; };
 		4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */; };
 		4EC7FEF42C8BB6CD00A37E78 /* AccountInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */; };
@@ -157,6 +178,28 @@
 		4E5B0A312C93190E00FBA473 /* GenericAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericAPIError.swift; sourceTree = "<group>"; };
 		4E5B0A3B2C9323D600FBA473 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
 		4E5B0A3D2C93241600FBA473 /* URLPoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPoolTests.swift; sourceTree = "<group>"; };
+		4EB440922C9506ED00241198 /* AppStateProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateProviding.swift; sourceTree = "<group>"; };
+		4EB440942C95071100241198 /* CreateSavingsGoalViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSavingsGoalViewModeling.swift; sourceTree = "<group>"; };
+		4EB440962C95073800241198 /* HomeCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinating.swift; sourceTree = "<group>"; };
+		4EB440982C95075200241198 /* HomeServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeServicing.swift; sourceTree = "<group>"; };
+		4EB4409A2C95076F00241198 /* HomeViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModeling.swift; sourceTree = "<group>"; };
+		4EB4409C2C9507AF00241198 /* RootCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinating.swift; sourceTree = "<group>"; };
+		4EB4409E2C95084700241198 /* RootServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootServicing.swift; sourceTree = "<group>"; };
+		4EB440A02C95086900241198 /* RootViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModeling.swift; sourceTree = "<group>"; };
+		4EB440A22C95088800241198 /* RoundUpViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundUpViewModeling.swift; sourceTree = "<group>"; };
+		4EB440A42C9508DB00241198 /* SavingsGoalsCoordinating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsCoordinating.swift; sourceTree = "<group>"; };
+		4EB440A62C9508F400241198 /* SavingsGoalsServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsServicing.swift; sourceTree = "<group>"; };
+		4EB440A82C95091400241198 /* SavingsGoalsViewModeling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsViewModeling.swift; sourceTree = "<group>"; };
+		4EB440AA2C95094900241198 /* DateProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProviding.swift; sourceTree = "<group>"; };
+		4EB440AD2C95099F00241198 /* RootURLPooling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootURLPooling.swift; sourceTree = "<group>"; };
+		4EB440AF2C9509AB00241198 /* HomeURLPooling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeURLPooling.swift; sourceTree = "<group>"; };
+		4EB440B12C9509B500241198 /* SavingsGoalsURLPooling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsURLPooling.swift; sourceTree = "<group>"; };
+		4EB440B42C950A4F00241198 /* RootURLRequestPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootURLRequestPool.swift; sourceTree = "<group>"; };
+		4EB440B62C950A6000241198 /* HomeURLRequestPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeURLRequestPool.swift; sourceTree = "<group>"; };
+		4EB440B82C950A7900241198 /* SavingsGoalsURLRequestPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsURLRequestPool.swift; sourceTree = "<group>"; };
+		4EB440BD2C950AB800241198 /* SavingsGoalsURLRequestPooling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsGoalsURLRequestPooling.swift; sourceTree = "<group>"; };
+		4EB440BF2C950ACC00241198 /* HomeURLRequestPooling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeURLRequestPooling.swift; sourceTree = "<group>"; };
+		4EB440C12C950ADF00241198 /* RootURLRequestPooling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootURLRequestPooling.swift; sourceTree = "<group>"; };
 		4EC7FE892C8BAF8700A37E78 /* StarlingRoundUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarlingRoundUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EC7FE8C2C8BAF8700A37E78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4EC7FE8E2C8BAF8700A37E78 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -181,7 +224,6 @@
 		4EC7FEE62C8BB56200A37E78 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		4EC7FEE82C8BB57800A37E78 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		4EC7FEEB2C8BB5A700A37E78 /* URLPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPool.swift; sourceTree = "<group>"; };
-		4EC7FEED2C8BB5C000A37E78 /* URLRequestPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestPool.swift; sourceTree = "<group>"; };
 		4EC7FEEF2C8BB63A00A37E78 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		4EC7FEF12C8BB68100A37E78 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4EC7FEF32C8BB6CD00A37E78 /* AccountInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoView.swift; sourceTree = "<group>"; };
@@ -371,6 +413,7 @@
 		4E5B0A012C90FBB000FBA473 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				4EB4409C2C9507AF00241198 /* RootCoordinating.swift */,
 				4EC7FEC32C8BB05E00A37E78 /* RootCoordinator.swift */,
 				4E5B09FF2C90F5AA00FBA473 /* AppTabCoordinator.swift */,
 			);
@@ -380,6 +423,7 @@
 		4E5B0A022C90FBBC00FBA473 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4EB4409E2C95084700241198 /* RootServicing.swift */,
 				4E5B09FD2C90EFED00FBA473 /* RootService.swift */,
 			);
 			path = Service;
@@ -388,6 +432,7 @@
 		4E5B0A032C90FBC300FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440A02C95086900241198 /* RootViewModeling.swift */,
 				4E5B09F72C90DB0F00FBA473 /* RootViewModel.swift */,
 			);
 			path = "View Model";
@@ -413,6 +458,7 @@
 		4E5B0A152C91030B00FBA473 /* State */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440922C9506ED00241198 /* AppStateProviding.swift */,
 				4E5B0A162C91031C00FBA473 /* AppState.swift */,
 			);
 			path = State;
@@ -421,6 +467,7 @@
 		4E5B0A182C91091600FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440942C95071100241198 /* CreateSavingsGoalViewModeling.swift */,
 				4E5B09C72C904EE900FBA473 /* CreateSavingsGoalViewModel.swift */,
 			);
 			path = "View Model";
@@ -437,6 +484,7 @@
 		4E5B0A1A2C91092700FBA473 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440962C95073800241198 /* HomeCoordinating.swift */,
 				4EC7FEC52C8BB0B600A37E78 /* HomeCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -445,6 +493,7 @@
 		4E5B0A1B2C91092F00FBA473 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440982C95075200241198 /* HomeServicing.swift */,
 				4EC7FECD2C8BB3A300A37E78 /* HomeService.swift */,
 			);
 			path = Service;
@@ -453,6 +502,7 @@
 		4E5B0A1C2C91093500FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EB4409A2C95076F00241198 /* HomeViewModeling.swift */,
 				4EC7FECB2C8BB39200A37E78 /* HomeViewModel.swift */,
 			);
 			path = "View Model";
@@ -469,6 +519,7 @@
 		4E5B0A1E2C91096100FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440A22C95088800241198 /* RoundUpViewModeling.swift */,
 				4EC7FF0E2C8CE7CA00A37E78 /* RoundUpViewModel.swift */,
 			);
 			path = "View Model";
@@ -485,6 +536,7 @@
 		4E5B0A202C91097100FBA473 /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440A42C9508DB00241198 /* SavingsGoalsCoordinating.swift */,
 				4EC7FEFD2C8BBB7F00A37E78 /* SavingsGoalsCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -493,6 +545,7 @@
 		4E5B0A212C91097800FBA473 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440A62C9508F400241198 /* SavingsGoalsServicing.swift */,
 				4EC7FEFA2C8BBAEC00A37E78 /* SavingsGoalsService.swift */,
 			);
 			path = Service;
@@ -501,6 +554,7 @@
 		4E5B0A222C91097E00FBA473 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440A82C95091400241198 /* SavingsGoalsViewModeling.swift */,
 				4EC7FEF82C8BBAD600A37E78 /* SavingsGoalsViewModel.swift */,
 			);
 			path = "View Model";
@@ -517,6 +571,7 @@
 		4E5B0A2A2C924C8A00FBA473 /* Date */ = {
 			isa = PBXGroup;
 			children = (
+				4EB440AA2C95094900241198 /* DateProviding.swift */,
 				4E5B0A2B2C924C9A00FBA473 /* DateProvider.swift */,
 			);
 			path = Date;
@@ -579,6 +634,54 @@
 				4E5B0A372C93237D00FBA473 /* Utilities */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		4EB440AC2C95098900241198 /* URL */ = {
+			isa = PBXGroup;
+			children = (
+				4EB440AD2C95099F00241198 /* RootURLPooling.swift */,
+				4EB440AF2C9509AB00241198 /* HomeURLPooling.swift */,
+				4EB440B12C9509B500241198 /* SavingsGoalsURLPooling.swift */,
+				4EC7FEEB2C8BB5A700A37E78 /* URLPool.swift */,
+			);
+			path = URL;
+			sourceTree = "<group>";
+		};
+		4EB440B32C950A0700241198 /* URL Requests */ = {
+			isa = PBXGroup;
+			children = (
+				4EB440BA2C950A9400241198 /* Root */,
+				4EB440BB2C950A9C00241198 /* Home */,
+				4EB440BC2C950AA400241198 /* Savings Goals */,
+			);
+			path = "URL Requests";
+			sourceTree = "<group>";
+		};
+		4EB440BA2C950A9400241198 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				4EB440C12C950ADF00241198 /* RootURLRequestPooling.swift */,
+				4EB440B42C950A4F00241198 /* RootURLRequestPool.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		4EB440BB2C950A9C00241198 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4EB440BF2C950ACC00241198 /* HomeURLRequestPooling.swift */,
+				4EB440B62C950A6000241198 /* HomeURLRequestPool.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		4EB440BC2C950AA400241198 /* Savings Goals */ = {
+			isa = PBXGroup;
+			children = (
+				4EB440BD2C950AB800241198 /* SavingsGoalsURLRequestPooling.swift */,
+				4EB440B82C950A7900241198 /* SavingsGoalsURLRequestPool.swift */,
+			);
+			path = "Savings Goals";
 			sourceTree = "<group>";
 		};
 		4EC7FE802C8BAF8700A37E78 = {
@@ -715,10 +818,10 @@
 			isa = PBXGroup;
 			children = (
 				4EC7FEE32C8BB53000A37E78 /* Client */,
+				4EB440AC2C95098900241198 /* URL */,
+				4EB440B32C950A0700241198 /* URL Requests */,
 				4E5B09D62C90A95000FBA473 /* APIConstants.swift */,
 				4EC7FEE82C8BB57800A37E78 /* APIError.swift */,
-				4EC7FEEB2C8BB5A700A37E78 /* URLPool.swift */,
-				4EC7FEED2C8BB5C000A37E78 /* URLRequestPool.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -951,30 +1054,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EC7FEF92C8BBAD600A37E78 /* SavingsGoalsViewModel.swift in Sources */,
+				4EB440B52C950A4F00241198 /* RootURLRequestPool.swift in Sources */,
 				4EC7FEE22C8BB51700A37E78 /* UITableView+Extensions.swift in Sources */,
 				4E5B0A252C91E19300FBA473 /* EmptyView.swift in Sources */,
+				4EB440952C95071100241198 /* CreateSavingsGoalViewModeling.swift in Sources */,
 				4E5B09F82C90DB0F00FBA473 /* RootViewModel.swift in Sources */,
+				4EB440A32C95088800241198 /* RoundUpViewModeling.swift in Sources */,
 				4E5B09D72C90A95000FBA473 /* APIConstants.swift in Sources */,
 				4E5B0A0B2C90FD7A00FBA473 /* TransactionDirection.swift in Sources */,
 				4EC7FF202C8DEC8100A37E78 /* SavingsGoalCell.swift in Sources */,
 				4EC7FF042C8C9D6800A37E78 /* CGFloat+UIConstants.swift in Sources */,
 				4EC7FF0C2C8CD75C00A37E78 /* RoundUpViewController.swift in Sources */,
 				4E0487F42C94A07E00DC6692 /* Date+Extensions.swift in Sources */,
-				4EC7FEEE2C8BB5C000A37E78 /* URLRequestPool.swift in Sources */,
 				4E5B0A002C90F5AA00FBA473 /* AppTabCoordinator.swift in Sources */,
 				4EC7FEC22C8BB05300A37E78 /* Coordinator.swift in Sources */,
 				4EC7FE912C8BAF8700A37E78 /* HomeViewController.swift in Sources */,
 				4EC7FECC2C8BB39200A37E78 /* HomeViewModel.swift in Sources */,
 				4E5B09C32C8E381100FBA473 /* TransactionsHeaderView.swift in Sources */,
 				4EC7FEF72C8BBACD00A37E78 /* SavingsGoalsViewController.swift in Sources */,
+				4EB440B92C950A7900241198 /* SavingsGoalsURLRequestPool.swift in Sources */,
+				4EB440B02C9509AB00241198 /* HomeURLPooling.swift in Sources */,
 				4EC7FF062C8C9D8A00A37E78 /* ConstraintMakerEditable+Extensions.swift in Sources */,
+				4EB440C02C950ACC00241198 /* HomeURLRequestPooling.swift in Sources */,
 				4EC7FF0F2C8CE7CB00A37E78 /* RoundUpViewModel.swift in Sources */,
 				4EC7FEF22C8BB68100A37E78 /* BaseViewController.swift in Sources */,
 				4E5B0A322C93190E00FBA473 /* GenericAPIError.swift in Sources */,
 				4E5B09C82C904EE900FBA473 /* CreateSavingsGoalViewModel.swift in Sources */,
 				4E5B09FE2C90EFED00FBA473 /* RootService.swift in Sources */,
 				4E5B09CB2C90511D00FBA473 /* STTextField.swift in Sources */,
+				4EB440932C9506ED00241198 /* AppStateProviding.swift in Sources */,
 				4E5B0A072C90FCEF00FBA473 /* FeedItem.swift in Sources */,
+				4EB440972C95073800241198 /* HomeCoordinating.swift in Sources */,
+				4EB440AE2C95099F00241198 /* RootURLPooling.swift in Sources */,
 				4EC7FEFB2C8BBAEC00A37E78 /* SavingsGoalsService.swift in Sources */,
 				4EC7FF1D2C8D9F3500A37E78 /* RoundUpTotalView.swift in Sources */,
 				4EC7FEE72C8BB56200A37E78 /* URLSessionHTTPClient.swift in Sources */,
@@ -986,26 +1097,35 @@
 				4EC7FF222C8DF67900A37E78 /* STValueView.swift in Sources */,
 				4E0487FA2C94F76500DC6692 /* Environment.swift in Sources */,
 				4E5B0A302C9256B400FBA473 /* ErrorResponse.swift in Sources */,
+				4EB440A12C95086900241198 /* RootViewModeling.swift in Sources */,
 				4EC7FE8D2C8BAF8700A37E78 /* AppDelegate.swift in Sources */,
+				4EB440AB2C95094900241198 /* DateProviding.swift in Sources */,
 				4EC7FF002C8BBBEF00A37E78 /* Data+Extensions.swift in Sources */,
 				4E5B0A132C90FDE800FBA473 /* AccountIdentifiers.swift in Sources */,
 				4EC7FEF42C8BB6CD00A37E78 /* AccountInfoView.swift in Sources */,
 				4E5B09C52C8F112C00FBA473 /* TransactionRowCell.swift in Sources */,
 				4E5B0A112C90FDD100FBA473 /* UserName.swift in Sources */,
+				4EB440C22C950ADF00241198 /* RootURLRequestPooling.swift in Sources */,
 				4EC7FED52C8BB42600A37E78 /* AccountHolder.swift in Sources */,
+				4EB4409B2C95076F00241198 /* HomeViewModeling.swift in Sources */,
 				4E5B0A092C90FD1D00FBA473 /* CurrencyAndAmount.swift in Sources */,
 				4E5B09F42C90D79D00FBA473 /* STTabBarController.swift in Sources */,
 				4EC7FEDE2C8BB4E700A37E78 /* Strings+Extensions.swift in Sources */,
 				4EC7FEC42C8BB05E00A37E78 /* RootCoordinator.swift in Sources */,
 				4EC7FF082C8C9DFD00A37E78 /* CreateSavingsGoalViewController.swift in Sources */,
+				4EB4409F2C95084700241198 /* RootServicing.swift in Sources */,
 				4EC7FED12C8BB3EE00A37E78 /* Account.swift in Sources */,
 				4EC7FE8F2C8BAF8700A37E78 /* SceneDelegate.swift in Sources */,
 				4EC7FEE52C8BB54800A37E78 /* HTTPClient.swift in Sources */,
+				4EB440A52C9508DB00241198 /* SavingsGoalsCoordinating.swift in Sources */,
 				4E5B09D42C90A77900FBA473 /* AppEnvironment.swift in Sources */,
 				4EC7FEEC2C8BB5A700A37E78 /* URLPool.swift in Sources */,
 				4E5B09FC2C90EFCF00FBA473 /* RootDestination.swift in Sources */,
+				4EB440992C95075200241198 /* HomeServicing.swift in Sources */,
 				4E5B09FA2C90EF6700FBA473 /* RootViewController.swift in Sources */,
+				4EB440B22C9509B500241198 /* SavingsGoalsURLPooling.swift in Sources */,
 				4EC7FECE2C8BB3A300A37E78 /* HomeService.swift in Sources */,
+				4EB440A72C9508F400241198 /* SavingsGoalsServicing.swift in Sources */,
 				4E5B0A292C92387F00FBA473 /* RoundUpHeaderView.swift in Sources */,
 				4EC7FED32C8BB40C00A37E78 /* UserInfo.swift in Sources */,
 				4EC7FEE02C8BB4FC00A37E78 /* URLRequest+Extensions.swift in Sources */,
@@ -1013,8 +1133,12 @@
 				4EC7FEC62C8BB0B600A37E78 /* HomeCoordinator.swift in Sources */,
 				4E5B0A0F2C90FDBC00FBA473 /* Balance.swift in Sources */,
 				4EC7FF112C8CE9AF00A37E78 /* Currency.swift in Sources */,
+				4EB440B72C950A6000241198 /* HomeURLRequestPool.swift in Sources */,
 				4EC7FF252C8DFBDA00A37E78 /* STTitleLabel.swift in Sources */,
 				4EC7FEE92C8BB57800A37E78 /* APIError.swift in Sources */,
+				4EB440A92C95091400241198 /* SavingsGoalsViewModeling.swift in Sources */,
+				4EB4409D2C9507AF00241198 /* RootCoordinating.swift in Sources */,
+				4EB440BE2C950AB800241198 /* SavingsGoalsURLRequestPooling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

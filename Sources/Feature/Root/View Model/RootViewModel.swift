@@ -8,14 +8,6 @@
 import Combine
 import Foundation
 
-protocol RootViewModeling {
-    var rootDestination: CurrentValueSubject<RootDestination, Never> { get }
-    var errorPublisher: PassthroughSubject<Error, Never> { get }
-
-    func fetchData()
-    func navigateTo(_ rootDestination: RootDestination)
-}
-
 final class RootViewModel: RootViewModeling {
     // MARK: - Properties
 

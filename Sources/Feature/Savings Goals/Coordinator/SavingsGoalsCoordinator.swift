@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SavingsGoalsCoordinator: Coordinator {
+final class SavingsGoalsCoordinator: SavingsGoalsCoordinating {
     let client: HTTPClient
     var rootController: UIViewController?
     weak var parentCoordinator: Coordinator?

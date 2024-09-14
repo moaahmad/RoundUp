@@ -7,9 +7,6 @@
 
 import Foundation
 
-protocol DateProviding {
-    func currentWeekDateRange() -> (startOfWeek: Date, endOfWeek: Date)?
-}
 struct DateProvider: DateProviding {
     func currentWeekDateRange() -> (startOfWeek: Date, endOfWeek: Date)? {
         let calendar = Calendar.current

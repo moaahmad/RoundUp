@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class RootCoordinator: Coordinator {
+final class RootCoordinator: RootCoordinating {
     let client: HTTPClient
     let tabBarController: UITabBarController
 

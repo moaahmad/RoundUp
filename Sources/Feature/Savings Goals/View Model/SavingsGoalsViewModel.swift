@@ -8,17 +8,6 @@
 import Combine
 import Foundation
 
-protocol SavingsGoalsViewModeling {
-    var title: String { get }
-    var emptyState: (message: String, description: String) { get }
-    var isLoading: CurrentValueSubject<Bool, Never> { get }
-    var savingsGoals: CurrentValueSubject<[SavingsGoal], Never> { get }
-    var errorPublisher: PassthroughSubject<Error, Never> { get }
-
-    func fetchData()
-    func didTapPlusButton()
-}
-
 final class SavingsGoalsViewModel: SavingsGoalsViewModeling {
     // MARK: - Properties
 
@@ -35,14 +24,14 @@ final class SavingsGoalsViewModel: SavingsGoalsViewModeling {
     var errorPublisher = PassthroughSubject<Error, Never>()
 
     private var account: Account?
-    private weak var coordinator: Coordinator?
+    private weak var coordinator: SavingsGoalsCoordinating?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initializer
 
     init(
         service: SavingsGoalsServicing,
-        coordinator: Coordinator?,
+        coordinator: SavingsGoalsCoordinating?,
         appState: AppStateProviding = AppState.shared
     ) {
         self.coordinator = coordinator
@@ -72,9 +61,7 @@ final class SavingsGoalsViewModel: SavingsGoalsViewModeling {
     }
 
     func didTapPlusButton() {
-        guard let coordinator = coordinator as? SavingsGoalsCoordinator else {
-            return
-        }
+        guard let coordinator else { return }
         coordinator.presentCreateSavingsGoalVC(service: service)
     }
 }

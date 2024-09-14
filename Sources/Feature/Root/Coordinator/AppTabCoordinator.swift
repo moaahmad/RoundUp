@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class AppTabCoordinator: Coordinator {
+protocol AppTabCoordinating: Coordinator {}
+
+final class AppTabCoordinator: AppTabCoordinating {
     let client: HTTPClient
     let tabBarController: UITabBarController
 
@@ -37,7 +39,7 @@ private extension AppTabCoordinator {
     func createHomeNavigationController() -> UINavigationController {
         let homeNavigationController = UINavigationController()
         homeNavigationController.tabBarItem = UITabBarItem(
-            title: "Home",
+            title: "home_tab_title".localized(),
             image: UIImage(systemName: "house.fill"),
             tag: 0
         )
@@ -56,14 +58,14 @@ private extension AppTabCoordinator {
     }
 }
 
-// MARK: - Setup Savings Controller
+// MARK: - Setup Savings Goals Controller
 
 private extension AppTabCoordinator {
     func createSavingsNavigationController() -> UINavigationController {
         let savingsNavigationController = UINavigationController()
         savingsNavigationController.navigationBar.prefersLargeTitles = true
         savingsNavigationController.tabBarItem = UITabBarItem(
-            title: "Savings",
+            title: "goals_tab_title".localized(),
             image: UIImage(systemName: "banknote.fill"),
             tag: 1
         )

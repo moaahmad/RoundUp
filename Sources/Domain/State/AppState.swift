@@ -7,13 +7,6 @@
 
 import Combine
 
-protocol AppStateProviding: AnyObject {
-    var currentAccount: CurrentValueSubject<Account?, Error> { get }
-
-    func updateAccount(with account: Account)
-    func resetState()
-}
-
 final class AppState: AppStateProviding {
     static let shared = AppState()
 

@@ -8,10 +8,6 @@
 import Combine
 import Foundation
 
-protocol RootServicing {
-    func fetchAccounts() -> Future<AccountsResponse, Error>
-}
-
 struct RootService: RootServicing {
     // MARK: - Properties
 

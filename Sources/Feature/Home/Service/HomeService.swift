@@ -8,18 +8,6 @@
 import Combine
 import Foundation
 
-protocol HomeServicing {
-    func fetchName() -> Future<UserName, Error>
-    func fetchAccountHolder() -> Future<AccountHolder, Error>
-    func fetchAccountIdentifiers(accountUid: String) -> Future<AccountIdentifiers, Error>
-    func fetchBalance(accountUid: String) -> Future<Balance, Error>
-    func fetchTransactions(
-        accountUid: String,
-        categoryUid: String,
-        changesSince: String
-    ) -> Future<FeedItemsResponse, Error>
-}
-
 struct HomeService: HomeServicing {
     // MARK: - Properties
 

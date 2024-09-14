@@ -8,20 +8,6 @@
 import Combine
 import Foundation
 
-protocol SavingsGoalsServicing {
-    func fetchAllSavingGoals(for accountUid: String) -> Future<SavingsGoalsResponse, Error>
-    func createSavingsGoal(
-        accountUid: String,
-        savingsGoalRequest: SavingsGoalRequest
-    ) -> Future<CreateOrUpdateSavingsGoalResponse, Error>
-    func addMoneyToSavingsGoal(
-        accountUid: String,
-        savingsGoalUid: String,
-        transferUid: String,
-        topUpRequest: TopUpRequest
-    ) -> Future<SavingsGoalTransferResponse, Error>
-}
-
 struct SavingsService: SavingsGoalsServicing {
     // MARK: - Properties
 
