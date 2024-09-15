@@ -133,6 +133,7 @@ final class HomeViewModel: HomeViewModeling {
     func didTapRoundUp() {
         guard let coordinator else { return }
         coordinator.presentRoundedUpViewController(
+            balance: userInfo.value.balance,
             transactions: feedItems.value
         )
     }

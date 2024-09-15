@@ -8,5 +8,5 @@
 import Foundation
 
 protocol HomeCoordinating: Coordinator {
-    func presentRoundedUpViewController(transactions: [FeedItem])
+    func presentRoundedUpViewController(balance: CurrencyAndAmount, transactions: [FeedItem])
 }

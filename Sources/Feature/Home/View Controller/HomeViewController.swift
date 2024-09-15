@@ -217,7 +217,7 @@ private extension HomeViewController {
                     name: userInfo.name,
                     accountNumber: userInfo.accountNumber,
                     sortCode: userInfo.sortCode,
-                    balance: userInfo.balance
+                    balance: userInfo.balance.formattedString
                 )
             }
             .store(in: &cancellables)

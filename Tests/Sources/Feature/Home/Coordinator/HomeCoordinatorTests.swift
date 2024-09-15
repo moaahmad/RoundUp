@@ -34,6 +34,7 @@ final class HomeCoordinatorTests: XCTestCase {
 
         // When
         sut.presentRoundedUpViewController(
+            balance: .init(currency: .gbp, minorUnits: 1000), 
             transactions: MockData.anyFeedItemsResponse().feedItems
         )
 

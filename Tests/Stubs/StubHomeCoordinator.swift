@@ -27,7 +27,10 @@ final class StubHomeCoordinator: HomeCoordinating {
         startCallsCount += 1
     }
 
-    func presentRoundedUpViewController(transactions: [FeedItem]) {
+    func presentRoundedUpViewController(
+        balance: CurrencyAndAmount,
+        transactions: [FeedItem]
+    ) {
         presentRoundedUpViewControllerCallsCount += 1
     }
 }

@@ -67,8 +67,9 @@ final class SavingsGoalCell: UITableViewCell {
     func update(with savingsGoal: SavingsGoal, hidePercentSaved: Bool = false) {
         titleLabel.text = savingsGoal.name
 
-        let totalSaved = savingsGoal.totalSaved.formattedString ?? "saved_so_far_default_value".localized()
-        savedValueView.update(label: "saved_so_far_label".localized(), value: totalSaved)
+        let totalSaved = savingsGoal.totalSaved.formattedString
+        let savedValue = !totalSaved.isEmpty ? savingsGoal.totalSaved.formattedString : "saved_so_far_default_value".localized()
+        savedValueView.update(label: "saved_so_far_label".localized(), value: savedValue)
 
         let target = savingsGoal.target?.formattedString ?? "target_label_default_value".localized()
         targetValueView.update(label: "target_label".localized(), value: target)

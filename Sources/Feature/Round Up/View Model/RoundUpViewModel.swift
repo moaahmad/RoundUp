@@ -11,6 +11,7 @@ import Foundation
 final class RoundUpViewModel: RoundUpViewModeling {
     // MARK: - Properties
 
+    private let balance: CurrencyAndAmount
     private let transactions: [FeedItem]
     private let service: SavingsGoalsServicing
     private let appState: AppStateProviding
@@ -33,11 +34,13 @@ final class RoundUpViewModel: RoundUpViewModeling {
     // MARK: - Initializers
 
     init(
+        balance: CurrencyAndAmount,
         transactions: [FeedItem],
         service: SavingsGoalsServicing,
         appState: AppStateProviding = AppState.shared,
         dateProvider: DateProviding = DateProvider()
     ) {
+        self.balance = balance
         self.transactions = transactions
         self.service = service
         self.appState = appState
@@ -69,11 +72,18 @@ extension RoundUpViewModel {
     }
 
     func saveRoundedUpTotal(completion: @escaping () -> Void) {
+        guard checkBalanceIsHigherThanRoundUp() else {
+            errorPublisher.send(RoundUpError.balanceTooLow)
+            return
+        }
+
         guard
             let accountUid = account?.accountUid,
             let savingsGoalUid = selectedSavingsGoal.value?.savingsGoalUid,
-            let roundedUpTotal
-        else { return }
+            let roundedUpTotal else {
+            errorPublisher.send(RoundUpError.unableToSave)
+            return
+        }
 
         isSavingRoundUp.send(true)
         service.addMoneyToSavingsGoal(
@@ -139,11 +149,12 @@ private extension RoundUpViewModel {
 
 private extension RoundUpViewModel {
     func calculateRoundUpTotal(for feedItems: [FeedItem]) -> CurrencyAndAmount {
-        let transactions = filterFeedItemsStartedThisWeek(items: feedItems)
-        guard !transactions.isEmpty else {
+        let transactionsThisWeek = filterFeedItemsStartedThisWeek(items: feedItems)
+        guard !transactionsThisWeek.isEmpty else {
             return convertToCurrencyAndAmount(0)
         }
         let roundedUpTotal = feedItems
+            .filter { $0.direction == .paymentOut }
             .compactMap(\.amount?.minorUnits)
             .map(Self.calculateRoundedUpValue)
             .reduce(0, +)
@@ -168,9 +179,34 @@ private extension RoundUpViewModel {
         return CurrencyAndAmount(currency: currency, minorUnits: minorUnits)
     }
 
-    static func calculateRoundedUpValue(_ minorUnit: Int64) -> Double {
+    static func calculateRoundedUpValue(for minorUnit: Int64) -> Double {
         let majorUnit = Double(minorUnit) / 100.0
         let roundedUpValue = ceil(majorUnit)
         return roundedUpValue - majorUnit
+    }
+
+    func checkBalanceIsHigherThanRoundUp() -> Bool {
+        guard let roundedUpTotal else {
+            return false
+        }
+        return balance.minorUnits >= roundedUpTotal.minorUnits
+    }
+}
+
+// MARK: - Error
+
+private extension RoundUpViewModel {
+    enum RoundUpError: LocalizedError, Equatable {
+        case balanceTooLow
+        case unableToSave
+
+        var errorDescription: String? {
+            switch self {
+            case .balanceTooLow:
+                "balance_too_low_title".localized()
+            case .unableToSave:
+                "unable_to_save_title".localized()
+            }
+        }
     }
 }

@@ -27,9 +27,13 @@ final class HomeCoordinator: HomeCoordinating {
         pushViewController(viewController: viewController, animated: true)
     }
 
-    func presentRoundedUpViewController(transactions: [FeedItem]) {
+    func presentRoundedUpViewController(
+        balance: CurrencyAndAmount,
+        transactions: [FeedItem]
+    ) {
         let viewController = RoundUpViewController(
             viewModel: RoundUpViewModel(
+                balance: balance,
                 transactions: transactions,
                 service: SavingsService(client: client)
             )

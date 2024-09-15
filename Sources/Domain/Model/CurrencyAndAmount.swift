@@ -17,7 +17,7 @@ struct CurrencyAndAmount: Codable {
 extension CurrencyAndAmount: Hashable {}
 
 extension CurrencyAndAmount {
-    var formattedString: String? {
+    var formattedString: String {
         // Convert the minor amount to the major amount (e.g., pence to pounds)
         let majorUnits = Double(minorUnits) / 100.0
         let formatter = NumberFormatter()
@@ -26,6 +26,6 @@ extension CurrencyAndAmount {
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
 
-        return formatter.string(from: NSNumber(value: majorUnits))
+        return formatter.string(from: NSNumber(value: majorUnits)) ?? ""
     }
 }

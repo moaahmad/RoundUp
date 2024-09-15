@@ -10,14 +10,14 @@ import Foundation
 struct UserInfo {
     private(set) var name: String
     private(set) var accountType: String
-    private(set) var balance: String
+    private(set) var balance: CurrencyAndAmount
     private(set) var accountNumber: String
     private(set) var sortCode: String
 
     init(
         name: String = "",
         accountType: String = "",
-        balance: String = "",
+        balance: CurrencyAndAmount = .init(currency: .gbp, minorUnits: 0),
         accountNumber: String = "",
         sortCode: String = ""
     ) {
@@ -33,10 +33,7 @@ struct UserInfo {
     }
 
     mutating func updateBalance(_ currencyAndAmount: CurrencyAndAmount) {
-        guard let formattedBalance = currencyAndAmount.formattedString else {
-            return
-        }
-        balance = formattedBalance
+        balance = currencyAndAmount
     }
 
     mutating func updateAccountType(_ type: AccountHolderType) {

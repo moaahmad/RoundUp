@@ -17,16 +17,25 @@ final class RoundUpViewModelTests: XCTestCase {
             .init(
                 feedItemUid: "1",
                 amount: .init(currency: .gbp, minorUnits: 435),
+                direction: .paymentOut,
                 transactionTime: Date.now.toISO8601String
             ),
             .init(
                 feedItemUid: "2",
                 amount: .init(currency: .gbp, minorUnits: 520),
+                direction: .paymentOut,
                 transactionTime: Date.now.toISO8601String
             ),
             .init(
                 feedItemUid: "3",
                 amount: .init(currency: .gbp, minorUnits: 87),
+                direction: .paymentOut,
+                transactionTime: Date.now.toISO8601String
+            ),
+            .init(
+                feedItemUid: "4",
+                amount: .init(currency: .gbp, minorUnits: 134),
+                direction: .paymentIn,
                 transactionTime: Date.now.toISO8601String
             )
         ]
@@ -112,11 +121,13 @@ final class RoundUpViewModelTests: XCTestCase {
             .init(
                 feedItemUid: "1",
                 amount: .init(currency: .usd, minorUnits: 50),
+                direction: .paymentOut,
                 transactionTime: Date.now.toISO8601String
             ),
             .init(
                 feedItemUid: "2",
                 amount: .init(currency: .gbp, minorUnits: 550),
+                direction: .paymentOut,
                 transactionTime: Date.now.toISO8601String
             )
         ]
@@ -136,6 +147,7 @@ final class RoundUpViewModelTests: XCTestCase {
 
 private extension RoundUpViewModelTests {
     func makeSUT(
+        balance: CurrencyAndAmount = MockData.anyBalance().effectiveBalance,
         transactions: [FeedItem] = MockData.anyFeedItemsResponse().feedItems,
         service: SavingsGoalsServicing = StubSavingsGoalService(),
         appState: AppStateProviding = StubAppState(),
@@ -143,6 +155,7 @@ private extension RoundUpViewModelTests {
         line: UInt = #line
     ) -> RoundUpViewModel {
         let sut = RoundUpViewModel(
+            balance: balance,
             transactions: transactions,
             service: service,
             appState: appState

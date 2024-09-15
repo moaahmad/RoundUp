@@ -118,14 +118,14 @@ final class HomeViewModelTests: XCTestCase {
                 $0.accountNumber.isEmpty &&
                 $0.sortCode.isEmpty &&
                 $0.name.isEmpty &&
-                $0.balance.isEmpty
+                $0.balance.minorUnits == 0
             })
             .receive(on: DispatchQueue.main)
             .sink { userInfo in
                 XCTAssertEqual(sut.userInfo.value.accountNumber, "account-identifier")
                 XCTAssertEqual(sut.userInfo.value.sortCode, "001122")
                 XCTAssertEqual(sut.userInfo.value.name, "Denis Irwin")
-                XCTAssertEqual(sut.userInfo.value.balance, "£100.00")
+                XCTAssertEqual(sut.userInfo.value.balance, .init(currency: .gbp, minorUnits: 10000))
                 exp.fulfill()
             }
             .store(in: &cancellables)

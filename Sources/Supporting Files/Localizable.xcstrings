@@ -23,6 +23,17 @@
         }
       }
     },
+    "balance_too_low_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your balance is lower than the round up"
+          }
+        }
+      }
+    },
     "close" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -382,6 +393,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Transactions"
+          }
+        }
+      }
+    },
+    "unable_to_save_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to save round up to savings goal"
           }
         }
       }
