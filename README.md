@@ -38,18 +38,18 @@ These requirements were derived from the project challenge document and addition
 
 - Enhance the UI/UX with additional animations and micro-interactions to improve user engagement.
 - Expand unit test coverage to additional features beyond the Home feature, Networking stack, and round-up calculations.
+- Snapshot testing and UI testing to ensure a consistent and reliable user interface.
 - Comprehensive error handling across the app allowing users to retry network calls etc.
 - To enhance code organisation, scalability, and reusability, the app should be modularised by moving distinct groups of code, such as Coordinators, Design components, and Networking logic, into their own modules. This can be achieved using Swift Packages, which would allow for a more maintainable project structure, better separation of concerns, and the ability to reuse or replace modules independently across different parts of the app or in future projects.
 - VoiceOver support has not yet been implemented. However, the app uses system fonts and colours, which align with built-in accessibility features like Dynamic Type and system-wide colour adjustments for better readability and user experience.
-- Snapshot testing and UI testing to ensure a consistent and reliable user interface.
 - iPad support for a broader range of devices. 
 
 ## Unit Testing and Coverage
 
-- **Unit Test Coverage**: Due to time constraints, unit tests were primarily included for key components of the application:
-- **Home Feature**: Tests ensure that the Home ViewModel, Service, and Coordinator all behave as they should, validating the flow of data, user interactions, and navigation logic.
-- **Networking Stack**: Tests validate the networking logic, including the HTTP client and response handling, ensuring that the app communicates correctly with the Starling Bank API.
-- **Round-Up Calculations**: Tests cover the round-up functionality, verifying that transactions are accurately rounded up to the nearest pound and properly calculated for savings goals.
+- **Unit Test Coverage**: Due to time constraints, unit tests were included for the following key components of the app:
+  - **Home Feature**: Tests ensure that the Home ViewModel, Service, and Coordinator all behave as they should, validating the flow of data, user interactions, and navigation logic.
+  - **Networking Stack**: Tests validate the networking logic, including the HTTP client and response handling, ensuring that the app communicates correctly with the Starling Bank API.
+  - **Round-Up Calculations**: Tests cover the round-up functionality, verifying that transactions are accurately rounded up to the nearest pound and properly calculated for savings goals.
 
 Although comprehensive coverage across all features was not possible within the timeframe, the implemented tests focus on critical paths to ensure reliability and correctness of the core functionality.
 
