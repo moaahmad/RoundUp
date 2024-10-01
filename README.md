@@ -1,4 +1,4 @@
-# StarlingRoundUp
+# RoundUp
 
 'Round Up' is an iOS application that uses the [Starling Bank API](https://developer.starlingbank.com/docs) to help users save more effectively. The app aggregates all transactions within a given week, rounds each transaction up to the nearest pound, and allows users to allocate the rounded-up amount to one of their savings goals.
 
